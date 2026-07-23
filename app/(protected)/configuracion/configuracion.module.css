@@ -1,0 +1,218 @@
+/* ==========================================================================
+   Configuración de canales — Estilos
+   ==========================================================================
+   Usa tokens del sistema de diseño (globals.css). Sin literales de color.
+   Neumorfismo + accesibilidad (R16, R18).
+   ========================================================================== */
+
+.pagina {
+  min-height: 100vh;
+  padding: var(--espacio-4) var(--espacio-2);
+  background-color: var(--fondo);
+}
+
+.contenedor {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.titulo {
+  font-size: var(--fuente-titulo-tam);
+  font-weight: var(--fuente-titulo-peso);
+  line-height: var(--fuente-titulo-altura);
+  color: var(--texto-primario);
+  margin-bottom: var(--espacio-1);
+}
+
+.subtitulo {
+  font-size: var(--fuente-cuerpo-tam);
+  color: var(--texto-secundario);
+  margin-bottom: var(--espacio-4);
+}
+
+/* ─── Mensajes de estado ──────────────────────────────────────────────────── */
+
+.mensaje {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-1);
+  padding: var(--espacio-2);
+  border-radius: var(--radio);
+  margin-bottom: var(--espacio-3);
+  font-size: var(--fuente-cuerpo-tam);
+  transition: opacity var(--transicion-base);
+}
+
+.mensajeExito {
+  background-color: var(--superficie);
+  border: 1px solid var(--borde);
+  color: var(--texto-primario);
+  box-shadow: var(--sombra-neumorfica);
+}
+
+.mensajeError {
+  background-color: var(--superficie);
+  border: 1px solid var(--acento-critico);
+  color: var(--acento-critico);
+  box-shadow: var(--sombra-neumorfica);
+}
+
+/* ─── Secciones (Tarjeta) ─────────────────────────────────────────────────── */
+
+.seccion {
+  margin-bottom: var(--espacio-3);
+}
+
+.seccionTitulo {
+  font-size: var(--fuente-subtitulo-tam);
+  font-weight: var(--fuente-subtitulo-peso);
+  line-height: var(--fuente-subtitulo-altura);
+  color: var(--texto-primario);
+  margin-bottom: var(--espacio-3);
+}
+
+/* ─── Fila de canal con toggle ────────────────────────────────────────────── */
+
+.canalFila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espacio-2);
+  padding: var(--espacio-2) 0;
+  border-bottom: 1px solid var(--borde);
+}
+
+.canalFila:last-child {
+  border-bottom: none;
+}
+
+.canalInfo {
+  flex: 1;
+}
+
+.canalEtiqueta {
+  font-size: var(--fuente-cuerpo-tam);
+  font-weight: var(--fuente-subtitulo-peso);
+  color: var(--texto-primario);
+  cursor: pointer;
+}
+
+.canalDescripcion {
+  font-size: var(--fuente-leyenda-tam);
+  color: var(--texto-secundario);
+  margin-top: 2px;
+}
+
+/* ─── Toggle switch accesible (≥44px táctil) ──────────────────────────────── */
+
+.toggle {
+  position: relative;
+  width: 56px;
+  height: var(--tactil-minimo);
+  min-width: 56px;
+  min-height: var(--tactil-minimo);
+  border-radius: var(--radio-full);
+  border: 2px solid var(--borde);
+  background-color: var(--superficie);
+  box-shadow: var(--sombra-neumorfica-inset);
+  cursor: pointer;
+  transition: background-color var(--transicion-base), border-color var(--transicion-base);
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+.toggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.toggleActivo {
+  border-color: var(--texto-primario);
+  background-color: var(--gris-800);
+}
+
+.toggleCirculo {
+  display: block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--gris-400);
+  transition: transform var(--transicion-base), background-color var(--transicion-base);
+  box-shadow: var(--sombra-clara);
+}
+
+.toggleActivo .toggleCirculo {
+  transform: translateX(16px);
+  background-color: var(--gris-50);
+}
+
+/* ─── Canal WhatsApp (con campo adicional) ────────────────────────────────── */
+
+.canalWhatsapp {
+  padding-bottom: var(--espacio-2);
+  border-bottom: 1px solid var(--borde);
+}
+
+.canalWhatsapp:last-child {
+  border-bottom: none;
+}
+
+.campoWhatsapp {
+  display: flex;
+  gap: var(--espacio-2);
+  align-items: flex-end;
+  margin-top: var(--espacio-2);
+  padding-left: var(--espacio-2);
+}
+
+.campoWhatsapp > :first-child {
+  flex: 1;
+}
+
+/* ─── Frecuencia de revisión ──────────────────────────────────────────────── */
+
+.frecuencia {
+  padding: var(--espacio-2) 0;
+}
+
+.frecuenciaValor {
+  font-size: var(--fuente-cuerpo-tam);
+  font-weight: var(--fuente-subtitulo-peso);
+  color: var(--texto-primario);
+  margin-bottom: var(--espacio-1);
+}
+
+.frecuenciaInfo {
+  font-size: var(--fuente-leyenda-tam);
+  color: var(--texto-secundario);
+}
+
+/* ─── Estados de carga y error ────────────────────────────────────────────── */
+
+.cargando {
+  text-align: center;
+  padding: var(--espacio-8) 0;
+  color: var(--texto-secundario);
+  font-size: var(--fuente-cuerpo-tam);
+}
+
+.errorCarga {
+  text-align: center;
+  padding: var(--espacio-8) 0;
+  color: var(--acento-critico);
+  font-size: var(--fuente-cuerpo-tam);
+}
+
+/* ─── Responsive: reflow a 320px sin scroll horizontal (R18.7) ────────────── */
+
+@media (max-width: 480px) {
+  .pagina {
+    padding: var(--espacio-2) var(--espacio-1);
+  }
+
+  .campoWhatsapp {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

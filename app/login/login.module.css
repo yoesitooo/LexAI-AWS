@@ -1,0 +1,98 @@
+/* ==========================================================================
+   Login — Estilos de la página de inicio de sesión
+   Solo se referencian CSS custom properties, sin literales de color.
+   ========================================================================== */
+
+.pagina {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--espacio-3);
+  background-color: var(--fondo);
+}
+
+.contenedor {
+  width: 100%;
+  max-width: 400px;
+}
+
+.encabezado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espacio-2);
+  margin-bottom: var(--espacio-4);
+}
+
+.titulo {
+  font-size: var(--fuente-titulo-tam);
+  font-weight: var(--fuente-titulo-peso);
+  line-height: var(--fuente-titulo-altura);
+  color: var(--texto-primario);
+  text-align: center;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+}
+
+.error {
+  font-family: var(--fuente-familia);
+  font-size: var(--fuente-leyenda-tam);
+  line-height: var(--fuente-leyenda-altura);
+  color: var(--acento-critico);
+  text-align: center;
+  padding: var(--espacio-1) var(--espacio-2);
+  border: 1px solid var(--acento-critico);
+  border-radius: var(--radio-sm);
+  background-color: var(--superficie);
+}
+
+.botonContenedor {
+  margin-top: var(--espacio-1);
+}
+
+.botonContenedor button {
+  width: 100%;
+}
+
+.enlaceRegistro {
+  text-align: center;
+  margin-top: var(--espacio-2);
+  font-size: var(--fuente-leyenda-tam);
+  color: var(--texto-secundario);
+}
+
+.enlaceRegistro a {
+  color: var(--texto-primario);
+  font-weight: var(--fuente-subtitulo-peso);
+  text-decoration: underline;
+}
+
+.enlaceRegistro a:hover {
+  color: var(--acento-critico);
+}
+
+/* ─── Responsive: reflow a 320px sin scroll horizontal (R18.7) ────────────── */
+
+@media (max-width: 480px) {
+  .pagina {
+    padding: var(--espacio-2) var(--espacio-1);
+  }
+
+  .contenedor {
+    max-width: 100%;
+  }
+
+  .encabezado {
+    gap: var(--espacio-1);
+    margin-bottom: var(--espacio-2);
+  }
+
+  .titulo {
+    font-size: var(--fuente-subtitulo-tam);
+  }
+}

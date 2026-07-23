@@ -1,0 +1,50 @@
+/* ==========================================================================
+   NavStandby — Ítems de navegación para módulos en standby (R13.1–R13.4)
+   Solo tokens del sistema de diseño.
+   ========================================================================== */
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-1);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-1);
+  padding: var(--espacio-1) var(--espacio-2);
+  border-radius: var(--radio);
+  background-color: var(--superficie);
+  border: 1px solid var(--borde);
+  box-shadow: var(--sombra-neumorfica);
+  opacity: 0.6;
+  cursor: not-allowed;
+  min-height: var(--tactil-minimo);
+  transition: opacity var(--transicion-rapida);
+  position: relative;
+}
+
+.item:hover,
+.item:focus-within {
+  opacity: 0.75;
+}
+
+.itemTexto {
+  font-size: var(--fuente-cuerpo-tam);
+  font-weight: var(--fuente-cuerpo-peso);
+  line-height: var(--fuente-cuerpo-altura);
+  color: var(--texto-secundario);
+  flex: 1;
+}
+
+.badge {
+  font-size: var(--fuente-leyenda-tam);
+  font-weight: var(--fuente-subtitulo-peso);
+  line-height: var(--fuente-leyenda-altura);
+  color: var(--texto-secundario);
+  background-color: var(--gris-200);
+  padding: 2px var(--espacio-1);
+  border-radius: var(--radio-full);
+  white-space: nowrap;
+}

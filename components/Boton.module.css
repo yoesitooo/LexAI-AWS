@@ -1,0 +1,92 @@
+/* ==========================================================================
+   Boton — Estilos con tokens del sistema de diseño
+   Solo se referencian CSS custom properties, sin literales de color.
+   ========================================================================== */
+
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espacio-1);
+  min-height: var(--tactil-minimo);
+  min-width: var(--tactil-minimo);
+  padding: var(--espacio-1) var(--espacio-2);
+  border-radius: var(--radio);
+  font-family: var(--fuente-familia);
+  font-size: var(--fuente-cuerpo-tam);
+  font-weight: var(--fuente-subtitulo-peso);
+  line-height: var(--fuente-cuerpo-altura);
+  cursor: pointer;
+  transition: box-shadow var(--transicion-rapida), background-color var(--transicion-rapida), border-color var(--transicion-rapida);
+  text-decoration: none;
+  border: 2px solid transparent;
+  position: relative;
+}
+
+/* --- Variante primaria --- */
+.primario {
+  background-color: var(--acento-critico);
+  color: var(--gris-50);
+  border-color: var(--acento-critico);
+  box-shadow: var(--sombra-neumorfica);
+}
+
+.primario:hover:not(:disabled) {
+  background-color: var(--rojo-critico-suave);
+  border-color: var(--rojo-critico-suave);
+}
+
+.primario:active:not(:disabled) {
+  box-shadow: var(--sombra-neumorfica-inset);
+}
+
+/* --- Variante secundaria --- */
+.secundario {
+  background-color: var(--superficie);
+  color: var(--texto-primario);
+  border-color: var(--borde);
+  box-shadow: var(--sombra-neumorfica);
+}
+
+.secundario:hover:not(:disabled) {
+  border-color: var(--texto-secundario);
+}
+
+.secundario:active:not(:disabled) {
+  box-shadow: var(--sombra-neumorfica-inset);
+}
+
+/* --- Estado deshabilitado --- */
+.boton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  box-shadow: none;
+}
+
+/* --- Estado de carga --- */
+.cargando {
+  pointer-events: none;
+}
+
+.spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: var(--radio-full);
+  animation: girar 600ms linear infinite;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- Ícono --- */
+.icono {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}

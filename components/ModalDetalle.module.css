@@ -1,0 +1,90 @@
+/* ==========================================================================
+   ModalDetalle — Estilos del modal de detalle de proceso
+   ========================================================================== */
+
+.cargando {
+  text-align: center;
+  padding: var(--espacio-3);
+  color: var(--texto-secundario, #555);
+}
+
+.error {
+  color: var(--error, #d32f2f);
+  padding: var(--espacio-2);
+}
+
+.seccion {
+  margin-bottom: var(--espacio-3);
+}
+
+.subtitulo {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--texto-primario, #1a1a2e);
+  margin: 0 0 var(--espacio-2) 0;
+}
+
+.listaActuaciones {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+}
+
+.actuacionItem {
+  padding: var(--espacio-2);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  background-color: var(--superficie);
+}
+
+.actuacionFecha {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--texto-secundario, #555);
+  margin-bottom: 4px;
+}
+
+.actuacionTexto {
+  font-size: 0.9rem;
+  color: var(--texto-primario, #1a1a2e);
+  margin: 0;
+}
+
+.listaPlazos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+}
+
+.plazoItem {
+  padding: var(--espacio-2);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  background-color: var(--superficie);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.plazoDias {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--texto-primario, #1a1a2e);
+}
+
+.plazoFecha {
+  font-size: 0.85rem;
+  color: var(--texto-secundario, #555);
+}
+
+.vacio {
+  font-size: 0.9rem;
+  color: var(--texto-secundario, #555);
+  font-style: italic;
+}

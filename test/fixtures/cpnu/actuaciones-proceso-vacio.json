@@ -1,0 +1,7 @@
+{
+  "_descripcion": "Fixture: respuesta de actuaciones cuando el proceso no tiene histórico o el endpoint no devuelve datos",
+  "_endpoint": "GET /api/v2/Proceso/Actuaciones/{idProceso}",
+  "_idProceso": 9999999,
+  "_nota": "Caso edge: proceso sin actuaciones registradas o idProceso inexistente",
+  "actuaciones": []
+}

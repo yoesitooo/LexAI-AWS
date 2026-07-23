@@ -1,0 +1,24 @@
+# =============================================================================
+# Caddyfile — LexAI
+# Reverse proxy con HTTPS automático (Let's Encrypt) hacia el servicio web.
+# El dominio se configura mediante la variable de entorno DOMAIN.
+# =============================================================================
+
+{$DOMAIN:localhost} {
+	reverse_proxy web:3000
+	encode gzip
+
+	# Headers de seguridad
+	header {
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy strict-origin-when-cross-origin
+		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+	}
+
+	# Logs de acceso
+	log {
+		output stdout
+		format console
+	}
+}

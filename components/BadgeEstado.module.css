@@ -1,0 +1,67 @@
+/* ==========================================================================
+   BadgeEstado — Estilos con tokens del sistema de diseño
+   Solo se referencian CSS custom properties, sin literales de color.
+   Cada estado se distingue por borde, color de texto e ícono (R18.2, R18.6).
+   ========================================================================== */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espacio-1);
+  min-height: var(--tactil-minimo);
+  padding: var(--espacio-1) var(--espacio-2);
+  border-radius: var(--radio-full);
+  font-family: var(--fuente-familia);
+  font-size: var(--fuente-leyenda-tam);
+  font-weight: var(--fuente-subtitulo-peso);
+  line-height: var(--fuente-leyenda-altura);
+  border: 2px solid transparent;
+  transition: background-color var(--transicion-rapida), border-color var(--transicion-rapida);
+}
+
+.icono {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  font-size: 1em;
+}
+
+.texto {
+  white-space: nowrap;
+}
+
+/* --- Estado: Nuevo --- */
+.nuevo {
+  background-color: var(--superficie);
+  color: var(--texto-secundario);
+  border-color: var(--borde);
+}
+
+/* --- Estado: En seguimiento --- */
+.en_seguimiento {
+  background-color: var(--superficie);
+  color: var(--texto-primario);
+  border-color: var(--texto-secundario);
+}
+
+/* --- Estado: Requiere acción --- */
+.requiere_accion {
+  background-color: var(--superficie);
+  color: var(--texto-primario);
+  border-color: var(--foco);
+}
+
+/* --- Estado: Vencido --- */
+.vencido {
+  background-color: var(--superficie);
+  color: var(--acento-critico);
+  border-color: var(--acento-critico);
+}
+
+/* --- Estado: Archivado --- */
+.archivado {
+  background-color: var(--superficie);
+  color: var(--texto-secundario);
+  border-color: var(--borde);
+  opacity: 0.7;
+}

@@ -1,0 +1,252 @@
+// LexAI MVP — Prisma Schema
+//
+// Convenciones:
+// - Identificadores: UUID con gen_random_uuid() como default
+// - Marcas de tiempo: timestamptz almacenadas en UTC
+// - Zona de presentación: America/Bogotá (UTC-5) en la capa de presentación
+//
+// ═══════════════════════════════════════════════════════════════════════════════
+// EXTENSIBILIDAD FASE 2 (R15.1, R15.2, R15.3, R15.4, R13.5)
+// ═══════════════════════════════════════════════════════════════════════════════
+//
+// El modelo se diseña para que Fase 2 se incorpore SOLO AGREGANDO entidades,
+// columnas nullable y relaciones. Nunca se eliminan ni renombran tablas/columnas.
+//
+// 1. DESPACHO (multi-tenant):
+//    - Agregar: model Despacho { id, nombre, nit, creado_en }
+//    - Agregar: campo `despacho_id String? @db.Uuid` nullable a Usuario
+//    - Agregar: relación Usuario.despacho -> Despacho
+//    - Las consultas de Fase 1 NO filtran por despacho — al agregarlo,
+//      los usuarios sin despacho (null) siguen funcionando sin cambios.
+//    - Ver: docs/extensibilidad-fase2.md#1-despacho-multi-tenant
+//
+// 2. ROL Y PERMISOS:
+//    - Agregar: model Rol { id, nombre, descripcion }
+//    - Agregar: model UsuarioRol { usuario_id, rol_id, asignado_en }
+//    - No se modifica la tabla usuario; la relación es por tabla puente.
+//    - Ver: docs/extensibilidad-fase2.md#2-roles-y-permisos
+//
+// 3. MÓDULO TUTELAS (standby):
+//    - Agregar: model Tutela { id, usuario_id FK, proceso_id FK nullable, ... }
+//    - Tabla nueva sin modificar tablas núcleo.
+//    - Ver: docs/extensibilidad-fase2.md#3-módulo-de-tutelas-standby
+//
+// 4. MÓDULO REDACCIÓN IA (standby):
+//    - Agregar: model BorradorIA { id, usuario_id FK, proceso_id FK nullable, ... }
+//    - Tabla nueva sin modificar tablas núcleo.
+//    - Ver: docs/extensibilidad-fase2.md#4-módulo-de-redacción-ia-standby
+//
+// GUARDAS: lib/guardas-fase1.ts rechaza operaciones dependientes de Fase 2
+// conservando el estado y devolviendo "no disponible en Fase 1".
+// ═══════════════════════════════════════════════════════════════════════════════
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum ColumnaKanban {
+  nuevo
+  en_seguimiento
+  requiere_accion
+  vencido
+  archivado
+}
+
+enum EstadoPlazo {
+  pendiente
+  cumplido
+  vencido
+}
+
+enum EstadoNotificacion {
+  programada
+  enviada
+  fallida
+}
+
+// ─── Tablas núcleo ───────────────────────────────────────────────────────────
+
+/// Abogado independiente registrado en la plataforma.
+/// 
+/// FASE 2: agregar `despacho_id String? @db.Uuid` nullable aquí
+/// y relación `despacho Despacho? @relation(fields: [despacho_id], references: [id])`.
+/// Los registros existentes quedan con despacho_id = null (tenant implícito).
+model Usuario {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nombre         String   @db.VarChar(100)
+  email          String   @db.VarChar(254)
+  password_hash  String
+  creado_en      DateTime @default(now()) @db.Timestamptz()
+  actualizado_en DateTime @default(now()) @updatedAt @db.Timestamptz()
+
+  // Fase 2: despacho_id String? @db.Uuid — FK nullable a tabla despacho
+  // Fase 2: relación despacho Despacho?
+
+  // Relaciones
+  configuracion        ConfiguracionUsuario?
+  procesos             Proceso[]
+  notificaciones       Notificacion[]
+  notificaciones_inapp NotificacionInapp[]
+
+  @@unique([email], map: "ux_usuario_email")
+  @@map("usuario")
+}
+
+/// Configuración de canales de notificación del usuario.
+/// Se crea automáticamente al registrar un usuario con defaults:
+/// - in-app activo; email y WhatsApp inactivos
+/// - frecuencia_revision = 'diaria_habiles' (fijo, no editable en Fase 1)
+model ConfiguracionUsuario {
+  id                  String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  usuario_id          String   @unique @db.Uuid
+  canal_inapp         Boolean  @default(true)
+  canal_email         Boolean  @default(false)
+  canal_whatsapp      Boolean  @default(false)
+  numero_whatsapp     String?  @db.VarChar(16)
+  frecuencia_revision String   @default("diaria_habiles")
+  creado_en           DateTime @default(now()) @db.Timestamptz()
+  actualizado_en      DateTime @default(now()) @updatedAt @db.Timestamptz()
+
+  // Relaciones
+  usuario Usuario @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+
+  @@map("configuracion_usuario")
+}
+
+/// Proceso judicial colombiano en seguimiento.
+model Proceso {
+  id                 String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  usuario_id         String        @db.Uuid
+  radicado           String        @db.Char(23)
+  llave_proceso      String?
+  despacho           String?
+  departamento       String?
+  ciudad             String?
+  tipo_proceso       String?
+  sujetos_procesales String        @default("{}")
+  estado_cpnu        String?
+  columna_kanban     ColumnaKanban @default(nuevo)
+  seguimiento_activo Boolean       @default(true)
+  ultima_revision_en DateTime?     @db.Timestamptz()
+  creado_en          DateTime      @default(now()) @db.Timestamptz()
+  actualizado_en     DateTime      @default(now()) @updatedAt @db.Timestamptz()
+
+  // Relaciones
+  usuario     Usuario     @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+  actuaciones Actuacion[]
+  plazos      Plazo[]
+
+  @@unique([usuario_id, radicado], map: "ux_proceso_usuario_radicado")
+  @@index([usuario_id], map: "ix_proceso_usuario")
+  @@index([usuario_id, seguimiento_activo], map: "ix_proceso_activo")
+  @@map("proceso")
+}
+
+/// Actuación procesal obtenida de la CPNU.
+model Actuacion {
+  id                  String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  proceso_id          String    @db.Uuid
+  id_actuacion_cpnu   String
+  llave_proceso       String?
+  consecutivo         Int?
+  fecha_actuacion     DateTime  @db.Date
+  actuacion           String // tipo/nombre de la actuación
+  anotacion           String?   @db.Text
+  fecha_inicia        DateTime? @db.Date
+  fecha_finaliza      DateTime? @db.Date
+  fecha_registro      DateTime  @db.Date
+  existe_docs         Boolean   @default(false)
+  es_nueva            Boolean   @default(false)
+  analisis_completado Boolean   @default(false)
+  creado_en           DateTime  @default(now()) @db.Timestamptz()
+
+  // Relaciones
+  proceso Proceso @relation(fields: [proceso_id], references: [id], onDelete: Cascade)
+  plazos  Plazo[]
+
+  @@unique([proceso_id, id_actuacion_cpnu], map: "ux_actuacion_proceso_cpnu")
+  @@map("actuacion")
+}
+
+/// Plazo procesal derivado del análisis IA de una actuación.
+model Plazo {
+  id                 String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  actuacion_id       String      @db.Uuid
+  proceso_id         String      @db.Uuid
+  dias               Int?
+  es_habil           Boolean     @default(true)
+  fecha_inicio       DateTime    @db.Date
+  fecha_limite       DateTime?   @db.Date
+  estado             EstadoPlazo @default(pendiente)
+  indeterminado      Boolean     @default(false)
+  error_programacion Boolean     @default(false)
+  creado_en          DateTime    @default(now()) @db.Timestamptz()
+  actualizado_en     DateTime    @default(now()) @updatedAt @db.Timestamptz()
+
+  // Relaciones
+  actuacion      Actuacion      @relation(fields: [actuacion_id], references: [id], onDelete: Cascade)
+  proceso        Proceso        @relation(fields: [proceso_id], references: [id], onDelete: Cascade)
+  notificaciones Notificacion[]
+
+  @@index([estado, fecha_limite], map: "ix_plazo_estado_fecha")
+  @@map("plazo")
+}
+
+/// Notificación programada para un plazo.
+model Notificacion {
+  id                String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  plazo_id          String             @db.Uuid
+  usuario_id        String             @db.Uuid
+  fecha_programada  DateTime           @db.Timestamptz()
+  estado            EstadoNotificacion @default(programada)
+  intentos          Int                @default(0)
+  canal             String?
+  ultimo_intento_en DateTime?          @db.Timestamptz()
+  error_detalle     String?            @db.Text
+  creado_en         DateTime           @default(now()) @db.Timestamptz()
+  actualizado_en    DateTime           @default(now()) @updatedAt @db.Timestamptz()
+
+  // Relaciones
+  plazo                Plazo               @relation(fields: [plazo_id], references: [id], onDelete: Cascade)
+  usuario              Usuario             @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+  notificaciones_inapp NotificacionInapp[]
+
+  @@index([estado, fecha_programada], map: "ix_notificacion_programada")
+  @@map("notificacion")
+}
+
+/// Notificación in-app (bandeja del usuario).
+model NotificacionInapp {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  usuario_id      String   @db.Uuid
+  notificacion_id String?  @db.Uuid
+  titulo          String
+  mensaje         String   @db.Text
+  leida           Boolean  @default(false)
+  creado_en       DateTime @default(now()) @db.Timestamptz()
+
+  // Relaciones
+  usuario      Usuario       @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+  notificacion Notificacion? @relation(fields: [notificacion_id], references: [id], onDelete: SetNull)
+
+  @@map("notificacion_inapp")
+}
+
+/// Registro de intentos de login para control de bloqueo temporal.
+model IntentoLogin {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email     String   @db.VarChar(254)
+  exitoso   Boolean
+  ip        String?
+  creado_en DateTime @default(now()) @db.Timestamptz()
+
+  @@index([email, creado_en], map: "ix_intento_email_tiempo")
+  @@map("intento_login")
+}

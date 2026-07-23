@@ -1,0 +1,79 @@
+/* ==========================================================================
+   Modal — Estilos con tokens del sistema de diseño
+   Accesible: overlay + dialog centrado, focus trap visual
+   ========================================================================== */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--overlay-fondo);
+  padding: var(--espacio-3);
+}
+
+.dialog {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background-color: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra-neumorfica);
+  padding: var(--espacio-4, 32px);
+}
+
+.cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--espacio-3);
+}
+
+.titulo {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--texto-primario, #1a1a2e);
+  margin: 0;
+}
+
+.botonCerrar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  background: none;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  cursor: pointer;
+  font-size: 1.25rem;
+  color: var(--texto-secundario, #555);
+  transition: background-color var(--transicion-rapida);
+}
+
+.botonCerrar:hover {
+  background-color: var(--superficie-hover, #f0f0f0);
+}
+
+.botonCerrar:focus-visible {
+  outline: 2px solid var(--foco, #2563eb);
+  outline-offset: 2px;
+}
+
+/* ─── Responsive: reflow a 320px sin scroll horizontal (R18.7) ────────────── */
+
+@media (max-width: 480px) {
+  .overlay {
+    padding: var(--espacio-1);
+  }
+
+  .dialog {
+    padding: var(--espacio-2);
+    max-height: 90vh;
+  }
+}

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48" fill="none" aria-labelledby="lexai-title">
+  <title id="lexai-title">LexAI</title>
+  <!-- LexAI Logo — Dark variant (for light backgrounds, contrast ≥3:1 on white) -->
+  <!-- Isotipo: Stylized angular bracket forming an abstract "L" with a node/dot (legal + AI) -->
+  <g fill="#1A1A1A">
+    <!-- Isotipo: Angular L-bracket with node -->
+    <path d="M4 8 L4 40 L20 40 L20 36 L8 36 L8 8 Z" fill-rule="evenodd"/>
+    <circle cx="24" cy="34" r="3.5"/>
+    <!-- Wordmark: L -->
+    <path d="M36 10 L36 38 L50 38 L50 34.5 L40 34.5 L40 10 Z"/>
+    <!-- Wordmark: e -->
+    <path d="M54 23.5 C54 18.5 57.5 15 62.5 15 C67.5 15 71 18.5 71 23.5 L71 25 L58.5 25 C59 29 61 31.5 64 31.5 C66.5 31.5 68 30 68.5 28 L71 28.5 C70 32 67.5 34 64 34 C58.5 34 54 30 54 23.5 Z M58.5 22 L67 22 C66.5 19 64.8 17.5 62.5 17.5 C60 17.5 58.8 19 58.5 22 Z"/>
+    <!-- Wordmark: x -->
+    <path d="M74 15.5 L80 24 L74 33.5 L78.5 33.5 L82.5 27 L86.5 33.5 L91 33.5 L85 24 L91 15.5 L86.5 15.5 L82.5 21 L78.5 15.5 Z"/>
+    <!-- Wordmark: A -->
+    <path d="M100 10 L92 38 L96.5 38 L98 33 L109 33 L110.5 38 L115 38 L107 10 Z M103.5 13 L99.5 29.5 L107.5 29.5 Z"/>
+    <!-- Wordmark: I -->
+    <path d="M118 10 L118 38 L122.5 38 L122.5 10 Z"/>
+  </g>
+</svg>

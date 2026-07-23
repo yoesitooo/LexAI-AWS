@@ -1,0 +1,18 @@
+{
+  "_descripcion": "Fixture: respuesta exitosa de GET /api/v2/Procesos/Consulta/NumeroRadicacion con 1 proceso encontrado",
+  "_radicado_consulta": "11001310303220170012300",
+  "_nota": "Estructura basada en el análisis del portal consultaprocesos.ramajudicial.gov.co. Campos y tipos confirmados por inspección de la API pública. Datos ficticios pero con estructura real.",
+  "procesos": [
+    {
+      "idProceso": 2547891,
+      "llaveProceso": "11001310303220170012300",
+      "fechaProceso": "2017-03-15T00:00:00",
+      "fechaUltimaActuacion": "2024-11-20T00:00:00",
+      "despacho": "Juzgado 032 Civil del Circuito de Bogotá",
+      "departamento": "Bogotá D.C.",
+      "sujetosProcesales": "DEMANDANTE: GARCÍA LÓPEZ, CARLOS ANDRÉS | DEMANDADO: BANCO POPULAR S.A.",
+      "esPrivado": false,
+      "cantFilas": 1
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "_descripcion": "Fixture: respuesta del endpoint de actuaciones por idProceso",
+  "_endpoint": "GET /api/v2/Proceso/Actuaciones/{idProceso}",
+  "_idProceso": 2547891,
+  "_nota": "Estructura esperada de actuaciones. El endpoint está pendiente de confirmación live pero la estructura se basa en el análisis del frontend del portal de consulta. Incluye actuaciones típicas de un proceso civil colombiano.",
+  "actuaciones": [
+    {
+      "idRegActuacion": 98765401,
+      "llaveProceso": "11001310303220170012300",
+      "consActuacion": 15,
+      "fechaActuacion": "2024-11-20",
+      "actuacion": "Auto interlocutorio",
+      "anotacion": "Se corre traslado por el término de 5 días hábiles para que la parte demandada se pronuncie sobre las pretensiones de la reforma de la demanda presentada el 15 de noviembre de 2024.",
+      "fechaInicia": "2024-11-21",
+      "fechaFinaliza": "2024-11-28",
+      "fechaRegistro": "2024-11-20T14:30:00",
+      "existeDocs": true
+    },
+    {
+      "idRegActuacion": 98765390,
+      "llaveProceso": "11001310303220170012300",
+      "consActuacion": 14,
+      "fechaActuacion": "2024-11-15",
+      "actuacion": "Presentación de memorial",
+      "anotacion": "Se presenta reforma de la demanda por parte del apoderado del demandante conforme al artículo 93 del CGP.",
+      "fechaInicia": null,
+      "fechaFinaliza": null,
+      "fechaRegistro": "2024-11-15T09:15:00",
+      "existeDocs": true
+    },
+    {
+      "idRegActuacion": 98765350,
+      "llaveProceso": "11001310303220170012300",
+      "consActuacion": 13,
+      "fechaActuacion": "2024-10-01",
+      "actuacion": "Auto de sustanciación",
+      "anotacion": "Se admite la demanda y se ordena notificar personalmente al demandado. Se fija término de ejecutoria de 3 días hábiles.",
+      "fechaInicia": "2024-10-02",
+      "fechaFinaliza": "2024-10-04",
+      "fechaRegistro": "2024-10-01T11:00:00",
+      "existeDocs": false
+    },
+    {
+      "idRegActuacion": 98765300,
+      "llaveProceso": "11001310303220170012300",
+      "consActuacion": 12,
+      "fechaActuacion": "2024-09-10",
+      "actuacion": "Sentencia",
+      "anotacion": "Se profiere sentencia de primera instancia. Se concede un término de 10 días calendario para interponer recurso de apelación.",
+      "fechaInicia": "2024-09-11",
+      "fechaFinaliza": "2024-09-20",
+      "fechaRegistro": "2024-09-10T16:00:00",
+      "existeDocs": true
+    },
+    {
+      "idRegActuacion": 98765250,
+      "llaveProceso": "11001310303220170012300",
+      "consActuacion": 11,
+      "fechaActuacion": "2024-08-05",
+      "actuacion": "Audiencia",
+      "anotacion": "Se lleva a cabo audiencia de instrucción y juzgamiento. Se practican las pruebas decretadas. Se cierra debate probatorio.",
+      "fechaInicia": null,
+      "fechaFinaliza": null,
+      "fechaRegistro": "2024-08-05T08:30:00",
+      "existeDocs": true
+    },
+    {
+      "idRegActuacion": 98765200,
+      "llaveProceso": "11001310303220170012300",
+      "consActuacion": 10,
+      "fechaActuacion": "2024-06-15",
+      "actuacion": "Auto interlocutorio",
+      "anotacion": "Se decreta el periodo probatorio y se fijan fechas para la práctica de pruebas testimoniales y documentales.",
+      "fechaInicia": null,
+      "fechaFinaliza": null,
+      "fechaRegistro": "2024-06-15T10:00:00",
+      "existeDocs": false
+    }
+  ]
+}

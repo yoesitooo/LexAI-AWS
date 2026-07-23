@@ -1,0 +1,80 @@
+/* ==========================================================================
+   Input — Estilos con tokens del sistema de diseño
+   Solo se referencian CSS custom properties, sin literales de color.
+   ========================================================================== */
+
+.contenedor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-1);
+  width: 100%;
+}
+
+.etiqueta {
+  font-family: var(--fuente-familia);
+  font-size: var(--fuente-leyenda-tam);
+  font-weight: var(--fuente-subtitulo-peso);
+  line-height: var(--fuente-leyenda-altura);
+  color: var(--texto-primario);
+}
+
+.obligatorio {
+  color: var(--acento-critico);
+}
+
+.campo {
+  min-height: var(--tactil-minimo);
+  padding: var(--espacio-1) var(--espacio-2);
+  font-family: var(--fuente-familia);
+  font-size: var(--fuente-cuerpo-tam);
+  line-height: var(--fuente-cuerpo-altura);
+  color: var(--texto-primario);
+  background-color: var(--superficie);
+  border: 2px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra-neumorfica-inset);
+  transition: border-color var(--transicion-rapida), box-shadow var(--transicion-rapida);
+  width: 100%;
+}
+
+.campo::placeholder {
+  color: var(--texto-secundario);
+}
+
+.campo:hover:not(:disabled) {
+  border-color: var(--texto-secundario);
+}
+
+.campo:focus {
+  border-color: var(--foco);
+}
+
+.campo:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* --- Estado de error --- */
+.campoError {
+  border-color: var(--acento-critico);
+}
+
+.campoError:focus {
+  border-color: var(--acento-critico);
+}
+
+.error {
+  font-family: var(--fuente-familia);
+  font-size: var(--fuente-leyenda-tam);
+  line-height: var(--fuente-leyenda-altura);
+  color: var(--acento-critico);
+  margin: 0;
+}
+
+.ayuda {
+  font-family: var(--fuente-familia);
+  font-size: var(--fuente-leyenda-tam);
+  line-height: var(--fuente-leyenda-altura);
+  color: var(--texto-secundario);
+  margin: 0;
+}

@@ -1,0 +1,230 @@
+/* ==========================================================================
+   LexAI — Sistema de Diseño: Tokens (CSS Custom Properties)
+   ==========================================================================
+   Definidos como CSS custom properties semánticas para que la incorporación
+   posterior de modo oscuro se realice cambiando únicamente los valores de los
+   tokens sin modificar los componentes. (R16.5)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Paleta Monocromática (Grises) + Acento Crítico (R16.4)
+   --------------------------------------------------------------------------
+   Paleta base en escala de grises. El único color de acento (rojo apagado)
+   se aplica SOLO a estados funcionales críticos: vencimientos, botón primario
+   y estado Vencido. No se usa en decoración.
+   -------------------------------------------------------------------------- */
+
+:root {
+  /* --- Paleta de grises base --- */
+  --gris-50: #fafafa;
+  --gris-100: #f0f0f0;
+  --gris-200: #e4e4e4;
+  --gris-300: #d4d4d4;
+  --gris-400: #a3a3a3;
+  --gris-500: #737373;
+  --gris-600: #525252;
+  --gris-700: #404040;
+  --gris-800: #262626;
+  --gris-900: #171717;
+
+  /* --- Acento crítico: rojo apagado, solo para estados críticos --- */
+  --rojo-critico: #b91c1c;
+  --rojo-critico-suave: #dc2626;
+
+  /* ==========================================================================
+     2. Tokens Semánticos de Color (R16.5)
+     ==========================================================================
+     Nombrados por su función, no por su valor. Los componentes referencian
+     estos tokens únicamente. Modo oscuro futuro: redefinir solo estos valores.
+     ========================================================================== */
+
+  --fondo: var(--gris-100);
+  --superficie: var(--gris-100);
+  --texto-primario: var(--gris-900);
+  --texto-secundario: var(--gris-600);
+  --borde: var(--gris-300);
+  --foco: var(--gris-700);
+  --acento-critico: var(--rojo-critico);
+
+  /* ==========================================================================
+     3. Sombras Neumórficas (R16.2)
+     ==========================================================================
+     Cada componente elevado presenta dos sombras simultáneas (una clara y una
+     oscura) sobre el mismo fondo para lograr el efecto neumórfico (soft UI).
+     ========================================================================== */
+
+  --sombra-clara: 6px 6px 12px rgba(0, 0, 0, 0.08);
+  --sombra-oscura: -6px -6px 12px rgba(255, 255, 255, 0.9);
+  --sombra-neumorfica: var(--sombra-clara), var(--sombra-oscura);
+
+  /* Sombras para estado presionado/activo (inset) */
+  --sombra-inset-clara: inset 4px 4px 8px rgba(0, 0, 0, 0.08);
+  --sombra-inset-oscura: inset -4px -4px 8px rgba(255, 255, 255, 0.9);
+  --sombra-neumorfica-inset: var(--sombra-inset-clara), var(--sombra-inset-oscura);
+
+  /* Overlay semitransparente para modales y diálogos */
+  --overlay-fondo: rgba(0, 0, 0, 0.5);
+
+  /* ==========================================================================
+     4. Radio de Esquina (R16.2)
+     ==========================================================================
+     Uniforme ≥16px para todos los componentes del mismo tipo.
+     ========================================================================== */
+
+  --radio: 16px;
+  --radio-sm: 8px;
+  --radio-full: 9999px;
+
+  /* ==========================================================================
+     5. Escala de Espaciado — Múltiplos de 8px (R16.2)
+     ==========================================================================
+     Unidad base: 8px. Todos los espaciados usan múltiplos de 8.
+     ========================================================================== */
+
+  --espacio-1: 8px;
+  --espacio-2: 16px;
+  --espacio-3: 24px;
+  --espacio-4: 32px;
+  --espacio-5: 40px;
+  --espacio-6: 48px;
+  --espacio-7: 56px;
+  --espacio-8: 64px;
+  --espacio-9: 72px;
+  --espacio-10: 80px;
+
+  /* ==========================================================================
+     6. Transiciones (R16.3)
+     ==========================================================================
+     Duración entre 200ms y 300ms con curva ease-in-out.
+     ========================================================================== */
+
+  --transicion-rapida: 200ms ease-in-out;
+  --transicion-base: 250ms ease-in-out;
+  --transicion-lenta: 300ms ease-in-out;
+
+  /* ==========================================================================
+     7. Jerarquía Tipográfica — ≥3 niveles (R16.7)
+     ==========================================================================
+     Tres niveles diferenciados con tamaños de fuente distintos entre sí.
+     Contraste mínimo 4.5:1 texto vs. fondo garantizado por la paleta. (R16.8)
+     ========================================================================== */
+
+  --fuente-familia: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Nivel 1: Títulos */
+  --fuente-titulo-tam: 1.75rem;
+  --fuente-titulo-peso: 700;
+  --fuente-titulo-altura: 1.3;
+
+  /* Nivel 2: Subtítulos */
+  --fuente-subtitulo-tam: 1.25rem;
+  --fuente-subtitulo-peso: 600;
+  --fuente-subtitulo-altura: 1.4;
+
+  /* Nivel 3: Cuerpo */
+  --fuente-cuerpo-tam: 1rem;
+  --fuente-cuerpo-peso: 400;
+  --fuente-cuerpo-altura: 1.5;
+
+  /* Nivel 4: Leyenda / Caption */
+  --fuente-leyenda-tam: 0.875rem;
+  --fuente-leyenda-peso: 400;
+  --fuente-leyenda-altura: 1.4;
+
+  /* ==========================================================================
+     8. Tamaño Mínimo Táctil (R18.8)
+     ========================================================================== */
+
+  --tactil-minimo: 44px;
+}
+
+/* ==========================================================================
+   9. Desactivación de Transiciones bajo prefers-reduced-motion (R16.6)
+   ==========================================================================
+   Cuando el sistema operativo del usuario indica preferencia de movimiento
+   reducido, se desactivan todas las transiciones y animaciones.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+    transition-delay: 0ms !important;
+    animation-delay: 0ms !important;
+  }
+}
+
+/* ==========================================================================
+   10. Reset Base y Estilos Globales
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--fuente-familia);
+  font-size: var(--fuente-cuerpo-tam);
+  font-weight: var(--fuente-cuerpo-peso);
+  line-height: var(--fuente-cuerpo-altura);
+  color: var(--texto-primario);
+  background-color: var(--fondo);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   11. Utilidades Tipográficas
+   ========================================================================== */
+
+.texto-titulo {
+  font-size: var(--fuente-titulo-tam);
+  font-weight: var(--fuente-titulo-peso);
+  line-height: var(--fuente-titulo-altura);
+  color: var(--texto-primario);
+}
+
+.texto-subtitulo {
+  font-size: var(--fuente-subtitulo-tam);
+  font-weight: var(--fuente-subtitulo-peso);
+  line-height: var(--fuente-subtitulo-altura);
+  color: var(--texto-primario);
+}
+
+.texto-cuerpo {
+  font-size: var(--fuente-cuerpo-tam);
+  font-weight: var(--fuente-cuerpo-peso);
+  line-height: var(--fuente-cuerpo-altura);
+  color: var(--texto-primario);
+}
+
+.texto-leyenda {
+  font-size: var(--fuente-leyenda-tam);
+  font-weight: var(--fuente-leyenda-peso);
+  line-height: var(--fuente-leyenda-altura);
+  color: var(--texto-secundario);
+}
+
+/* ==========================================================================
+   12. Indicador de Foco Visible (R18.3)
+   ==========================================================================
+   Foco visible con contraste ≥3:1 respecto al fondo adyacente.
+   ========================================================================== */
+
+:focus-visible {
+  outline: 2px solid var(--foco);
+  outline-offset: 2px;
+  border-radius: var(--radio-sm);
+}

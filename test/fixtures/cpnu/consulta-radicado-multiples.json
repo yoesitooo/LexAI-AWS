@@ -1,0 +1,29 @@
+{
+  "_descripcion": "Fixture: respuesta exitosa con múltiples procesos (paginación implícita)",
+  "_radicado_consulta": "05001310500920200001200",
+  "_nota": "Simula un radicado que retorna varios procesos en la primera página",
+  "procesos": [
+    {
+      "idProceso": 3891204,
+      "llaveProceso": "05001310500920200001200",
+      "fechaProceso": "2020-01-15T00:00:00",
+      "fechaUltimaActuacion": "2025-01-10T00:00:00",
+      "despacho": "Juzgado 009 Laboral del Circuito de Medellín",
+      "departamento": "Antioquia",
+      "sujetosProcesales": "DEMANDANTE: MARTÍNEZ RESTREPO, ANA MARÍA | DEMANDADO: EMPRESA DE TELECOMUNICACIONES S.A.S.",
+      "esPrivado": false,
+      "cantFilas": 2
+    },
+    {
+      "idProceso": 3891205,
+      "llaveProceso": "05001310500920200001200",
+      "fechaProceso": "2020-02-20T00:00:00",
+      "fechaUltimaActuacion": "2024-08-05T00:00:00",
+      "despacho": "Juzgado 009 Laboral del Circuito de Medellín",
+      "departamento": "Antioquia",
+      "sujetosProcesales": "DEMANDANTE: MARTÍNEZ RESTREPO, ANA MARÍA | DEMANDADO: EMPRESA DE TELECOMUNICACIONES S.A.S.",
+      "esPrivado": false,
+      "cantFilas": 2
+    }
+  ]
+}

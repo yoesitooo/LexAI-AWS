@@ -1,0 +1,248 @@
+/* ==========================================================================
+   Kanban — Vista principal tras login
+   Cinco columnas con scroll horizontal en mobile, grid en desktop.
+   Solo se referencian tokens del sistema de diseño.
+   ========================================================================== */
+
+.contenedor {
+  padding: var(--espacio-3);
+  min-height: 100vh;
+}
+
+.titulo {
+  font-size: var(--fuente-titulo-tam);
+  font-weight: var(--fuente-titulo-peso);
+  line-height: var(--fuente-titulo-altura);
+  color: var(--texto-primario);
+  margin-bottom: var(--espacio-3);
+}
+
+/* --- Tablero: scroll horizontal en mobile, grid en desktop --- */
+
+.tablero {
+  display: flex;
+  gap: var(--espacio-2);
+  overflow-x: auto;
+  padding-bottom: var(--espacio-2);
+  -webkit-overflow-scrolling: touch;
+}
+
+/* --- Columna --- */
+
+.columna {
+  flex: 0 0 280px;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+}
+
+.columnaEncabezado {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-1);
+  padding: var(--espacio-1) var(--espacio-2);
+  font-size: var(--fuente-subtitulo-tam);
+  font-weight: var(--fuente-subtitulo-peso);
+  line-height: var(--fuente-subtitulo-altura);
+  color: var(--texto-primario);
+  background-color: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra-neumorfica);
+}
+
+.columnaContador {
+  font-size: var(--fuente-leyenda-tam);
+  font-weight: var(--fuente-cuerpo-peso);
+  color: var(--texto-secundario);
+  margin-left: auto;
+}
+
+.columnaLista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-1);
+  min-height: var(--espacio-6);
+}
+
+/* --- Tarjeta de proceso --- */
+
+.tarjetaProceso {
+  cursor: pointer;
+  transition: box-shadow var(--transicion-rapida);
+}
+
+.tarjetaProceso:hover,
+.tarjetaProceso:focus-within {
+  box-shadow: var(--sombra-clara), var(--sombra-oscura), 0 0 0 2px var(--foco);
+}
+
+.tarjetaRadicado {
+  font-size: var(--fuente-leyenda-tam);
+  font-weight: var(--fuente-subtitulo-peso);
+  color: var(--texto-primario);
+  font-family: monospace;
+  word-break: break-all;
+  margin-bottom: var(--espacio-1);
+}
+
+.tarjetaPartes {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: var(--espacio-1);
+}
+
+.tarjetaParte {
+  font-size: var(--fuente-leyenda-tam);
+  line-height: var(--fuente-leyenda-altura);
+  color: var(--texto-secundario);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tarjetaParteLabel {
+  font-weight: var(--fuente-subtitulo-peso);
+  color: var(--texto-primario);
+}
+
+.tarjetaActuacion {
+  font-size: var(--fuente-leyenda-tam);
+  line-height: var(--fuente-leyenda-altura);
+  color: var(--texto-secundario);
+  margin-bottom: var(--espacio-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tarjetaDespacho {
+  font-size: var(--fuente-leyenda-tam);
+  line-height: var(--fuente-leyenda-altura);
+  color: var(--texto-secundario);
+  margin-bottom: 4px;
+}
+
+.tarjetaUbicacion {
+  font-size: var(--fuente-leyenda-tam);
+  line-height: var(--fuente-leyenda-altura);
+  color: var(--texto-secundario);
+}
+
+.tarjetaBadge {
+  margin-top: var(--espacio-1);
+}
+
+/* --- Estado vacío --- */
+
+.vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--espacio-5) var(--espacio-3);
+}
+
+.vacioIcono {
+  font-size: 3rem;
+  margin-bottom: var(--espacio-2);
+  color: var(--texto-secundario);
+  opacity: 0.5;
+}
+
+.vacioMensaje {
+  font-size: var(--fuente-cuerpo-tam);
+  line-height: var(--fuente-cuerpo-altura);
+  color: var(--texto-secundario);
+  max-width: 320px;
+}
+
+/* --- Cargando --- */
+
+.cargando {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  font-size: var(--fuente-cuerpo-tam);
+  color: var(--texto-secundario);
+}
+
+/* --- Error --- */
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--espacio-5) var(--espacio-3);
+  color: var(--acento-critico);
+}
+
+/* --- Drag & Drop --- */
+
+.tarjetaDragging {
+  opacity: 0.5;
+  transform: scale(0.97);
+  box-shadow: var(--sombra-clara), var(--sombra-oscura), 0 0 0 2px var(--foco);
+}
+
+.columnaDropTarget {
+  background-color: color-mix(in srgb, var(--acento-primario) 8%, transparent);
+  border: 2px dashed var(--acento-primario);
+  border-radius: var(--radio);
+  transition: background-color var(--transicion-rapida), border-color var(--transicion-rapida);
+}
+
+.tarjetaKbd {
+  outline: 2px solid var(--foco);
+  outline-offset: 2px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* --- Responsive: Desktop columns fill available space --- */
+
+/* --- Responsive: reflow a 320px sin scroll horizontal fuera del tablero (R18.7) --- */
+
+@media (max-width: 480px) {
+  .contenedor {
+    padding: var(--espacio-2) var(--espacio-1);
+  }
+
+  .titulo {
+    font-size: var(--fuente-subtitulo-tam);
+  }
+
+  .columna {
+    flex: 0 0 260px;
+    min-width: 260px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .tablero {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    overflow-x: visible;
+  }
+
+  .columna {
+    flex: 1;
+    min-width: 0;
+  }
+}

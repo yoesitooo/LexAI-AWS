@@ -1,0 +1,6 @@
+{
+  "_descripcion": "Fixture: respuesta cuando no se encuentra ningún proceso para el radicado",
+  "_radicado_consulta": "99999999999999999999999",
+  "_nota": "La API retorna un objeto con procesos vacío cuando el radicado no existe en el sistema",
+  "procesos": []
+}

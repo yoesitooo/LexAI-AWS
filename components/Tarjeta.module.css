@@ -1,0 +1,17 @@
+/* ==========================================================================
+   Tarjeta — Estilos con tokens del sistema de diseño
+   Solo se referencian CSS custom properties, sin literales de color.
+   ========================================================================== */
+
+.tarjeta {
+  background-color: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: var(--espacio-3);
+  box-shadow: var(--sombra-neumorfica);
+  transition: box-shadow var(--transicion-rapida);
+}
+
+.compacta {
+  padding: var(--espacio-2);
+}

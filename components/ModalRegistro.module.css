@@ -1,0 +1,26 @@
+/* ==========================================================================
+   ModalRegistro — Estilos del modal de registro de proceso
+   ========================================================================== */
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-3);
+}
+
+.acciones {
+  display: flex;
+  gap: var(--espacio-2);
+  justify-content: flex-end;
+}
+
+.exito {
+  color: var(--exito, #2e7d32);
+  padding: var(--espacio-2);
+  font-weight: 500;
+}
+
+.errorGeneral {
+  color: var(--error, #d32f2f);
+  padding: var(--espacio-2);
+}
