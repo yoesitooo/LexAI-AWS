@@ -1,0 +1,1538 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 Validar el endpoint confirmado de consulta por radicado y confirmar el endpoint de detalle de actuaciones (PRIMERA tarea sustantiva)": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749943351
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749976364
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784750675619
+      }
+    ],
+    "1.2 Andamiaje del proyecto Next.js (App Router) + TypeScript + testing": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749943988
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749977658
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784750676808
+      }
+    ],
+    "1.3 Configurar PostgreSQL y el ORM": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749944548
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784750681674
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751012369
+      }
+    ],
+    "1.4 Definir los tokens del sistema de diseño (Sistema_Diseno)": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749944692
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784750682570
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751014845
+      }
+    ],
+    "1.5 Construir la librería de componentes base accesibles": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749944778
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751021247
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751332779
+      }
+    ],
+    "1.6 Crear el logo de marca LexAI": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749944856
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784750683409
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751015602
+      }
+    ],
+    "1.7 Escribir prueba de propiedad para tokens del sistema de diseño": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749944951
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784757111263
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784757444248
+      }
+    ],
+    "1.8 Escribir prueba de propiedad para contraste y jerarquía tipográfica": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749945107
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784757466731
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784757650745
+      }
+    ],
+    "1.9 Escribir pruebas de propiedad de distinción accesible y etiquetado": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749945208
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784757656834
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784757920011
+      }
+    ],
+    "2.1 Crear migraciones de todas las tablas núcleo e índices": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749945304
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751022148
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751329322
+      }
+    ],
+    "2.2 Documentar y preparar la extensibilidad aditiva a Fase 2": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749945389
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751343662
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751753724
+      }
+    ],
+    "3.1 Implementar la capa i18n es-CO con fallback": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749945485
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784750684314
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751013393
+      }
+    ],
+    "3.2 Implementar utilidades centralizadas de formato es-CO y zona horaria": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749945557
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751023080
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751333906
+      }
+    ],
+    "3.3 Escribir prueba de propiedad para resolución de i18n con fallback": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749945679
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784757942880
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784758199044
+      }
+    ],
+    "3.4 Escribir prueba de propiedad para formato es-CO de fecha/hora/número/moneda": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749945753
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784758207671
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784758318304
+      }
+    ],
+    "4.1 Implementar `validarRadicado`": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749945836
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784750685225
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751016555
+      }
+    ],
+    "4.2 Escribir prueba de propiedad para validación integral del radicado": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749945916
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784758326810
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784758522844
+      }
+    ],
+    "4.3 Escribir prueba de propiedad para descomposición estructural del radicado": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749945992
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784758533859
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784758668235
+      }
+    ],
+    "5.1 Implementar `consultarPorRadicado` con wiring HTTP, headers y timeout": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749946093
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751023953
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751331640
+      }
+    ],
+    "5.2 Implementar cola con rate limiting (máx. 2 req/s, sin ráfagas)": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749946208
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751772167
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752231763
+      }
+    ],
+    "5.3 Implementar paginación secuencial acotada": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749946301
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751773039
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752232597
+      }
+    ],
+    "5.4 Implementar reintentos resilientes": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749946387
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751773926
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752233461
+      }
+    ],
+    "5.5 Implementar `obtenerActuaciones(idProceso)` detrás de la capa aislada": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749946470
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751344585
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751752583
+      }
+    ],
+    "5.6 Escribir prueba de propiedad: el cliente no consulta radicados inválidos": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749946568
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784758675503
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784758839644
+      }
+    ],
+    "5.7 Escribir prueba de propiedad para rate limiting": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749946645
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784758846355
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784759061341
+      }
+    ],
+    "5.8 Escribir prueba de propiedad para paginación acotada y secuencial": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749946756
+      },
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784759252658
+      },
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784759537328
+      }
+    ],
+    "5.9 Escribir prueba de propiedad para reintentos y extracción de campos": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749946854
+      },
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784759542905
+      },
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784759772184
+      }
+    ],
+    "6. Checkpoint — Base, validación y cliente CPNU": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749946940
+      },
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784759778424
+      },
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784759829866
+      }
+    ],
+    "7.1 Implementar registro con NextAuth (credenciales) y creación de configuración por defecto": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749947024
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751345533
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751754971
+      }
+    ],
+    "7.2 Implementar login/logout con mensaje genérico": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749947101
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752244502
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752549242
+      }
+    ],
+    "7.3 Implementar bloqueo temporal por intentos fallidos": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749947184
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752567855
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752790383
+      }
+    ],
+    "7.4 Implementar expiración por inactividad y middleware de rutas protegidas": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749947263
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752796776
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784753125817
+      }
+    ],
+    "7.5 Escribir prueba de propiedad para validación de datos de registro": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749947339
+      },
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784759835537
+      },
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784760114253
+      }
+    ],
+    "7.6 Escribir prueba de propiedad para configuración por defecto al crear usuario": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749947427
+      },
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784760120192
+      },
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784760247875
+      }
+    ],
+    "7.7 Escribir pruebas unitarias de login, bloqueo e inactividad": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749947506
+      },
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784760254386
+      },
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784760346734
+      }
+    ],
+    "8.1 Implementar la fuente de festivos nacionales (Ley 51 de 1983)": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749947588
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751346499
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751751505
+      }
+    ],
+    "8.2 Escribir pruebas unitarias de festivos por año": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749947680
+      },
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784760352792
+      },
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784760415984
+      }
+    ],
+    "9.1 Implementar `calcularFechaLimite` (días hábiles y calendario)": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749947763
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752245496
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752550357
+      }
+    ],
+    "9.2 Escribir prueba de propiedad para cálculo de fecha límite": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749947851
+      },
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784760422135
+      },
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784760590223
+      }
+    ],
+    "10.1 Implementar `POST /api/procesos`": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749948024
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752568750
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752791178
+      }
+    ],
+    "10.2 Escribir prueba de propiedad para actuaciones iniciales y estado del proceso": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749948108
+      },
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784760596830
+      },
+      {
+        "executionId": "75e540e3-c540-4ad4-a571-449c171670c7",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784767302744
+      },
+      {
+        "executionId": "75e540e3-c540-4ad4-a571-449c171670c7",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784767316076
+      }
+    ],
+    "10.3 Escribir prueba de propiedad para unicidad de proceso por usuario": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749948187
+      },
+      {
+        "executionId": "065d9dc8-077e-48a2-8ad3-dbb06089d019",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784761932918
+      }
+    ],
+    "10.4 Escribir pruebas de integración de las ramas de registro": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749948268
+      },
+      {
+        "executionId": "065d9dc8-077e-48a2-8ad3-dbb06089d019",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784762117203
+      },
+      {
+        "executionId": "065d9dc8-077e-48a2-8ad3-dbb06089d019",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784762190989
+      }
+    ],
+    "11.1 Implementar el adaptador LLM intercambiable por variable de entorno": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749948347
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751024917
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751330343
+      }
+    ],
+    "11.2 Implementar `analizarActuacion` con prompt colombiano y normalización": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749948425
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751347568
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751756119
+      }
+    ],
+    "11.3 Implementar reintentos del análisis IA": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749948504
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752246410
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752551184
+      }
+    ],
+    "11.4 Escribir prueba de propiedad para normalización de la duración del plazo": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749948574
+      },
+      {
+        "executionId": "065d9dc8-077e-48a2-8ad3-dbb06089d019",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784762198343
+      },
+      {
+        "executionId": "065d9dc8-077e-48a2-8ad3-dbb06089d019",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784762308683
+      }
+    ],
+    "11.5 Escribir prueba de propiedad para clasificación días hábiles por defecto": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749948653
+      },
+      {
+        "executionId": "065d9dc8-077e-48a2-8ad3-dbb06089d019",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784762314374
+      },
+      {
+        "executionId": "065d9dc8-077e-48a2-8ad3-dbb06089d019",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784762413480
+      }
+    ],
+    "11.6 Escribir prueba de propiedad para reintentos del análisis IA": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749948735
+      },
+      {
+        "executionId": "065d9dc8-077e-48a2-8ad3-dbb06089d019",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784762419264
+      },
+      {
+        "executionId": "75e540e3-c540-4ad4-a571-449c171670c7",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784767333377
+      }
+    ],
+    "12.1 Implementar `planificarNotificaciones` con regla parametrizada": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749948807
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752797743
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784753129359
+      }
+    ],
+    "12.2 Escribir prueba de propiedad para programación de notificaciones": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749948888
+      },
+      {
+        "executionId": "8071d6fe-afed-400b-af5b-f3b2b03367db",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784762806907
+      },
+      {
+        "executionId": "8071d6fe-afed-400b-af5b-f3b2b03367db",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784762969735
+      }
+    ],
+    "12.3 Escribir prueba de propiedad para atomicidad de la programación": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749948980
+      },
+      {
+        "executionId": "8071d6fe-afed-400b-af5b-f3b2b03367db",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784762976000
+      },
+      {
+        "executionId": "75e540e3-c540-4ad4-a571-449c171670c7",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784767349221
+      },
+      {
+        "executionId": "75e540e3-c540-4ad4-a571-449c171670c7",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784767539491
+      }
+    ],
+    "13.1 Implementar el programador `node-cron` a las 06:00 CO con guarda de día hábil": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749949074
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752247450
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752553466
+      }
+    ],
+    "13.2 Implementar el diffing de actuaciones": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749949156
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752248301
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752552049
+      }
+    ],
+    "13.3 Orquestar la revisión por proceso con resiliencia y wiring del dominio": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749949245
+      },
+      {
+        "executionId": "0236c2da-5742-4757-b3e0-02a21e94f4da",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784753560685
+      },
+      {
+        "executionId": "0236c2da-5742-4757-b3e0-02a21e94f4da",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784754128056
+      }
+    ],
+    "13.4 Escribir prueba de propiedad para la decisión de ejecución diaria": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749949324
+      },
+      {
+        "executionId": "75e540e3-c540-4ad4-a571-449c171670c7",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784767546482
+      },
+      {
+        "executionId": "75e540e3-c540-4ad4-a571-449c171670c7",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784767553067
+      }
+    ],
+    "13.5 Escribir prueba de propiedad para el diffing de actuaciones": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749949412
+      },
+      {
+        "executionId": "75e540e3-c540-4ad4-a571-449c171670c7",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784767558025
+      },
+      {
+        "executionId": "75e540e3-c540-4ad4-a571-449c171670c7",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784767735258
+      }
+    ],
+    "14. Checkpoint — Núcleo de dominio (auth, registro, worker, IA, plazos, notificaciones)": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749949489
+      },
+      {
+        "executionId": "75e540e3-c540-4ad4-a571-449c171670c7",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784767741288
+      },
+      {
+        "executionId": "75e540e3-c540-4ad4-a571-449c171670c7",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784767782389
+      }
+    ],
+    "15.1 Definir la interfaz de canal y el canal in-app": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749949573
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752569640
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752789445
+      }
+    ],
+    "15.2 Implementar el canal email (Resend/AWS SES)": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749949650
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752798534
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784753128270
+      }
+    ],
+    "15.3 Implementar el canal WhatsApp (Twilio Sandbox)": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749949728
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752799522
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784753130463
+      }
+    ],
+    "15.4 Implementar el despacho a las 07:00 CO con reintentos y aislamiento por canal": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749949812
+      },
+      {
+        "executionId": "0236c2da-5742-4757-b3e0-02a21e94f4da",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784753561608
+      },
+      {
+        "executionId": "0236c2da-5742-4757-b3e0-02a21e94f4da",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784754130263
+      }
+    ],
+    "15.5 Escribir prueba de propiedad para selección de canales": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749949885
+      },
+      {
+        "executionId": "75e540e3-c540-4ad4-a571-449c171670c7",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784767788585
+      },
+      {
+        "executionId": "75e540e3-c540-4ad4-a571-449c171670c7",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784767981235
+      }
+    ],
+    "15.6 Escribir prueba de propiedad para reintentos con espaciado por canal": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749949970
+      },
+      {
+        "executionId": "75e540e3-c540-4ad4-a571-449c171670c7",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784767988119
+      },
+      {
+        "executionId": "de0f98ee-62df-4ceb-82b4-020bba5b357c",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784768860377
+      }
+    ],
+    "15.7 Escribir prueba de propiedad para aislamiento de canales ante fallos": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749950123
+      },
+      {
+        "executionId": "eca434a5-113a-4d07-bdc3-e4b25ab171ac",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784768315601
+      },
+      {
+        "executionId": "95c602e7-5b6d-4819-9324-c5f8c0e59850",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784769887065
+      },
+      {
+        "executionId": "95c602e7-5b6d-4819-9324-c5f8c0e59850",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784770315096
+      }
+    ],
+    "16.1 Implementar `GET/PATCH /api/configuracion` y la pantalla de configuración": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749950200
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751774823
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752234533
+      }
+    ],
+    "16.2 Escribir prueba de propiedad para validación del número de WhatsApp": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749950281
+      },
+      {
+        "executionId": "95c602e7-5b6d-4819-9324-c5f8c0e59850",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784770321294
+      },
+      {
+        "executionId": "95c602e7-5b6d-4819-9324-c5f8c0e59850",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784770475507
+      }
+    ],
+    "17.1 Implementar las APIs del Kanban y detalle": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749950363
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784752800327
+      },
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784753127019
+      }
+    ],
+    "17.2 Implementar la vista Kanban (cinco columnas, tarjetas, estado vacío)": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749950435
+      },
+      {
+        "executionId": "0236c2da-5742-4757-b3e0-02a21e94f4da",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784753562519
+      },
+      {
+        "executionId": "0236c2da-5742-4757-b3e0-02a21e94f4da",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784754129161
+      }
+    ],
+    "17.3 Implementar el modal de detalle y registro de proceso accesible": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749950507
+      },
+      {
+        "executionId": "0236c2da-5742-4757-b3e0-02a21e94f4da",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784754136317
+      },
+      {
+        "executionId": "0236c2da-5742-4757-b3e0-02a21e94f4da",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784754433712
+      }
+    ],
+    "17.4 Implementar drag-and-drop accesible del Kanban": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749950592
+      },
+      {
+        "executionId": "0236c2da-5742-4757-b3e0-02a21e94f4da",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784754137129
+      },
+      {
+        "executionId": "0236c2da-5742-4757-b3e0-02a21e94f4da",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784754433794
+      }
+    ],
+    "17.5 Implementar los placeholders de módulos en standby en la navegación": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749950669
+      },
+      {
+        "executionId": "0236c2da-5742-4757-b3e0-02a21e94f4da",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784754138024
+      },
+      {
+        "executionId": "0236c2da-5742-4757-b3e0-02a21e94f4da",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784754435047
+      }
+    ],
+    "17.6 Escribir pruebas de propiedad de aislamiento y reglas del Kanban": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749950746
+      },
+      {
+        "executionId": "95c602e7-5b6d-4819-9324-c5f8c0e59850",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784770481714
+      },
+      {
+        "executionId": "95c602e7-5b6d-4819-9324-c5f8c0e59850",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784770689250
+      }
+    ],
+    "17.7 Escribir pruebas de propiedad de orden del histórico y transición a Vencido": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749950822
+      },
+      {
+        "executionId": "95c602e7-5b6d-4819-9324-c5f8c0e59850",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784770696245
+      },
+      {
+        "executionId": "e2a30620-2933-41a2-9557-27fa21d25274",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784775911605
+      },
+      {
+        "executionId": "e2a30620-2933-41a2-9557-27fa21d25274",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784776113499
+      }
+    ],
+    "17.8 Escribir prueba de propiedad para módulos en standby sin efectos": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749950905
+      },
+      {
+        "executionId": "43d00ffa-5a4b-4b99-acee-16fae5957bda",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784772783469
+      },
+      {
+        "executionId": "43d00ffa-5a4b-4b99-acee-16fae5957bda",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784772925541
+      }
+    ],
+    "18.1 Aplicar y verificar accesibilidad transversal en login, registro, configuración, Kanban y modales": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749950989
+      },
+      {
+        "executionId": "0236c2da-5742-4757-b3e0-02a21e94f4da",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784754446954
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784756414186
+      }
+    ],
+    "18.2 Escribir pruebas de integración de accesibilidad": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749951076
+      },
+      {
+        "executionId": "43d00ffa-5a4b-4b99-acee-16fae5957bda",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784772931408
+      },
+      {
+        "executionId": "43d00ffa-5a4b-4b99-acee-16fae5957bda",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784773139784
+      }
+    ],
+    "19. Checkpoint — UI, Kanban, configuración y accesibilidad": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749951152
+      },
+      {
+        "executionId": "43d00ffa-5a4b-4b99-acee-16fae5957bda",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784773146665
+      },
+      {
+        "executionId": "43d00ffa-5a4b-4b99-acee-16fae5957bda",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784773350977
+      }
+    ],
+    "20.1 Escribir `docker-compose.yml` con servicios web, db y worker + Caddy": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749951228
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784756420683
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784757024227
+      }
+    ],
+    "20.2 Escribir `deploy.sh`": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749951329
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784757029191
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784757087855
+      }
+    ],
+    "20.3 Escribir `.env.example`": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749951429
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784757030042
+      },
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784757088608
+      }
+    ],
+    "21. Checkpoint final — Verificación completa": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784749951512
+      },
+      {
+        "executionId": "43d00ffa-5a4b-4b99-acee-16fae5957bda",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784773356652
+      },
+      {
+        "executionId": "e2a30620-2933-41a2-9557-27fa21d25274",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784776118762
+      },
+      {
+        "executionId": "e2a30620-2933-41a2-9557-27fa21d25274",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784776123908
+      }
+    ],
+    "2. Esquema de base de datos y migraciones (tablas núcleo + extensibilidad Fase 2)": [
+      {
+        "executionId": "836c5a1a-d215-407c-9a0d-103b42684d92",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784751753831
+      }
+    ],
+    "20. Artefactos de despliegue (Días 4–5)": [
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784757088753
+      }
+    ],
+    "1. Día 1 — Validación de endpoints CPNU, base del proyecto y sistema de diseño": [
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784757920565
+      }
+    ],
+    "3. Localización colombiana e i18n": [
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784758318576
+      }
+    ],
+    "4. Validador de radicado (lógica pura)": [
+      {
+        "executionId": "875a56a5-3b78-43f3-a551-b5b2fd9d8ab3",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784758668407
+      }
+    ],
+    "5. Cliente CPNU aislado (`lib/cpnu-client.ts`)": [
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784759772301
+      }
+    ],
+    "7. Autenticación (Servicio_Autenticacion)": [
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784760347167
+      }
+    ],
+    "8. Servicio de festivos (Servicio_Festivos)": [
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784760416098
+      }
+    ],
+    "9. Calculadora de plazos (Calculadora_Plazos)": [
+      {
+        "executionId": "a5b43d54-f306-44a6-8a31-764d2e745f69",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784760590358
+      }
+    ],
+    "10. Registro de un proceso (flujo + API)": [
+      {
+        "executionId": "75e540e3-c540-4ad4-a571-449c171670c7",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784767316138
+      }
+    ],
+    "11. Analizador de actuaciones con IA (Analizador_IA)": [
+      {
+        "executionId": "75e540e3-c540-4ad4-a571-449c171670c7",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784767333452
+      }
+    ],
+    "12. Planificador de notificaciones (Planificador_Notificaciones)": [
+      {
+        "executionId": "75e540e3-c540-4ad4-a571-449c171670c7",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784767539602
+      }
+    ],
+    "13. Worker de revisión diaria (Worker_Revision)": [
+      {
+        "executionId": "75e540e3-c540-4ad4-a571-449c171670c7",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784767735364
+      }
+    ],
+    "15. Servicio de envío de notificaciones (Servicio_Notificaciones)": [
+      {
+        "executionId": "95c602e7-5b6d-4819-9324-c5f8c0e59850",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784770315240
+      }
+    ],
+    "16. Módulo de configuración de canales": [
+      {
+        "executionId": "95c602e7-5b6d-4819-9324-c5f8c0e59850",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784770475846
+      }
+    ],
+    "18. Conformidad de accesibilidad en todas las pantallas (WCAG 2.1 AA)": [
+      {
+        "executionId": "43d00ffa-5a4b-4b99-acee-16fae5957bda",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784773139981
+      }
+    ],
+    "17. Tablero Kanban, detalle de proceso y navegación": [
+      {
+        "executionId": "e2a30620-2933-41a2-9557-27fa21d25274",
+        "chatSessionId": "sess_68dde91d-909a-4e8c-9f9e-41fcabbd34fa",
+        "timestamp": 1784776113617
+      }
+    ]
+  }
+}

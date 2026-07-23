@@ -39,8 +39,5 @@ next-env.d.ts
 
 /lib/generated/prisma
 
-# Kiro specs/PRD (internal planning, not shipped)
-.kiro/
-
 # Prisma generated client (regenerated on install)
 /lib/generated/
