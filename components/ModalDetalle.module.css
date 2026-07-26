@@ -333,8 +333,9 @@
 }
 
 .documentoBotonEliminar:hover {
-  border-color: var(--acento-critico);
-  color: var(--acento-critico);
+  background-color: var(--gris-200);
+  border-color: var(--texto-primario);
+  color: var(--texto-primario);
 }
 
 /* ─── Comentarios ──────────────────────────────────────────────────────────── */

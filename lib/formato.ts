@@ -104,21 +104,40 @@ interface PartesFechaCO {
   diaSemana: number;
 }
 
-function obtenerPartesEnCO(date: Date): PartesFechaCO {
-  // Usamos Intl.DateTimeFormat para extraer las partes en America/Bogota
-  const formatter = new Intl.DateTimeFormat(LOCALE_CO, {
-    timeZone: ZONA_HORARIA_CO,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false,
-    weekday: "short",
-  });
+// Los formatters de Intl.DateTimeFormat son costosos de construir (resuelven
+// datos de locale/zona horaria). ZONA_HORARIA_CO y LOCALE_CO son fijos, así
+// que se crean una sola vez a nivel de módulo en vez de en cada llamada:
+// crear uno por invocación de obtenerPartesEnCO (llamada en el hot path de
+// crearFechaCO/fechaCODesdeComponentes) degradaba notablemente el rendimiento
+// en bucles y en las pruebas basadas en propiedades (cientos de invocaciones).
+const partesFormatter = new Intl.DateTimeFormat(LOCALE_CO, {
+  timeZone: ZONA_HORARIA_CO,
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+  hour12: false,
+});
 
-  const partes = formatter.formatToParts(date);
+const weekdayFormatter = new Intl.DateTimeFormat("en-US", {
+  timeZone: ZONA_HORARIA_CO,
+  weekday: "short",
+});
+
+const WEEKDAY_MAP: Record<string, number> = {
+  Sun: 0,
+  Mon: 1,
+  Tue: 2,
+  Wed: 3,
+  Thu: 4,
+  Fri: 5,
+  Sat: 6,
+};
+
+function obtenerPartesEnCO(date: Date): PartesFechaCO {
+  const partes = partesFormatter.formatToParts(date);
   const get = (tipo: Intl.DateTimeFormatPartTypes): string =>
     partes.find((p) => p.type === tipo)?.value ?? "0";
 
@@ -131,23 +150,10 @@ function obtenerPartesEnCO(date: Date): PartesFechaCO {
   const minuto = parseInt(get("minute"), 10);
   const segundo = parseInt(get("second"), 10);
 
-  // Para el día de la semana, usamos un formatter separado con weekday numérico
-  // No hay weekday numérico en Intl, así que lo calculamos desde el día conocido
-  const diaSemanaFormatter = new Intl.DateTimeFormat("en-US", {
-    timeZone: ZONA_HORARIA_CO,
-    weekday: "short",
-  });
-  const weekdayStr = diaSemanaFormatter.format(date);
-  const weekdayMap: Record<string, number> = {
-    Sun: 0,
-    Mon: 1,
-    Tue: 2,
-    Wed: 3,
-    Thu: 4,
-    Fri: 5,
-    Sat: 6,
-  };
-  const diaSemana = weekdayMap[weekdayStr] ?? 0;
+  // Para el día de la semana, no hay weekday numérico en Intl, así que lo
+  // calculamos desde el nombre corto devuelto por un formatter dedicado.
+  const weekdayStr = weekdayFormatter.format(date);
+  const diaSemana = WEEKDAY_MAP[weekdayStr] ?? 0;
 
   return { anio, mes, dia, hora, minuto, segundo, diaSemana };
 }

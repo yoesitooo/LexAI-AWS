@@ -62,18 +62,22 @@ const PATRON_SOLO_DIGITOS = /^\d+$/;
 // IMPLEMENTACIÓN
 // =============================================================================
 
+// Intl.DateTimeFormat es costoso de construir; se crea una sola vez a nivel
+// de módulo (la zona horaria es fija) en vez de en cada validación — con
+// miles de validaciones por segundo (R3.5), recrearlo cada vez era el
+// cuello de botella.
+const FORMATO_ANIO_CO = new Intl.DateTimeFormat("es-CO", {
+  timeZone: "America/Bogota",
+  year: "numeric",
+});
+
 /**
  * Obtiene el año actual en la zona horaria America/Bogotá (UTC-5).
  * Colombia no tiene horario de verano, así que UTC-5 es fijo.
  */
 function obtenerAnioActualColombia(): number {
   const ahora = new Date();
-  // Usar Intl.DateTimeFormat para obtener el año en la zona horaria de Colombia
-  const formato = new Intl.DateTimeFormat("es-CO", {
-    timeZone: "America/Bogota",
-    year: "numeric",
-  });
-  const partes = formato.formatToParts(ahora);
+  const partes = FORMATO_ANIO_CO.formatToParts(ahora);
   const parteAnio = partes.find((p) => p.type === "year");
   return parseInt(parteAnio!.value, 10);
 }
