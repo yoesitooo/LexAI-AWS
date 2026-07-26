@@ -18,7 +18,7 @@
  */
 
 import { useEffect, useState, useRef, useCallback } from "react";
-import { Tarjeta, BadgeEstado, Boton, ModalRegistro } from "@/components";
+import { Tarjeta, BadgeEstado, Boton, ModalRegistro, ModalDetalle } from "@/components";
 import type { EstadoProceso } from "@/components";
 import { t } from "@/lib/i18n";
 import { parseSujetosProcesales } from "@/lib/parse-sujetos";
@@ -81,6 +81,7 @@ function TarjetaProceso({
   onDragStart,
   onDragEnd,
   onKeyDown,
+  onVerDetalle,
 }: {
   proceso: ProcesoKanban;
   isDragging: boolean;
@@ -88,6 +89,7 @@ function TarjetaProceso({
   onDragStart: (e: React.DragEvent) => void;
   onDragEnd: (e: React.DragEvent) => void;
   onKeyDown: (e: React.KeyboardEvent) => void;
+  onVerDetalle: () => void;
 }) {
   const sujetos = parseSujetosProcesales(proceso.sujetos_procesales);
   const ultimaActuacion =
@@ -163,6 +165,22 @@ function TarjetaProceso({
       <div className={styles.tarjetaBadge}>
         <BadgeEstado estado={proceso.columna_kanban as EstadoProceso} />
       </div>
+
+      {/* Acción: ver detalle completo */}
+      <div className={styles.tarjetaAcciones}>
+        <button
+          type="button"
+          className={styles.botonVerProceso}
+          onClick={(e) => {
+            e.stopPropagation();
+            onVerDetalle();
+          }}
+          onPointerDown={(e) => e.stopPropagation()}
+          draggable={false}
+        >
+          {t("kanban.ver_proceso")}
+        </button>
+      </div>
     </Tarjeta>
   );
 }
@@ -182,6 +200,7 @@ function ColumnaKanban({
   onCardDragStart,
   onCardDragEnd,
   onCardKeyDown,
+  onVerDetalle,
 }: {
   columnaKey: string;
   estado: EstadoProceso;
@@ -195,6 +214,7 @@ function ColumnaKanban({
   onCardDragStart: (proceso: ProcesoKanban) => (e: React.DragEvent) => void;
   onCardDragEnd: (e: React.DragEvent) => void;
   onCardKeyDown: (proceso: ProcesoKanban) => (e: React.KeyboardEvent) => void;
+  onVerDetalle: (proceso: ProcesoKanban) => void;
 }) {
   const listClasses = [
     styles.columnaLista,
@@ -226,6 +246,7 @@ function ColumnaKanban({
               onDragStart={onCardDragStart(proceso)}
               onDragEnd={onCardDragEnd}
               onKeyDown={onCardKeyDown(proceso)}
+              onVerDetalle={() => onVerDetalle(proceso)}
             />
           </div>
         ))}
@@ -243,6 +264,15 @@ export default function KanbanPage() {
 
   // Modal de registro de proceso
   const [modalAbierto, setModalAbierto] = useState(false);
+
+  // Modal de detalle de proceso
+  const [detalleId, setDetalleId] = useState<string | null>(null);
+  const [detalleAbierto, setDetalleAbierto] = useState(false);
+
+  const handleVerDetalle = useCallback((proceso: ProcesoKanban) => {
+    setDetalleId(proceso.id);
+    setDetalleAbierto(true);
+  }, []);
 
   // DnD state
   const [draggingProceso, setDraggingProceso] = useState<ProcesoKanban | null>(null);
@@ -516,12 +546,19 @@ export default function KanbanPage() {
     </div>
   );
 
-  const modalRegistro = (
-    <ModalRegistro
-      abierto={modalAbierto}
-      onCerrar={() => setModalAbierto(false)}
-      onRegistroExitoso={cargarProcesos}
-    />
+  const modales = (
+    <>
+      <ModalRegistro
+        abierto={modalAbierto}
+        onCerrar={() => setModalAbierto(false)}
+        onRegistroExitoso={cargarProcesos}
+      />
+      <ModalDetalle
+        abierto={detalleAbierto}
+        onCerrar={() => setDetalleAbierto(false)}
+        procesoId={detalleId}
+      />
+    </>
   );
 
   // --- Estado: Cargando ---
@@ -543,7 +580,7 @@ export default function KanbanPage() {
         <div className={styles.error} role="alert">
           <p>{error}</p>
         </div>
-        {modalRegistro}
+        {modales}
       </main>
     );
   }
@@ -556,7 +593,7 @@ export default function KanbanPage() {
         <div className={styles.error} role="alert">
           <p>{t("error.generico")}</p>
         </div>
-        {modalRegistro}
+        {modales}
       </main>
     );
   }
@@ -588,6 +625,7 @@ export default function KanbanPage() {
               onCardDragStart={handleDragStart}
               onCardDragEnd={handleDragEnd}
               onCardKeyDown={handleCardKeyDown}
+              onVerDetalle={handleVerDetalle}
             />
           ))}
         </div>
@@ -603,7 +641,7 @@ export default function KanbanPage() {
             </Boton>
           </div>
         </div>
-        {modalRegistro}
+        {modales}
       </main>
     );
   }
@@ -648,10 +686,11 @@ export default function KanbanPage() {
             onCardDragStart={handleDragStart}
             onCardDragEnd={handleDragEnd}
             onCardKeyDown={handleCardKeyDown}
+            onVerDetalle={handleVerDetalle}
           />
         ))}
       </div>
-      {modalRegistro}
+      {modales}
     </main>
   );
 }

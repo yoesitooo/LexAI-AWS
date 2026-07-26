@@ -33,6 +33,43 @@
   gap: var(--espacio-2);
 }
 
+/* ─── Información general ──────────────────────────────────────────────────── */
+
+.infoGrid {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-1);
+}
+
+.infoFila {
+  display: grid;
+  grid-template-columns: minmax(120px, 40%) 1fr;
+  gap: var(--espacio-2);
+  align-items: baseline;
+}
+
+.infoLabel {
+  font-size: var(--fuente-leyenda-tam);
+  font-weight: var(--fuente-subtitulo-peso);
+  color: var(--texto-secundario);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin: 0;
+}
+
+.infoValor {
+  font-size: var(--fuente-cuerpo-tam);
+  color: var(--texto-primario);
+  margin: 0;
+  word-break: break-word;
+}
+
+.infoValorMono {
+  font-family: monospace;
+  word-break: break-all;
+}
+
 .actuacionItem {
   padding: var(--espacio-2);
   border: 1px solid var(--borde);
@@ -40,11 +77,39 @@
   background-color: var(--superficie);
 }
 
+.actuacionEncabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espacio-1);
+  margin-bottom: 4px;
+}
+
 .actuacionFecha {
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--texto-secundario, #555);
-  margin-bottom: 4px;
+  margin: 0;
+}
+
+.badgeNueva {
+  flex-shrink: 0;
+  font-size: var(--fuente-leyenda-tam);
+  font-weight: var(--fuente-subtitulo-peso);
+  color: var(--acento-critico);
+  border: 1px solid var(--acento-critico);
+  border-radius: var(--radio-full);
+  padding: 1px var(--espacio-1);
+  white-space: nowrap;
+}
+
+.actuacionMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px var(--espacio-2);
+  margin-top: var(--espacio-1);
+  font-size: var(--fuente-leyenda-tam);
+  color: var(--texto-secundario);
 }
 
 .actuacionTexto {

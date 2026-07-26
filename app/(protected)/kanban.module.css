@@ -150,6 +150,42 @@
   margin-top: var(--espacio-1);
 }
 
+/* --- Botón "Ver proceso" dentro de la tarjeta --- */
+
+.tarjetaAcciones {
+  margin-top: var(--espacio-1);
+  display: flex;
+}
+
+.botonVerProceso {
+  width: 100%;
+  min-height: 36px;
+  padding: 6px var(--espacio-2);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-sm);
+  background-color: var(--superficie);
+  color: var(--texto-primario);
+  font-family: var(--fuente-familia);
+  font-size: var(--fuente-leyenda-tam);
+  font-weight: var(--fuente-subtitulo-peso);
+  cursor: pointer;
+  box-shadow: var(--sombra-neumorfica);
+  transition: box-shadow var(--transicion-rapida), border-color var(--transicion-rapida);
+}
+
+.botonVerProceso:hover {
+  border-color: var(--texto-secundario);
+}
+
+.botonVerProceso:active {
+  box-shadow: var(--sombra-neumorfica-inset);
+}
+
+.botonVerProceso:focus-visible {
+  outline: 2px solid var(--foco);
+  outline-offset: 2px;
+}
+
 /* --- Estado vacío --- */
 
 .vacio {
