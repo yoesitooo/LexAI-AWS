@@ -16,22 +16,61 @@
 
 .dialog {
   position: relative;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 600px;
   max-height: 85vh;
-  overflow-y: auto;
-  background-color: var(--superficie);
+  overflow: hidden;
+  background-color: var(--fondo);
   border: 1px solid var(--borde);
   border-radius: var(--radio);
-  box-shadow: var(--sombra-neumorfica);
-  padding: var(--espacio-4, 32px);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.18),
+    var(--sombra-oscura);
+  padding: 0;
 }
 
+/* Encabezado estático: no participa del scroll del cuerpo */
 .cabecera {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--espacio-3);
+  gap: var(--espacio-2);
+  padding: var(--espacio-3) var(--espacio-4) var(--espacio-2);
+  background-color: var(--fondo);
+  border-bottom: 1px solid var(--borde);
+}
+
+/* Cuerpo desplazable: solo el contenido hace scroll */
+.cuerpo {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--espacio-3) var(--espacio-4) var(--espacio-4);
+  scrollbar-width: thin;
+  scrollbar-color: var(--gris-400) transparent;
+}
+
+/* Scrollbar sutil (WebKit/Chromium) */
+.cuerpo::-webkit-scrollbar {
+  width: 10px;
+}
+
+.cuerpo::-webkit-scrollbar-track {
+  background: transparent;
+  margin: var(--espacio-1) 0;
+}
+
+.cuerpo::-webkit-scrollbar-thumb {
+  background-color: var(--gris-400);
+  border-radius: var(--radio-full);
+  border: 3px solid var(--fondo);
+}
+
+.cuerpo::-webkit-scrollbar-thumb:hover {
+  background-color: var(--gris-500);
 }
 
 .titulo {
@@ -73,7 +112,14 @@
   }
 
   .dialog {
-    padding: var(--espacio-2);
     max-height: 90vh;
+  }
+
+  .cabecera {
+    padding: var(--espacio-2) var(--espacio-2) var(--espacio-1);
+  }
+
+  .cuerpo {
+    padding: var(--espacio-2) var(--espacio-2) var(--espacio-2);
   }
 }

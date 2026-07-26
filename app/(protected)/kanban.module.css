@@ -38,6 +38,26 @@
   overflow-x: auto;
   padding-bottom: var(--espacio-2);
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gris-400) transparent;
+}
+
+.tablero::-webkit-scrollbar {
+  height: 10px;
+}
+
+.tablero::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tablero::-webkit-scrollbar-thumb {
+  background-color: var(--gris-400);
+  border-radius: var(--radio-full);
+  border: 3px solid var(--fondo);
+}
+
+.tablero::-webkit-scrollbar-thumb:hover {
+  background-color: var(--gris-500);
 }
 
 /* --- Columna --- */
@@ -155,10 +175,11 @@
 .tarjetaAcciones {
   margin-top: var(--espacio-1);
   display: flex;
+  gap: var(--espacio-1);
 }
 
 .botonVerProceso {
-  width: 100%;
+  flex: 1;
   min-height: 36px;
   padding: 6px var(--espacio-2);
   border: 1px solid var(--borde);
@@ -184,6 +205,77 @@
 .botonVerProceso:focus-visible {
   outline: 2px solid var(--foco);
   outline-offset: 2px;
+}
+
+/* Botón eliminar: mismo estilo neumórfico, solo ícono, en rojo */
+.botonEliminar {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  min-height: 36px;
+  padding: 6px;
+  border: 1px solid var(--acento-critico);
+  border-radius: var(--radio-sm);
+  background-color: var(--superficie);
+  color: var(--acento-critico);
+  cursor: pointer;
+  box-shadow: var(--sombra-neumorfica);
+  transition: box-shadow var(--transicion-rapida), background-color var(--transicion-rapida);
+}
+
+.botonEliminar:hover {
+  background-color: color-mix(in srgb, var(--acento-critico) 8%, var(--superficie));
+}
+
+.botonEliminar:active {
+  box-shadow: var(--sombra-neumorfica-inset);
+}
+
+.botonEliminar:focus-visible {
+  outline: 2px solid var(--acento-critico);
+  outline-offset: 2px;
+}
+
+/* --- Modal de confirmación de eliminación --- */
+
+.eliminarContenido {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+}
+
+.eliminarTexto {
+  font-size: var(--fuente-cuerpo-tam);
+  line-height: var(--fuente-cuerpo-altura);
+  color: var(--texto-primario);
+  margin: 0;
+}
+
+.eliminarRadicado {
+  font-family: monospace;
+  font-size: var(--fuente-leyenda-tam);
+  color: var(--texto-secundario);
+  word-break: break-all;
+  margin: 0;
+  padding: var(--espacio-1) var(--espacio-2);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-sm);
+  background-color: var(--superficie);
+}
+
+.eliminarError {
+  font-size: var(--fuente-leyenda-tam);
+  color: var(--acento-critico);
+  margin: 0;
+}
+
+.eliminarAcciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--espacio-2);
+  margin-top: var(--espacio-1);
 }
 
 /* --- Estado vacío --- */

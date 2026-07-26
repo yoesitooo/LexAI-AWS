@@ -149,7 +149,7 @@ export function Modal({
             ✕
           </button>
         </div>
-        {children}
+        <div className={styles.cuerpo}>{children}</div>
       </div>
     </div>
   );

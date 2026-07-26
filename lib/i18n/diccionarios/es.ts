@@ -56,6 +56,13 @@ export const es = {
   "kanban.titulo": "Mis procesos",
   "kanban.nuevo_proceso": "Nuevo proceso",
   "kanban.ver_proceso": "Ver proceso",
+  "kanban.eliminar_proceso": "Eliminar proceso",
+  "eliminar.titulo": "Eliminar proceso",
+  "eliminar.confirmacion":
+    "¿Seguro que desea eliminar este proceso? Se borrará de su tablero junto con su historial de actuaciones y plazos. Esta acción no se puede deshacer.",
+  "eliminar.confirmar": "Eliminar",
+  "eliminar.cancelar": "Cancelar",
+  "eliminar.error": "No se pudo eliminar el proceso. Intente de nuevo.",
   "kanban.columna.nuevo": "Nuevo",
   "kanban.columna.en_seguimiento": "En seguimiento",
   "kanban.columna.requiere_accion": "Requiere acción",

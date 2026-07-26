@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Sidebar — Navegación lateral responsiva
+   Sidebar — Navegación lateral responsiva (colapsable)
    Solo tokens del sistema de diseño.
    ========================================================================== */
 
@@ -8,20 +8,76 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  gap: var(--espacio-3);
+  gap: var(--espacio-2);
   width: 280px;
   flex-shrink: 0;
   padding: var(--espacio-3) var(--espacio-2);
   border-right: 1px solid var(--borde);
   background-color: var(--superficie);
-  /* Fija en escritorio: acompaña el scroll del contenido principal */
   position: sticky;
   top: 0;
   align-self: flex-start;
   height: 100vh;
   height: 100dvh;
   overflow-y: auto;
+  transition: width var(--transicion-base);
 }
+
+/* ─── Animación de entrada (solo escritorio) ──────────────────────────────── */
+
+@media (min-width: 768px) {
+  .sidebar {
+    animation: sidebarEntrada var(--transicion-lenta) ease-out both;
+  }
+
+  .sidebar > * {
+    animation: itemEntrada var(--transicion-base) ease-out both;
+  }
+
+  .sidebar > *:nth-child(1) { animation-delay: 60ms; }
+  .sidebar > *:nth-child(2) { animation-delay: 120ms; }
+  .sidebar > *:nth-child(3) { animation-delay: 180ms; }
+  .sidebar > *:nth-child(4) { animation-delay: 240ms; }
+  .sidebar > *:nth-child(5) { animation-delay: 300ms; }
+}
+
+@keyframes sidebarEntrada {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes itemEntrada {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .sidebar > * {
+    animation: none;
+  }
+}
+
+/* ─── Estado colapsado (escritorio) ───────────────────────────────────────── */
+
+.sidebarColapsado {
+  width: 76px;
+  padding: var(--espacio-3) var(--espacio-1);
+}
+
+/* ─── Marca (logo + toggle) ───────────────────────────────────────────────── */
 
 .marca {
   display: flex;
@@ -29,33 +85,186 @@
   justify-content: space-between;
   gap: var(--espacio-1);
   padding: 0 var(--espacio-1);
+  min-height: 40px;
 }
 
-.seccion {
+.sidebarColapsado .marca {
+  flex-direction: column;
+  gap: var(--espacio-2);
+  padding: 0;
+}
+
+/* Toggle de colapso (chevron) — solo escritorio */
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  flex-shrink: 0;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-sm);
+  background-color: var(--superficie);
+  color: var(--texto-secundario);
+  cursor: pointer;
+  transition: border-color var(--transicion-rapida), color var(--transicion-rapida);
+}
+
+.toggle:hover {
+  border-color: var(--texto-secundario);
+  color: var(--texto-primario);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--foco);
+  outline-offset: 2px;
+}
+
+/* ─── Navegación ──────────────────────────────────────────────────────────── */
+
+.nav {
   display: flex;
   flex-direction: column;
   gap: var(--espacio-1);
 }
 
-.seccionTitulo {
+.grupoInferior {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-1);
+}
+
+/* ─── Ítem base (enlaces, standby y logout comparten estilo) ──────────────── */
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-1);
+  width: 100%;
+  padding: var(--espacio-1) var(--espacio-2);
+  border-radius: var(--radio);
+  border: 1px solid var(--borde);
+  background-color: var(--superficie);
+  box-shadow: var(--sombra-neumorfica);
+  color: var(--texto-primario);
+  text-decoration: none;
+  text-align: left;
+  font-family: var(--fuente-familia);
+  font-size: var(--fuente-cuerpo-tam);
+  min-height: var(--tactil-minimo, 44px);
+  cursor: pointer;
+  transition: box-shadow var(--transicion-rapida), transform var(--transicion-rapida), border-color var(--transicion-rapida);
+}
+
+.item:hover {
+  transform: translateY(-1px);
+}
+
+.item:active {
+  box-shadow: var(--sombra-neumorfica-inset);
+  transform: translateY(0);
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--foco);
+  outline-offset: 2px;
+}
+
+.itemActivo {
+  box-shadow: var(--sombra-neumorfica-inset);
+  border-color: var(--foco);
+}
+
+.itemActivo .itemTexto {
+  font-weight: var(--fuente-subtitulo-peso);
+}
+
+.itemIcono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--texto-primario);
+}
+
+.itemTexto {
+  flex: 1;
+  line-height: var(--fuente-cuerpo-altura);
+  color: var(--texto-primario);
+}
+
+/* ─── Colapso (solo escritorio): ocultar texto/badge, centrar iconos ──────── */
+
+@media (min-width: 768px) {
+  .sidebarColapsado .item {
+    justify-content: center;
+    padding: var(--espacio-1);
+    gap: 0;
+  }
+
+  .sidebarColapsado .itemTexto,
+  .sidebarColapsado .badge {
+    display: none;
+  }
+
+  .sidebarColapsado .itemContenido {
+    display: contents;
+  }
+}
+
+/* ─── Módulos en standby (deshabilitados) ─────────────────────────────────── */
+
+.itemStandby {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.itemStandby:hover {
+  transform: none;
+  opacity: 0.75;
+}
+
+.itemStandby .itemIcono,
+.itemStandby .itemTexto {
+  color: var(--texto-secundario);
+}
+
+.itemContenido {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.itemContenido .itemTexto {
+  color: var(--texto-secundario);
+}
+
+.badge {
+  align-self: flex-start;
   font-size: var(--fuente-leyenda-tam);
   font-weight: var(--fuente-subtitulo-peso);
   line-height: var(--fuente-leyenda-altura);
   color: var(--texto-secundario);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 0 var(--espacio-1);
+  background-color: var(--gris-200);
+  padding: 1px var(--espacio-1);
+  border-radius: var(--radio-full);
+  white-space: nowrap;
 }
 
-.pie {
-  margin-top: auto;
-}
+/* ─── Logout ──────────────────────────────────────────────────────────────── */
 
 .logout {
-  width: 100%;
+  color: var(--texto-primario);
 }
 
-/* ─── Botón de cerrar (solo visible dentro del drawer móvil) ──────────────── */
+/* ─── Botón de cerrar (solo drawer móvil) ─────────────────────────────────── */
 
 .cerrar {
   display: none;
@@ -112,7 +321,7 @@
   display: none;
 }
 
-/* ─── Móvil: la barra lateral pasa a ser un drawer deslizable ─────────────── */
+/* ─── Móvil: drawer deslizable, sin colapso ───────────────────────────────── */
 
 @media (max-width: 767px) {
   .topbar {
@@ -121,6 +330,11 @@
 
   .cerrar {
     display: inline-flex;
+  }
+
+  /* En móvil el toggle de colapso no aplica */
+  .toggle {
+    display: none;
   }
 
   .sidebar {
@@ -135,6 +349,16 @@
     transform: translateX(-100%);
     transition: transform var(--transicion-base);
     box-shadow: var(--sombra-clara);
+  }
+
+  /* En el drawer siempre se muestran las etiquetas completas */
+  .sidebarColapsado {
+    width: min(85vw, 320px);
+    padding: var(--espacio-3) var(--espacio-2);
+  }
+
+  .sidebarColapsado .marca {
+    flex-direction: row;
   }
 
   .sidebarAbierto {
@@ -158,7 +382,15 @@
   }
 }
 
-/* Respetar preferencia de movimiento reducido para el deslizamiento */
+/* ─── Escritorio: ocultar el botón de cerrar del drawer ───────────────────── */
+
+@media (min-width: 768px) {
+  .cerrar {
+    display: none;
+  }
+}
+
+/* Respetar preferencia de movimiento reducido */
 @media (prefers-reduced-motion: reduce) {
   .sidebar,
   .overlay {

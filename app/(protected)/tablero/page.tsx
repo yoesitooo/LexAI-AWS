@@ -18,7 +18,14 @@
  */
 
 import { useEffect, useState, useRef, useCallback } from "react";
-import { Tarjeta, BadgeEstado, Boton, ModalRegistro, ModalDetalle } from "@/components";
+import {
+  Tarjeta,
+  BadgeEstado,
+  Boton,
+  Modal,
+  ModalRegistro,
+  ModalDetalle,
+} from "@/components";
 import type { EstadoProceso } from "@/components";
 import { t } from "@/lib/i18n";
 import { parseSujetosProcesales } from "@/lib/parse-sujetos";
@@ -82,6 +89,7 @@ function TarjetaProceso({
   onDragEnd,
   onKeyDown,
   onVerDetalle,
+  onEliminar,
 }: {
   proceso: ProcesoKanban;
   isDragging: boolean;
@@ -90,6 +98,7 @@ function TarjetaProceso({
   onDragEnd: (e: React.DragEvent) => void;
   onKeyDown: (e: React.KeyboardEvent) => void;
   onVerDetalle: () => void;
+  onEliminar: () => void;
 }) {
   const sujetos = parseSujetosProcesales(proceso.sujetos_procesales);
   const ultimaActuacion =
@@ -166,7 +175,7 @@ function TarjetaProceso({
         <BadgeEstado estado={proceso.columna_kanban as EstadoProceso} />
       </div>
 
-      {/* Acción: ver detalle completo */}
+      {/* Acciones: ver detalle / eliminar */}
       <div className={styles.tarjetaAcciones}>
         <button
           type="button"
@@ -180,8 +189,46 @@ function TarjetaProceso({
         >
           {t("kanban.ver_proceso")}
         </button>
+        <button
+          type="button"
+          className={styles.botonEliminar}
+          aria-label={t("kanban.eliminar_proceso")}
+          title={t("kanban.eliminar_proceso")}
+          onClick={(e) => {
+            e.stopPropagation();
+            onEliminar();
+          }}
+          onPointerDown={(e) => e.stopPropagation()}
+          draggable={false}
+        >
+          <IconoBasura />
+        </button>
       </div>
     </Tarjeta>
+  );
+}
+
+/** Ícono de papelera monocromático (hereda el color del botón). */
+function IconoBasura() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M3 6h18" />
+      <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+      <line x1="10" y1="11" x2="10" y2="17" />
+      <line x1="14" y1="11" x2="14" y2="17" />
+    </svg>
   );
 }
 
@@ -201,6 +248,7 @@ function ColumnaKanban({
   onCardDragEnd,
   onCardKeyDown,
   onVerDetalle,
+  onEliminar,
 }: {
   columnaKey: string;
   estado: EstadoProceso;
@@ -215,6 +263,7 @@ function ColumnaKanban({
   onCardDragEnd: (e: React.DragEvent) => void;
   onCardKeyDown: (proceso: ProcesoKanban) => (e: React.KeyboardEvent) => void;
   onVerDetalle: (proceso: ProcesoKanban) => void;
+  onEliminar: (proceso: ProcesoKanban) => void;
 }) {
   const listClasses = [
     styles.columnaLista,
@@ -247,6 +296,7 @@ function ColumnaKanban({
               onDragEnd={onCardDragEnd}
               onKeyDown={onCardKeyDown(proceso)}
               onVerDetalle={() => onVerDetalle(proceso)}
+              onEliminar={() => onEliminar(proceso)}
             />
           </div>
         ))}
@@ -273,6 +323,22 @@ export default function KanbanPage() {
     setDetalleId(proceso.id);
     setDetalleAbierto(true);
   }, []);
+
+  // Eliminación de proceso (con confirmación)
+  const [procesoAEliminar, setProcesoAEliminar] = useState<ProcesoKanban | null>(null);
+  const [eliminando, setEliminando] = useState(false);
+  const [errorEliminar, setErrorEliminar] = useState<string | null>(null);
+
+  const handleEliminarClick = useCallback((proceso: ProcesoKanban) => {
+    setErrorEliminar(null);
+    setProcesoAEliminar(proceso);
+  }, []);
+
+  const cancelarEliminar = useCallback(() => {
+    if (eliminando) return;
+    setProcesoAEliminar(null);
+    setErrorEliminar(null);
+  }, [eliminando]);
 
   // DnD state
   const [draggingProceso, setDraggingProceso] = useState<ProcesoKanban | null>(null);
@@ -319,6 +385,31 @@ export default function KanbanPage() {
   useEffect(() => {
     cargarProcesos();
   }, [cargarProcesos]);
+
+  const confirmarEliminar = useCallback(async () => {
+    if (!procesoAEliminar) return;
+    setEliminando(true);
+    setErrorEliminar(null);
+    try {
+      const res = await fetch(`/api/procesos/${procesoAEliminar.id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) {
+        if (res.status === 401) {
+          window.location.href = "/login";
+          return;
+        }
+        setErrorEliminar(t("eliminar.error"));
+        return;
+      }
+      setProcesoAEliminar(null);
+      await cargarProcesos();
+    } catch {
+      setErrorEliminar(t("eliminar.error"));
+    } finally {
+      setEliminando(false);
+    }
+  }, [procesoAEliminar, cargarProcesos]);
 
   // ─── PATCH helper ───────────────────────────────────────────────────────
 
@@ -558,6 +649,40 @@ export default function KanbanPage() {
         onCerrar={() => setDetalleAbierto(false)}
         procesoId={detalleId}
       />
+      <Modal
+        abierto={procesoAEliminar !== null}
+        onCerrar={cancelarEliminar}
+        titulo={t("eliminar.titulo")}
+        etiquetaCerrar={t("eliminar.cancelar")}
+      >
+        <div className={styles.eliminarContenido}>
+          <p className={styles.eliminarTexto}>{t("eliminar.confirmacion")}</p>
+          {procesoAEliminar && (
+            <p className={styles.eliminarRadicado}>{procesoAEliminar.radicado}</p>
+          )}
+          {errorEliminar && (
+            <p className={styles.eliminarError} role="alert">
+              {errorEliminar}
+            </p>
+          )}
+          <div className={styles.eliminarAcciones}>
+            <Boton
+              variante="secundario"
+              onClick={cancelarEliminar}
+              disabled={eliminando}
+            >
+              {t("eliminar.cancelar")}
+            </Boton>
+            <Boton
+              variante="acento"
+              onClick={confirmarEliminar}
+              cargando={eliminando}
+            >
+              {t("eliminar.confirmar")}
+            </Boton>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 
@@ -626,6 +751,7 @@ export default function KanbanPage() {
               onCardDragEnd={handleDragEnd}
               onCardKeyDown={handleCardKeyDown}
               onVerDetalle={handleVerDetalle}
+              onEliminar={handleEliminarClick}
             />
           ))}
         </div>
@@ -687,6 +813,7 @@ export default function KanbanPage() {
             onCardDragEnd={handleDragEnd}
             onCardKeyDown={handleCardKeyDown}
             onVerDetalle={handleVerDetalle}
+            onEliminar={handleEliminarClick}
           />
         ))}
       </div>

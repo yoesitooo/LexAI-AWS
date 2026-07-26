@@ -192,3 +192,52 @@ export async function PATCH(
     );
   }
 }
+
+// ─── DELETE: Eliminar proceso ───────────────────────────────────────────────
+
+export async function DELETE(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  try {
+    const session = await auth();
+
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: "No autenticado." },
+        { status: 401 },
+      );
+    }
+
+    const { id } = await params;
+    const usuarioId = session.user.id;
+
+    // Verificar propiedad del proceso (404 si no existe o no es del usuario)
+    const procesoExistente = await prisma.proceso.findFirst({
+      where: {
+        id,
+        usuario_id: usuarioId,
+      },
+      select: { id: true },
+    });
+
+    if (!procesoExistente) {
+      return NextResponse.json(
+        { error: "Proceso no encontrado." },
+        { status: 404 },
+      );
+    }
+
+    // Eliminar el proceso. Las actuaciones y plazos asociados se eliminan en
+    // cascada (onDelete: Cascade en el esquema).
+    await prisma.proceso.delete({ where: { id } });
+
+    return NextResponse.json({ mensaje: "Proceso eliminado." });
+  } catch (error) {
+    console.error("[DELETE /api/procesos/:id] Error:", error);
+    return NextResponse.json(
+      { error: "Error interno del servidor." },
+      { status: 500 },
+    );
+  }
+}
