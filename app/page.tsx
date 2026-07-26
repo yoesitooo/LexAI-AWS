@@ -33,7 +33,7 @@ export default async function LandingPage() {
     <main className={styles.pagina}>
       <div className={styles.contenido}>
         <header className={styles.encabezado}>
-          <Logo variant="full" theme="dark" height={56} />
+          <Logo variant="full" height={56} />
           <p className={styles.subtitulo}>{t("app.subtitulo")}</p>
         </header>
 
@@ -44,7 +44,7 @@ export default async function LandingPage() {
           {beneficios.map((beneficio) => (
             <li key={beneficio} className={styles.beneficio}>
               <span className={styles.beneficioIcono} aria-hidden="true">
-                ✓
+                •
               </span>
               {beneficio}
             </li>

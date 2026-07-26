@@ -226,7 +226,7 @@ export function Sidebar() {
             ☰
           </span>
         </button>
-        <Logo variant="full" theme="dark" height={28} />
+        <Logo variant="compact" height={28} />
       </header>
 
       {/* Overlay (solo móvil, al abrir el drawer) */}
@@ -246,8 +246,7 @@ export function Sidebar() {
       >
         <div className={styles.marca}>
           <Logo
-            variant={colapsado ? "icon" : "full"}
-            theme="dark"
+            variant={colapsado ? "compact" : "full"}
             height={colapsado ? 28 : 36}
           />
 

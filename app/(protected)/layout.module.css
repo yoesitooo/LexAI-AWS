@@ -21,3 +21,11 @@
     flex-direction: column;
   }
 }
+
+/* ─── Pantallas estrechas (≤480px): ajustar padding del contenido ─────────── */
+
+@media (max-width: 480px) {
+  .main {
+    padding: var(--espacio-1);
+  }
+}

@@ -41,3 +41,6 @@ next-env.d.ts
 
 # Prisma generated client (regenerated on install)
 /lib/generated/
+
+# Uploaded files (local storage, not versioned)
+uploads/

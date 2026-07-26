@@ -71,7 +71,7 @@ export default function LoginPage() {
     <main className={styles.pagina}>
       <div className={styles.contenedor}>
         <header className={styles.encabezado}>
-          <Logo variant="full" theme="dark" height={48} />
+          <Logo variant="full" height={40} />
           <h1 className={styles.titulo}>{t('auth.login.titulo')}</h1>
         </header>
 

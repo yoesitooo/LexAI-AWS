@@ -108,6 +108,35 @@ export const es = {
   "detalle.sin_actuaciones": "No se encontraron actuaciones.",
   "detalle.sin_plazos": "No hay plazos activos.",
 
+  // --- Detalle: Tabs ---
+  "detalle.tab.general": "General",
+  "detalle.tab.actuaciones": "Actuaciones",
+  "detalle.tab.plazos": "Plazos",
+  "detalle.tab.expediente": "Expediente digital",
+  "detalle.tab.comentarios": "Comentarios",
+
+  // --- Expediente digital ---
+  "detalle.expediente.proximamente": "Los documentos del expediente digital estarán disponibles aquí.",
+  "detalle.expediente.drop_texto": "Arrastre archivos aquí o haga clic para seleccionar",
+  "detalle.expediente.drop_subtexto": "PDF, imágenes o Word — máximo 10 MB por archivo",
+  "detalle.expediente.subiendo": "Subiendo archivo...",
+  "detalle.expediente.vacio": "No hay documentos en el expediente.",
+  "detalle.expediente.error_subir": "No se pudo subir el archivo. Intente de nuevo.",
+  "detalle.expediente.error_cargar": "No se pudieron cargar los documentos.",
+  "detalle.expediente.error_tipo": "Tipo de archivo no permitido. Use PDF, imágenes o Word.",
+  "detalle.expediente.error_tamano": "El archivo excede el tamaño máximo de 10 MB.",
+  "detalle.expediente.descargar": "Descargar",
+  "detalle.expediente.eliminar": "Eliminar",
+  "detalle.expediente.confirmar_eliminar": "¿Eliminar este documento?",
+
+  // --- Comentarios ---
+  "detalle.comentarios.vacio": "No hay comentarios para este proceso.",
+  "detalle.comentarios.placeholder": "Escribe un comentario...",
+  "detalle.comentarios.agregar": "Agregar",
+  "detalle.comentarios.por": "por",
+  "detalle.comentarios.error_cargar": "No se pudieron cargar los comentarios.",
+  "detalle.comentarios.error_enviar": "No se pudo enviar el comentario. Intente de nuevo.",
+
   // --- Plazos ---
   "plazo.estado.pendiente": "Pendiente",
   "plazo.estado.cumplido": "Cumplido",

@@ -94,6 +94,8 @@ model Usuario {
   procesos             Proceso[]
   notificaciones       Notificacion[]
   notificaciones_inapp NotificacionInapp[]
+  comentarios          ComentarioProceso[]
+  documentos           DocumentoProceso[]
 
   @@unique([email], map: "ux_usuario_email")
   @@map("usuario")
@@ -139,9 +141,11 @@ model Proceso {
   actualizado_en     DateTime      @default(now()) @updatedAt @db.Timestamptz()
 
   // Relaciones
-  usuario     Usuario     @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
-  actuaciones Actuacion[]
-  plazos      Plazo[]
+  usuario      Usuario             @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+  actuaciones  Actuacion[]
+  plazos       Plazo[]
+  comentarios  ComentarioProceso[]
+  documentos   DocumentoProceso[]
 
   @@unique([usuario_id, radicado], map: "ux_proceso_usuario_radicado")
   @@index([usuario_id], map: "ix_proceso_usuario")
@@ -249,4 +253,39 @@ model IntentoLogin {
 
   @@index([email, creado_en], map: "ix_intento_email_tiempo")
   @@map("intento_login")
+}
+
+/// Comentario de un usuario sobre un proceso (notas personales de seguimiento).
+model ComentarioProceso {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  proceso_id String   @db.Uuid
+  usuario_id String   @db.Uuid
+  texto      String   @db.Text
+  creado_en  DateTime @default(now()) @db.Timestamptz()
+
+  // Relaciones
+  proceso Proceso @relation(fields: [proceso_id], references: [id], onDelete: Cascade)
+  usuario Usuario @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+
+  @@index([proceso_id, creado_en], map: "ix_comentario_proceso_fecha")
+  @@map("comentario_proceso")
+}
+
+
+/// Documento adjunto al expediente digital de un proceso.
+model DocumentoProceso {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  proceso_id    String   @db.Uuid
+  usuario_id    String   @db.Uuid
+  nombre        String   @db.VarChar(255)
+  nombre_disco  String   @db.VarChar(255)
+  tipo_mime     String   @db.VarChar(100)
+  tamano_bytes  Int
+  creado_en     DateTime @default(now()) @db.Timestamptz()
+
+  proceso Proceso @relation(fields: [proceso_id], references: [id], onDelete: Cascade)
+  usuario Usuario @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+
+  @@index([proceso_id, creado_en], map: "ix_documento_proceso_fecha")
+  @@map("documento_proceso")
 }

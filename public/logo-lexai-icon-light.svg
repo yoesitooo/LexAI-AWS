@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-labelledby="lexai-icon-title-light">
-  <title id="lexai-icon-title-light">LexAI</title>
-  <!-- LexAI Isotipo — Light variant (for favicons on dark backgrounds) -->
-  <!-- Angular L-bracket with AI node dot — minimal, legible at small sizes -->
-  <g fill="#F5F5F5">
-    <path d="M10 6 L10 42 L30 42 L30 36 L16 36 L16 6 Z"/>
-    <circle cx="36" cy="36" r="5"/>
-  </g>
-</svg>

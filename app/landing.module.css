@@ -100,7 +100,7 @@
   padding: 0 var(--espacio-4);
   border: none;
   border-radius: var(--radio);
-  background-color: var(--acento-critico);
+  background-color: var(--texto-primario);
   color: var(--gris-50);
   font-family: var(--fuente-familia);
   font-size: var(--fuente-cuerpo-tam);

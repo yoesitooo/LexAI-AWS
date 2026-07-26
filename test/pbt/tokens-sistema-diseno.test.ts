@@ -217,6 +217,9 @@ describe("Property 33: Invariantes de tokens del sistema de diseño", () => {
       /\.campoError/,
       /\.obligatorio/,
       /\.alerta/,
+      /\.avisoPrivado/,
+      /\.acento/,
+      /\.badgeNueva/,
     ];
 
     fc.assert(

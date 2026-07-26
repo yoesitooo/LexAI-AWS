@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ModalDetalle — Estilos del modal de detalle de proceso
+   ModalDetalle — Estilos del modal de detalle de proceso (con tabs)
    ========================================================================== */
 
 .cargando {
@@ -13,6 +13,64 @@
   padding: var(--espacio-2);
 }
 
+/* ─── Tab bar ─────────────────────────────────────────────────────────────── */
+
+.tabBar {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--borde, #e0e0e0);
+  margin-bottom: var(--espacio-3);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.tabBar::-webkit-scrollbar {
+  height: 4px;
+}
+
+.tabBar::-webkit-scrollbar-thumb {
+  background: var(--borde, #ccc);
+  border-radius: 2px;
+}
+
+.tab {
+  flex-shrink: 0;
+  padding: var(--espacio-2) var(--espacio-3);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-size: var(--fuente-cuerpo-tam, 0.9rem);
+  font-weight: 500;
+  color: var(--texto-secundario, #555);
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.tab:hover {
+  color: var(--texto-primario, #1a1a2e);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--acento-primario, #1976d2);
+  outline-offset: -2px;
+}
+
+.tabActiva {
+  color: var(--texto-primario, #1a1a2e);
+  font-weight: 600;
+  border-bottom-color: var(--acento-primario, #1976d2);
+}
+
+/* ─── Tab panel ───────────────────────────────────────────────────────────── */
+
+.tabPanel {
+  min-height: 200px;
+}
+
+/* ─── Secciones (reutilizado dentro de tabs) ──────────────────────────────── */
+
 .seccion {
   margin-bottom: var(--espacio-3);
 }
@@ -22,15 +80,6 @@
   font-weight: 600;
   color: var(--texto-primario, #1a1a2e);
   margin: 0 0 var(--espacio-2) 0;
-}
-
-.listaActuaciones {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--espacio-2);
 }
 
 /* ─── Aviso de proceso privado ────────────────────────────────────────────── */
@@ -93,6 +142,17 @@
   word-break: break-all;
 }
 
+/* ─── Lista de actuaciones ─────────────────────────────────────────────────── */
+
+.listaActuaciones {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+}
+
 .actuacionItem {
   padding: var(--espacio-2);
   border: 1px solid var(--borde);
@@ -141,6 +201,8 @@
   margin: 0;
 }
 
+/* ─── Lista de plazos ──────────────────────────────────────────────────────── */
+
 .listaPlazos {
   list-style: none;
   margin: 0;
@@ -168,6 +230,189 @@
 
 .plazoFecha {
   font-size: 0.85rem;
+  color: var(--texto-secundario, #555);
+}
+
+/* ─── Placeholder (expediente digital) ────────────────────────────────────── */
+
+.placeholder {
+  text-align: center;
+  padding: var(--espacio-4, 2rem) var(--espacio-2);
+  color: var(--texto-secundario, #555);
+  font-style: italic;
+}
+
+/* ─── Expediente digital — Drop zone ──────────────────────────────────────── */
+
+.dropZone {
+  border: 2px dashed var(--borde);
+  border-radius: var(--radio);
+  padding: var(--espacio-4) var(--espacio-2);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+  margin-bottom: var(--espacio-3);
+}
+
+.dropZone:hover,
+.dropZoneDragOver {
+  border-color: var(--texto-secundario);
+  background-color: var(--gris-100);
+}
+
+.dropZoneTexto {
+  font-size: var(--fuente-cuerpo-tam);
+  color: var(--texto-secundario);
+  margin: 0 0 var(--espacio-1) 0;
+}
+
+.dropZoneSubtexto {
+  font-size: var(--fuente-leyenda-tam);
+  color: var(--texto-secundario);
+  opacity: 0.7;
+}
+
+/* ─── Document list ───────────────────────────────────────────────────────── */
+
+.listaDocumentos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-1);
+}
+
+.documentoItem {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-2);
+  padding: var(--espacio-2);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  background-color: var(--superficie);
+}
+
+.documentoInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.documentoNombre {
+  font-size: var(--fuente-cuerpo-tam);
+  font-weight: 500;
+  color: var(--texto-primario);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.documentoMeta {
+  font-size: var(--fuente-leyenda-tam);
+  color: var(--texto-secundario);
+}
+
+.documentoAcciones {
+  display: flex;
+  gap: var(--espacio-1);
+}
+
+.documentoBoton {
+  padding: 4px 8px;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-sm, 4px);
+  background: var(--superficie);
+  color: var(--texto-primario);
+  font-size: var(--fuente-leyenda-tam);
+  cursor: pointer;
+  min-height: 32px;
+}
+
+.documentoBoton:hover {
+  background-color: var(--gris-200);
+}
+
+.documentoBotonEliminar:hover {
+  border-color: var(--acento-critico);
+  color: var(--acento-critico);
+}
+
+/* ─── Comentarios ──────────────────────────────────────────────────────────── */
+
+.comentarioForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+  margin-bottom: var(--espacio-3);
+}
+
+.comentarioTextarea {
+  width: 100%;
+  min-height: 80px;
+  padding: var(--espacio-2);
+  border: 1px solid var(--borde, #ccc);
+  border-radius: var(--radio);
+  font-family: inherit;
+  font-size: var(--fuente-cuerpo-tam, 0.9rem);
+  color: var(--texto-primario);
+  background-color: var(--superficie, #fff);
+  resize: vertical;
+}
+
+.comentarioTextarea:focus {
+  outline: 2px solid var(--acento-primario, #1976d2);
+  outline-offset: -1px;
+  border-color: var(--acento-primario, #1976d2);
+}
+
+.comentarioBoton {
+  align-self: flex-end;
+  padding: var(--espacio-1) var(--espacio-3);
+  background-color: var(--acento-primario, #1976d2);
+  color: var(--gris-50);
+  border: none;
+  border-radius: var(--radio);
+  font-size: var(--fuente-cuerpo-tam, 0.9rem);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.comentarioBoton:hover {
+  background-color: var(--acento-primario-hover, #1565c0);
+}
+
+.comentarioBoton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.listaComentarios {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+}
+
+.comentarioItem {
+  padding: var(--espacio-2);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  background-color: var(--superficie);
+}
+
+.comentarioTexto {
+  font-size: var(--fuente-cuerpo-tam, 0.9rem);
+  color: var(--texto-primario);
+  margin: 0 0 var(--espacio-1) 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.comentarioMeta {
+  font-size: var(--fuente-leyenda-tam, 0.75rem);
   color: var(--texto-secundario, #555);
 }
 

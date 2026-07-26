@@ -83,7 +83,7 @@ describe('Integración de accesibilidad — Reflow a 320px (R18.7)', () => {
 
 describe('Integración de accesibilidad — ARIA live en drag-and-drop (R18.5)', () => {
   const kanbanSource = fs.readFileSync(
-    path.resolve(__dirname, '../app/(protected)/page.tsx'),
+    path.resolve(__dirname, '../app/(protected)/tablero/page.tsx'),
     'utf-8',
   );
 
@@ -188,65 +188,49 @@ describe('Integración de accesibilidad — prefers-reduced-motion (R16.6)', () 
   });
 });
 
-// ─── 5. Logo en tamaños, wordmark y fallback (R17.1, R17.2, R17.3, R17.5) ──
+// ─── 5. Logo puro CSS texto (R17.1, R17.2, R17.3, R17.5) ──────────────────
 
-describe('Integración de accesibilidad — Logo en tamaños y variantes (R17.1, R17.2, R17.3, R17.5)', () => {
+describe('Integración de accesibilidad — Logo puro CSS (R17.1, R17.2, R17.3, R17.5)', () => {
   const logoSource = fs.readFileSync(
     path.resolve(__dirname, '../components/Logo.tsx'),
     'utf-8',
   );
 
-  it('Logo usa SVG como fuente (R17.1 — vectorial)', () => {
-    expect(logoSource).toContain('.svg');
-    expect(logoSource).toContain('logo-lexai');
+  it('Logo no usa <img> tags (no SVG images)', () => {
+    expect(logoSource).not.toContain('<img');
   });
 
-  it('Logo soporta variantes dark y light (R17.1 — monocromático con temas)', () => {
-    expect(logoSource).toContain("dark: '/logo-lexai-dark.svg'");
-    expect(logoSource).toContain("light: '/logo-lexai-light.svg'");
-  });
-
-  it('Logo acepta height como prop para renderizar a diferentes tamaños (R17.2)', () => {
-    expect(logoSource).toContain('height');
-    // Verifica que se calcula width proporcional
-    expect(logoSource).toContain('aspectRatios');
-    expect(logoSource).toContain('width');
-  });
-
-  it('Logo cambia a wordmark cuando height ≤ 24px (R17.3)', () => {
-    expect(logoSource).toContain('height <= 24');
-    expect(logoSource).toContain("'wordmark'");
-  });
-
-  it('Logo tiene variante icon para favicon (R17.2)', () => {
-    expect(logoSource).toContain("'icon'");
-    expect(logoSource).toContain('logo-lexai-icon');
-  });
-
-  it('Logo implementa fallback a texto cuando SVG falla (R17.5)', () => {
-    expect(logoSource).toContain('svgFailed');
-    expect(logoSource).toContain('onError');
-    expect(logoSource).toContain('WordmarkFallback');
-  });
-
-  it('Fallback del logo tiene role="img" y aria-label para accesibilidad', () => {
+  it('Logo usa role="img" y aria-label para accesibilidad', () => {
     expect(logoSource).toContain('role="img"');
     expect(logoSource).toContain('aria-label');
   });
 
-  // Verificar que existen archivos SVG del logo (al menos la referencia en el código)
-  const logoVariants = [
-    '/logo-lexai-dark.svg',
-    '/logo-lexai-light.svg',
-    '/logo-lexai-icon-dark.svg',
-    '/logo-lexai-icon-light.svg',
-    '/logo-lexai-wordmark-dark.svg',
-    '/logo-lexai-wordmark-light.svg',
-  ];
+  it('Logo acepta height como prop para escalar (R17.2)', () => {
+    expect(logoSource).toContain('height');
+    expect(logoSource).toContain('fontSize');
+  });
 
-  logoVariants.forEach((variant) => {
-    it(`Logo referencia ${variant} en el código fuente`, () => {
-      expect(logoSource).toContain(variant);
-    });
+  it('Logo soporta variante "full" y "compact" (R17.3)', () => {
+    expect(logoSource).toContain("'full'");
+    expect(logoSource).toContain("'compact'");
+  });
+
+  it('Logo usa userSelect: none para evitar selección accidental', () => {
+    expect(logoSource).toContain('userSelect');
+    expect(logoSource).toContain('none');
+  });
+
+  it('Logo usa tokens CSS (--texto-primario, --texto-secundario)', () => {
+    expect(logoSource).toContain('var(--texto-primario)');
+    expect(logoSource).toContain('var(--texto-secundario)');
+  });
+
+  it('Logo muestra "LexAI" con fontWeight 700', () => {
+    expect(logoSource).toContain('fontWeight: 700');
+    expect(logoSource).toContain('LexAI');
+  });
+
+  it('Logo muestra "BY HORUMLABS" en variante full', () => {
+    expect(logoSource).toContain('BY HORUMLABS');
   });
 });
