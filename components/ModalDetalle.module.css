@@ -33,6 +33,29 @@
   gap: var(--espacio-2);
 }
 
+/* ─── Aviso de proceso privado ────────────────────────────────────────────── */
+
+.avisoPrivado {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--espacio-2);
+  margin-bottom: var(--espacio-2);
+  border: 1px solid var(--acento-critico);
+  border-radius: var(--radio);
+  background-color: var(--superficie);
+  font-size: var(--fuente-leyenda-tam);
+  line-height: var(--fuente-leyenda-altura);
+  color: var(--texto-secundario);
+}
+
+.avisoPrivadoEtiqueta {
+  font-weight: var(--fuente-subtitulo-peso);
+  color: var(--acento-critico);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
 /* ─── Información general ──────────────────────────────────────────────────── */
 
 .infoGrid {

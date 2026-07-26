@@ -13,6 +13,21 @@ export interface SujetosProcesales {
 }
 
 /**
+ * Determina si un proceso es privado a partir del campo `sujetos_procesales`.
+ *
+ * La fuente pública (CPNU) marca los procesos privados con un texto del tipo
+ * "--- [ PROCESO PRIVADO ] ---" en lugar de las partes reales, y no expone
+ * sujetos ni historial de actuaciones.
+ *
+ * @param raw - String crudo del campo sujetos_procesales
+ * @returns true si el proceso está marcado como privado por la fuente
+ */
+export function esProcesoPrivado(raw: string | null | undefined): boolean {
+  if (!raw) return false;
+  return /privado/i.test(raw);
+}
+
+/**
  * Parsea el string de sujetos procesales y extrae demandante y demandado.
  *
  * Formatos soportados:

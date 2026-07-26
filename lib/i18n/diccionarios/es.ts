@@ -79,6 +79,11 @@ export const es = {
   "detalle.demandante": "Demandante",
   "detalle.demandado": "Demandado",
   "detalle.sujetos": "Sujetos procesales",
+  "detalle.privado_etiqueta": "Proceso privado",
+  "detalle.privado_aviso":
+    "Este proceso es privado. La fuente pública (Rama Judicial) no expone las partes ni el historial de actuaciones.",
+  "detalle.sin_actuaciones_privado":
+    "Proceso privado: la fuente no expone el historial de actuaciones.",
   "detalle.estado_cpnu": "Última actuación (fuente)",
   "detalle.llave": "Llave del proceso",
   "detalle.seguimiento": "Seguimiento",

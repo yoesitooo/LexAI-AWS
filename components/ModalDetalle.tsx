@@ -5,7 +5,7 @@ import { Modal } from './Modal';
 import { Tarjeta } from './Tarjeta';
 import { t } from '@/lib/i18n';
 import { formatoFechaDate } from '@/lib/formato';
-import { parseSujetosProcesales } from '@/lib/parse-sujetos';
+import { parseSujetosProcesales, esProcesoPrivado } from '@/lib/parse-sujetos';
 import styles from './ModalDetalle.module.css';
 
 // ─── Tipos de respuesta de la API ───────────────────────────────────────────
@@ -154,6 +154,16 @@ export function ModalDetalle({ abierto, onCerrar, procesoId }: ModalDetalleProps
           {/* Sección: Información general del proceso */}
           <section className={styles.seccion} aria-label={t('detalle.info_general')}>
             <h3 className={styles.subtitulo}>{t('detalle.info_general')}</h3>
+
+            {esProcesoPrivado(proceso.sujetos_procesales) && (
+              <div className={styles.avisoPrivado} role="note">
+                <span className={styles.avisoPrivadoEtiqueta}>
+                  {t('detalle.privado_etiqueta')}
+                </span>
+                <span>{t('detalle.privado_aviso')}</span>
+              </div>
+            )}
+
             <Tarjeta compacta>
               <dl className={styles.infoGrid}>
                 <FilaInfo etiqueta={t('detalle.radicado')} valor={proceso.radicado} mono />
@@ -192,7 +202,11 @@ export function ModalDetalle({ abierto, onCerrar, procesoId }: ModalDetalleProps
           <section className={styles.seccion} aria-label={t('detalle.actuaciones')}>
             <h3 className={styles.subtitulo}>{t('detalle.actuaciones')}</h3>
             {proceso.actuaciones.length === 0 ? (
-              <p className={styles.vacio}>{t('detalle.sin_actuaciones')}</p>
+              <p className={styles.vacio}>
+                {esProcesoPrivado(proceso.sujetos_procesales)
+                  ? t('detalle.sin_actuaciones_privado')
+                  : t('detalle.sin_actuaciones')}
+              </p>
             ) : (
               <ul className={styles.listaActuaciones}>
                 {proceso.actuaciones.map((act) => (
