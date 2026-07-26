@@ -31,6 +31,12 @@
   padding: 0;
 }
 
+/* Variante amplia: ocupa más espacio de la pantalla, manteniéndose responsive */
+.dialogAmplio {
+  max-width: 960px;
+  width: 90vw;
+}
+
 /* Encabezado estático: no participa del scroll del cuerpo */
 .cabecera {
   flex: 0 0 auto;
@@ -113,6 +119,10 @@
 
   .dialog {
     max-height: 90vh;
+  }
+
+  .dialogAmplio {
+    width: 100%;
   }
 
   .cabecera {

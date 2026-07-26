@@ -25,6 +25,7 @@ import {
   Modal,
   ModalRegistro,
   ModalDetalle,
+  useToast,
 } from "@/components";
 import type { EstadoProceso } from "@/components";
 import { t } from "@/lib/i18n";
@@ -308,6 +309,7 @@ function ColumnaKanban({
 // ─── Página Principal Kanban ────────────────────────────────────────────────
 
 export default function KanbanPage() {
+  const { mostrarToast } = useToast();
   const [kanban, setKanban] = useState<KanbanData | null>(null);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -400,16 +402,18 @@ export default function KanbanPage() {
           return;
         }
         setErrorEliminar(t("eliminar.error"));
+        mostrarToast(t("eliminar.error"), "error");
         return;
       }
       setProcesoAEliminar(null);
       await cargarProcesos();
     } catch {
       setErrorEliminar(t("eliminar.error"));
+      mostrarToast(t("eliminar.error"), "error");
     } finally {
       setEliminando(false);
     }
-  }, [procesoAEliminar, cargarProcesos]);
+  }, [procesoAEliminar, cargarProcesos, mostrarToast]);
 
   // ─── PATCH helper ───────────────────────────────────────────────────────
 
@@ -443,6 +447,7 @@ export default function KanbanPage() {
           // Revert optimistic update
           setKanban(kanban);
           announce(t("kanban.dnd.error"));
+          mostrarToast(t("kanban.dnd.error"), "error");
           return false;
         }
 
@@ -458,10 +463,11 @@ export default function KanbanPage() {
         // Revert on network error
         setKanban(kanban);
         announce(t("kanban.dnd.error"));
+        mostrarToast(t("kanban.dnd.error"), "error");
         return false;
       }
     },
-    [kanban, announce],
+    [kanban, announce, mostrarToast],
   );
 
   // ─── HTML5 Drag & Drop handlers ────────────────────────────────────────

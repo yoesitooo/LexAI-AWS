@@ -2,7 +2,8 @@
  * @vitest-environment jsdom
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, type RenderResult } from '@testing-library/react';
+import { ToastProvider } from '@/components';
 
 // Mock next-auth/react
 const mockSignIn = vi.fn();
@@ -12,28 +13,54 @@ vi.mock('next-auth/react', () => ({
 
 // Mock next/navigation
 const mockPush = vi.fn();
+const mockReplace = vi.fn();
 const mockRefresh = vi.fn();
+let mockSearchParams = new URLSearchParams();
 vi.mock('next/navigation', () => ({
-  useRouter: () => ({ push: mockPush, refresh: mockRefresh }),
+  useRouter: () => ({ push: mockPush, replace: mockReplace, refresh: mockRefresh }),
+  useSearchParams: () => mockSearchParams,
 }));
 
 // Import after mocks
 import LoginPage from './page';
 
+// LoginPage usa useToast(), que requiere estar dentro de <ToastProvider>.
+function renderConProvider(): RenderResult {
+  return render(
+    <ToastProvider>
+      <LoginPage />
+    </ToastProvider>,
+  );
+}
+
 describe('LoginPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockSearchParams = new URLSearchParams();
+  });
+
+  it('muestra mensaje genérico y limpia la URL si Auth.js redirige con ?error=', async () => {
+    mockSearchParams = new URLSearchParams('error=Configuration');
+
+    renderConProvider();
+
+    await waitFor(() => {
+      const alerta = screen.getByRole('alert');
+      expect(alerta.textContent).toContain('Credenciales inválidas');
+    });
+
+    expect(mockReplace).toHaveBeenCalledWith('/login');
   });
 
   it('renderiza el formulario de login con campos de email y contraseña', () => {
-    render(<LoginPage />);
+    renderConProvider();
     expect(screen.getByLabelText(/correo electrónico/i)).toBeDefined();
     expect(screen.getByLabelText(/contraseña/i)).toBeDefined();
     expect(screen.getByRole('button', { name: /ingresar/i })).toBeDefined();
   });
 
   it('botón está deshabilitado cuando los campos están vacíos', () => {
-    render(<LoginPage />);
+    renderConProvider();
     const btn = screen.getByRole('button', { name: /ingresar/i });
     expect(btn).toHaveProperty('disabled', true);
   });
@@ -41,7 +68,7 @@ describe('LoginPage', () => {
   it('redirige al Kanban tras login exitoso', async () => {
     mockSignIn.mockResolvedValueOnce({ error: null, ok: true });
 
-    render(<LoginPage />);
+    renderConProvider();
 
     fireEvent.change(screen.getByLabelText(/correo electrónico/i), {
       target: { value: 'abogado@test.com' },
@@ -65,7 +92,7 @@ describe('LoginPage', () => {
   it('muestra mensaje genérico ante credenciales inválidas sin revelar el campo', async () => {
     mockSignIn.mockResolvedValueOnce({ error: 'CredentialsSignin', ok: false });
 
-    render(<LoginPage />);
+    renderConProvider();
 
     fireEvent.change(screen.getByLabelText(/correo electrónico/i), {
       target: { value: 'usuario@test.com' },
@@ -91,7 +118,7 @@ describe('LoginPage', () => {
   it('muestra mensaje de bloqueo cuando la cuenta está bloqueada', async () => {
     mockSignIn.mockResolvedValueOnce({ error: 'ACCOUNT_LOCKED', ok: false });
 
-    render(<LoginPage />);
+    renderConProvider();
 
     fireEvent.change(screen.getByLabelText(/correo electrónico/i), {
       target: { value: 'bloqueado@test.com' },
@@ -110,7 +137,7 @@ describe('LoginPage', () => {
   it('normaliza el email a minúsculas y sin espacios antes de enviar', async () => {
     mockSignIn.mockResolvedValueOnce({ error: null, ok: true });
 
-    render(<LoginPage />);
+    renderConProvider();
 
     fireEvent.change(screen.getByLabelText(/correo electrónico/i), {
       target: { value: '  Abogado@Test.COM  ' },
@@ -129,6 +156,25 @@ describe('LoginPage', () => {
     });
   });
 
+  it('muestra error de conexión si signIn lanza una excepción inesperada', async () => {
+    mockSignIn.mockRejectedValueOnce(new Error('network down'));
+
+    renderConProvider();
+
+    fireEvent.change(screen.getByLabelText(/correo electrónico/i), {
+      target: { value: 'usuario@test.com' },
+    });
+    fireEvent.change(screen.getByLabelText(/contraseña/i), {
+      target: { value: 'password123' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /ingresar/i }));
+
+    await waitFor(() => {
+      const alertas = screen.getAllByRole('alert');
+      expect(alertas.some((a) => a.textContent?.includes('No se pudo conectar'))).toBe(true);
+    });
+  });
+
   it('muestra estado de carga durante la autenticación', async () => {
     // Make signIn hang indefinitely until we resolve it
     let resolveSignIn: (value: unknown) => void;
@@ -136,7 +182,7 @@ describe('LoginPage', () => {
       () => new Promise((resolve) => { resolveSignIn = resolve; })
     );
 
-    render(<LoginPage />);
+    renderConProvider();
 
     fireEvent.change(screen.getByLabelText(/correo electrónico/i), {
       target: { value: 'test@test.com' },

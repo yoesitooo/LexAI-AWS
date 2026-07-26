@@ -19,6 +19,10 @@ export const authConfig = {
   },
   pages: {
     signIn: "/login",
+    // Sin página de error propia: cualquier redirección de error de
+    // Auth.js (ej. fallo de CSRF) vuelve a /login en vez del /api/auth/error
+    // genérico, para que el usuario siempre pueda reintentar el login.
+    error: "/login",
   },
   callbacks: {
     async authorized({ request, auth: session }) {

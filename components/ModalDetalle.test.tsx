@@ -2,8 +2,15 @@
  * @vitest-environment jsdom
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent, type RenderResult } from '@testing-library/react';
+import type { ReactElement } from 'react';
 import { ModalDetalle } from './ModalDetalle';
+import { ToastProvider } from './Toast';
+
+// ModalDetalle usa useToast(), que requiere estar dentro de <ToastProvider>.
+function renderConProvider(elemento: ReactElement): RenderResult {
+  return render(<ToastProvider>{elemento}</ToastProvider>);
+}
 
 // Mock de fetch global
 const mockFetch = vi.fn();
@@ -75,10 +82,11 @@ const procesoMock = {
 
 describe('ModalDetalle', () => {
   it('no renderiza nada cuando abierto=false', () => {
-    const { container } = render(
+    renderConProvider(
       <ModalDetalle abierto={false} onCerrar={vi.fn()} procesoId="123" />,
     );
-    expect(container.innerHTML).toBe('');
+    // ModalDetalle no renderiza nada; solo queda el viewport (vacío) del ToastProvider.
+    expect(screen.queryByRole('dialog')).toBeNull();
   });
 
   it('muestra indicador de carga al abrir', async () => {
@@ -87,7 +95,7 @@ describe('ModalDetalle', () => {
       json: async () => ({ proceso: procesoMock }),
     });
 
-    render(<ModalDetalle abierto={true} onCerrar={vi.fn()} procesoId="123" />);
+    renderConProvider(<ModalDetalle abierto={true} onCerrar={vi.fn()} procesoId="123" />);
 
     // Mientras carga, muestra "Cargando..."
     expect(screen.getByText('Cargando...')).toBeDefined();
@@ -99,7 +107,7 @@ describe('ModalDetalle', () => {
       json: async () => ({ proceso: procesoMock }),
     });
 
-    render(<ModalDetalle abierto={true} onCerrar={vi.fn()} procesoId="123" />);
+    renderConProvider(<ModalDetalle abierto={true} onCerrar={vi.fn()} procesoId="123" />);
 
     // Wait for process data to load
     await waitFor(() => {
@@ -127,7 +135,7 @@ describe('ModalDetalle', () => {
       json: async () => ({ error: 'Proceso no encontrado.' }),
     });
 
-    render(<ModalDetalle abierto={true} onCerrar={vi.fn()} procesoId="999" />);
+    renderConProvider(<ModalDetalle abierto={true} onCerrar={vi.fn()} procesoId="999" />);
 
     await waitFor(() => {
       expect(screen.getByRole('alert')).toBeDefined();
@@ -143,7 +151,7 @@ describe('ModalDetalle', () => {
       }),
     });
 
-    render(<ModalDetalle abierto={true} onCerrar={vi.fn()} procesoId="123" />);
+    renderConProvider(<ModalDetalle abierto={true} onCerrar={vi.fn()} procesoId="123" />);
 
     // Wait for data to load and tabs to render
     await waitFor(() => {
@@ -165,7 +173,7 @@ describe('ModalDetalle', () => {
       json: async () => ({ proceso: procesoMock }),
     });
 
-    render(<ModalDetalle abierto={true} onCerrar={vi.fn()} procesoId="abc-123" />);
+    renderConProvider(<ModalDetalle abierto={true} onCerrar={vi.fn()} procesoId="abc-123" />);
 
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalledWith('/api/procesos/abc-123');
@@ -178,7 +186,7 @@ describe('ModalDetalle', () => {
       json: async () => ({ proceso: procesoMock }),
     });
 
-    render(<ModalDetalle abierto={true} onCerrar={vi.fn()} procesoId="123" />);
+    renderConProvider(<ModalDetalle abierto={true} onCerrar={vi.fn()} procesoId="123" />);
 
     const dialog = screen.getByRole('dialog');
     expect(dialog.getAttribute('aria-modal')).toBe('true');
@@ -190,7 +198,7 @@ describe('ModalDetalle', () => {
       json: async () => ({ proceso: procesoMock }),
     });
 
-    render(<ModalDetalle abierto={true} onCerrar={vi.fn()} procesoId="123" />);
+    renderConProvider(<ModalDetalle abierto={true} onCerrar={vi.fn()} procesoId="123" />);
 
     await waitFor(() => {
       const generalTab = screen.getByRole('tab', { name: 'General' });
@@ -207,7 +215,7 @@ describe('ModalDetalle', () => {
       json: async () => ({ proceso: procesoMock }),
     });
 
-    render(<ModalDetalle abierto={true} onCerrar={vi.fn()} procesoId="123" />);
+    renderConProvider(<ModalDetalle abierto={true} onCerrar={vi.fn()} procesoId="123" />);
 
     await waitFor(() => {
       expect(screen.getByRole('tablist')).toBeDefined();

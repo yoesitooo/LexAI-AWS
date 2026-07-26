@@ -1,0 +1,47 @@
+/* ==========================================================================
+   Límite de error de ruta — Estilos
+   Solo se referencian CSS custom properties, sin literales de color.
+   ========================================================================== */
+
+.contenedor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--espacio-3);
+  background-color: var(--fondo);
+}
+
+.tarjeta {
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+}
+
+.titulo {
+  font-size: var(--fuente-titulo-tam);
+  font-weight: var(--fuente-titulo-peso);
+  line-height: var(--fuente-titulo-altura);
+  color: var(--texto-primario);
+  margin-bottom: var(--espacio-2);
+}
+
+.descripcion {
+  font-size: var(--fuente-cuerpo-tam);
+  line-height: var(--fuente-cuerpo-altura);
+  color: var(--texto-secundario);
+  margin-bottom: var(--espacio-3);
+}
+
+.acciones {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-1);
+}
+
+@media (min-width: 768px) {
+  .acciones {
+    flex-direction: row;
+    justify-content: center;
+  }
+}

@@ -8,9 +8,19 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, type RenderResult } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
+import { ToastProvider } from "@/components";
 import KanbanPage from "./page";
+
+// KanbanPage usa useToast(), que requiere estar dentro de <ToastProvider>.
+function renderConProvider(): RenderResult {
+  return render(
+    <ToastProvider>
+      <KanbanPage />
+    </ToastProvider>,
+  );
+}
 
 // Mock de fetch global
 const mockFetch = vi.fn();
@@ -122,7 +132,7 @@ describe("KanbanPage", () => {
 
   it("muestra estado de carga inicialmente", () => {
     mockFetch.mockReturnValue(new Promise(() => {})); // never resolves
-    render(<KanbanPage />);
+    renderConProvider();
     expect(screen.getByText("Cargando...")).toBeDefined();
   });
 
@@ -133,7 +143,7 @@ describe("KanbanPage", () => {
       json: async () => KANBAN_CON_PROCESOS,
     });
 
-    render(<KanbanPage />);
+    renderConProvider();
 
     await waitFor(() => {
       expect(screen.getByText("Mis procesos")).toBeDefined();
@@ -154,7 +164,7 @@ describe("KanbanPage", () => {
       json: async () => KANBAN_CON_PROCESOS,
     });
 
-    render(<KanbanPage />);
+    renderConProvider();
 
     await waitFor(() => {
       expect(screen.getByText("11001400300320230001200")).toBeDefined();
@@ -181,7 +191,7 @@ describe("KanbanPage", () => {
       json: async () => KANBAN_VACIO,
     });
 
-    render(<KanbanPage />);
+    renderConProvider();
 
     await waitFor(() => {
       expect(
@@ -201,7 +211,7 @@ describe("KanbanPage", () => {
       json: async () => KANBAN_CON_PROCESOS,
     });
 
-    render(<KanbanPage />);
+    renderConProvider();
 
     await waitFor(() => {
       expect(screen.getByText("11001400300320230001200")).toBeDefined();
@@ -226,7 +236,7 @@ describe("KanbanPage", () => {
       json: async () => ({ error: "Error interno" }),
     });
 
-    render(<KanbanPage />);
+    renderConProvider();
 
     await waitFor(() => {
       expect(screen.getByRole("alert")).toBeDefined();
@@ -240,7 +250,7 @@ describe("KanbanPage", () => {
       json: async () => KANBAN_CON_PROCESOS,
     });
 
-    render(<KanbanPage />);
+    renderConProvider();
 
     await waitFor(() => {
       expect(screen.getByText("11001400300320230001200")).toBeDefined();
@@ -267,7 +277,7 @@ describe("KanbanPage", () => {
       json: async () => KANBAN_CON_PROCESOS,
     });
 
-    render(<KanbanPage />);
+    renderConProvider();
 
     await waitFor(() => {
       expect(screen.getByText("11001400300320230001200")).toBeDefined();
@@ -288,7 +298,7 @@ describe("KanbanPage", () => {
       json: async () => KANBAN_CON_PROCESOS,
     });
 
-    render(<KanbanPage />);
+    renderConProvider();
 
     await waitFor(() => {
       expect(screen.getByText("11001400300320230001200")).toBeDefined();
@@ -307,7 +317,7 @@ describe("KanbanPage", () => {
       json: async () => KANBAN_CON_PROCESOS,
     });
 
-    render(<KanbanPage />);
+    renderConProvider();
 
     await waitFor(() => {
       expect(screen.getByText("11001400300320230001200")).toBeDefined();
@@ -325,7 +335,7 @@ describe("KanbanPage", () => {
       json: async () => KANBAN_CON_PROCESOS,
     });
 
-    render(<KanbanPage />);
+    renderConProvider();
 
     await waitFor(() => {
       expect(screen.getByText("11001400300320230001200")).toBeDefined();

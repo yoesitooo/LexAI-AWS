@@ -12,6 +12,12 @@ export interface ModalProps {
   titulo: string;
   /** Texto del botón de cerrar (para aria-label) */
   etiquetaCerrar?: string;
+  /**
+   * Ancho del modal.
+   * - `normal` (por defecto): ancho compacto (~600px)
+   * - `amplio`: ocupa más espacio de la pantalla (~960px / 90vw)
+   */
+  ancho?: 'normal' | 'amplio';
   /** Contenido del modal */
   children: ReactNode;
 }
@@ -32,6 +38,7 @@ export function Modal({
   onCerrar,
   titulo,
   etiquetaCerrar = 'Cerrar',
+  ancho = 'normal',
   children,
 }: ModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -132,7 +139,7 @@ export function Modal({
         role="dialog"
         aria-modal="true"
         aria-labelledby={tituloId}
-        className={styles.dialog}
+        className={`${styles.dialog} ${ancho === 'amplio' ? styles.dialogAmplio : ''}`}
         tabIndex={-1}
         onKeyDown={handleKeyDown}
       >

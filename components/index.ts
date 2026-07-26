@@ -13,3 +13,4 @@ export { ModalRegistro, type ModalRegistroProps } from './ModalRegistro';
 export { NavStandby, type NavStandbyProps } from './NavStandby';
 export { NavPrincipal, type NavPrincipalProps } from './NavPrincipal';
 export { Sidebar } from './Sidebar';
+export { ToastProvider, useToast, type TipoToast } from './Toast';

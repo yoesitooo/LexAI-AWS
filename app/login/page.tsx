@@ -13,20 +13,40 @@
  * Requisitos: R2.1, R2.2, R2.4
  */
 
-import { useState, type FormEvent } from 'react';
+import { Suspense, useState, useEffect, type FormEvent } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { Input, Boton, Tarjeta } from '@/components';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Input, Boton, Tarjeta, useToast } from '@/components';
 import { Logo } from '@/components/Logo';
 import { t } from '@/lib/i18n';
 import styles from './login.module.css';
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { mostrarToast } = useToast();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [cargando, setCargando] = useState(false);
+
+  // Si Auth.js redirige aquí con ?error= (ej. fallo de CSRF, sesión previa
+  // inválida), mostramos el mismo mensaje genérico en vez de dejar la
+  // página en blanco, y limpiamos el parámetro para permitir reintentar.
+  useEffect(() => {
+    if (searchParams.get('error')) {
+      setError(t('auth.login.error_generico'));
+      router.replace('/login');
+    }
+  }, [searchParams, router]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -61,7 +81,10 @@ export default function LoginPage() {
       router.push('/tablero');
       router.refresh();
     } catch {
-      setError(t('auth.login.error_generico'));
+      // Fallo inesperado (ej. red caída, servidor inalcanzable) — distinto
+      // de credenciales inválidas, se avisa también por toast.
+      setError(t('error.conexion'));
+      mostrarToast(t('error.conexion'), 'error');
     } finally {
       setCargando(false);
     }

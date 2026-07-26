@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback, useRef, type KeyboardEvent } from 'react';
 import { Modal } from './Modal';
 import { Tarjeta } from './Tarjeta';
+import { useToast } from './Toast';
 import { t } from '@/lib/i18n';
 import { formatoFechaDate, formatoHoraDate } from '@/lib/formato';
 import { formatoTamano } from '@/lib/formato-archivo';
@@ -128,6 +129,7 @@ export interface ModalDetalleProps {
  * Tabs con soporte de teclado (flechas, Enter/Space).
  */
 export function ModalDetalle({ abierto, onCerrar, procesoId }: ModalDetalleProps) {
+  const { mostrarToast } = useToast();
   const [proceso, setProceso] = useState<ProcesoDetalle | null>(null);
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -315,11 +317,13 @@ export function ModalDetalle({ abierto, onCerrar, procesoId }: ModalDetalleProps
 
       if (res.ok) {
         setDocumentos((prev) => prev.filter((d) => d.id !== docId));
+      } else {
+        mostrarToast(t('detalle.expediente.error_eliminar'), 'error');
       }
     } catch {
-      // Silently fail — the document remains in the list
+      mostrarToast(t('detalle.expediente.error_eliminar'), 'error');
     }
-  }, [procesoId]);
+  }, [procesoId, mostrarToast]);
 
   // ─── Effects ───────────────────────────────────────────────────────────
 
@@ -728,6 +732,7 @@ export function ModalDetalle({ abierto, onCerrar, procesoId }: ModalDetalleProps
       onCerrar={onCerrar}
       titulo={t('detalle.titulo')}
       etiquetaCerrar={t('auth.logout.boton').replace('Cerrar sesión', 'Cerrar')}
+      ancho="amplio"
     >
       {cargando && (
         <p className={styles.cargando} aria-live="polite">

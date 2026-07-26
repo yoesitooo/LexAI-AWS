@@ -113,7 +113,7 @@ export const es = {
   "detalle.tab.actuaciones": "Actuaciones",
   "detalle.tab.plazos": "Plazos",
   "detalle.tab.expediente": "Expediente digital",
-  "detalle.tab.comentarios": "Comentarios",
+  "detalle.tab.comentarios": "Notas",
 
   // --- Expediente digital ---
   "detalle.expediente.proximamente": "Los documentos del expediente digital estarán disponibles aquí.",
@@ -123,19 +123,20 @@ export const es = {
   "detalle.expediente.vacio": "No hay documentos en el expediente.",
   "detalle.expediente.error_subir": "No se pudo subir el archivo. Intente de nuevo.",
   "detalle.expediente.error_cargar": "No se pudieron cargar los documentos.",
+  "detalle.expediente.error_eliminar": "No se pudo eliminar el documento. Intente de nuevo.",
   "detalle.expediente.error_tipo": "Tipo de archivo no permitido. Use PDF, imágenes o Word.",
   "detalle.expediente.error_tamano": "El archivo excede el tamaño máximo de 10 MB.",
   "detalle.expediente.descargar": "Descargar",
   "detalle.expediente.eliminar": "Eliminar",
   "detalle.expediente.confirmar_eliminar": "¿Eliminar este documento?",
 
-  // --- Comentarios ---
-  "detalle.comentarios.vacio": "No hay comentarios para este proceso.",
-  "detalle.comentarios.placeholder": "Escribe un comentario...",
+  // --- Notas ---
+  "detalle.comentarios.vacio": "No hay notas para este proceso.",
+  "detalle.comentarios.placeholder": "Escribe una nota...",
   "detalle.comentarios.agregar": "Agregar",
   "detalle.comentarios.por": "por",
-  "detalle.comentarios.error_cargar": "No se pudieron cargar los comentarios.",
-  "detalle.comentarios.error_enviar": "No se pudo enviar el comentario. Intente de nuevo.",
+  "detalle.comentarios.error_cargar": "No se pudieron cargar las notas.",
+  "detalle.comentarios.error_enviar": "No se pudo enviar la nota. Intente de nuevo.",
 
   // --- Plazos ---
   "plazo.estado.pendiente": "Pendiente",
@@ -184,6 +185,11 @@ export const es = {
   "error.generico": "Ocurrió un error inesperado. Intente de nuevo.",
   "error.no_disponible": "Esta funcionalidad no está disponible en esta versión.",
   "error.cargando": "Cargando...",
+  "error.pagina.titulo": "Algo salió mal",
+  "error.pagina.descripcion": "Ocurrió un error inesperado en esta página. Puede intentar de nuevo o volver al tablero.",
+  "error.pagina.reintentar": "Reintentar",
+  "error.pagina.volver_tablero": "Volver al tablero",
+  "error.conexion": "No se pudo conectar con el servidor. Verifique su conexión e intente de nuevo.",
 
   // --- Saludo ejemplo (para documentación/test) ---
   "saludo": "Hola, {nombre}",

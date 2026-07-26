@@ -1,0 +1,100 @@
+/* ==========================================================================
+   Toast — Notificaciones efímeras de error/estado (esquina de la pantalla)
+   Solo se referencian CSS custom properties, sin literales de color.
+   Distinto del módulo de Notificaciones persistente (/notificaciones).
+   ========================================================================== */
+
+.viewport {
+  position: fixed;
+  top: var(--espacio-2);
+  left: var(--espacio-2);
+  right: var(--espacio-2);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-1);
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .viewport {
+    left: auto;
+    max-width: 360px;
+  }
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espacio-1);
+  padding: var(--espacio-2);
+  background-color: var(--superficie);
+  border-radius: var(--radio-sm);
+  border: 2px solid var(--borde);
+  box-shadow: var(--sombra-neumorfica);
+  pointer-events: auto;
+  animation: toast-entrada var(--transicion-base);
+}
+
+.mensaje {
+  flex: 1;
+  font-size: var(--fuente-cuerpo-tam);
+  line-height: var(--fuente-cuerpo-altura);
+  color: var(--texto-primario);
+}
+
+.cerrar {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radio-sm);
+  color: var(--texto-secundario);
+  font-size: var(--fuente-leyenda-tam);
+  cursor: pointer;
+  transition: background-color var(--transicion-rapida);
+}
+
+.cerrar:hover {
+  background-color: var(--gris-200);
+}
+
+/* --- Variante: error --- */
+.error {
+  border-color: var(--acento-critico);
+}
+
+.error .mensaje {
+  color: var(--acento-critico);
+}
+
+/* --- Variante: éxito --- */
+.exito {
+  border-color: var(--foco);
+}
+
+/* --- Variante: info --- */
+.info {
+  border-color: var(--texto-secundario);
+}
+
+@keyframes toast-entrada {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    animation: none;
+  }
+}
