@@ -242,6 +242,36 @@
   font-style: italic;
 }
 
+/* ─── Expediente digital — Sincronización con la Rama Judicial ────────────── */
+
+.sincronizarBarra {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--espacio-2);
+}
+
+.sincronizarBoton {
+  padding: var(--espacio-1) var(--espacio-3);
+  background-color: var(--acento-primario, #1976d2);
+  color: var(--gris-50, #fff);
+  border: none;
+  border-radius: var(--radio);
+  font-size: var(--fuente-cuerpo-tam, 0.9rem);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  min-height: 36px;
+}
+
+.sincronizarBoton:hover {
+  background-color: var(--acento-primario-hover, #1565c0);
+}
+
+.sincronizarBoton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /* ─── Expediente digital — Drop zone ──────────────────────────────────────── */
 
 .dropZone {
@@ -309,6 +339,16 @@
 
 .documentoMeta {
   font-size: var(--fuente-leyenda-tam);
+  color: var(--texto-secundario);
+}
+
+.documentoOrigenCpnu {
+  font-weight: 600;
+  color: var(--acento-primario, #1976d2);
+}
+
+.documentoOrigenManual {
+  font-style: italic;
   color: var(--texto-secundario);
 }
 

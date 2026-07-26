@@ -172,8 +172,9 @@ model Actuacion {
   creado_en           DateTime  @default(now()) @db.Timestamptz()
 
   // Relaciones
-  proceso Proceso @relation(fields: [proceso_id], references: [id], onDelete: Cascade)
-  plazos  Plazo[]
+  proceso    Proceso            @relation(fields: [proceso_id], references: [id], onDelete: Cascade)
+  plazos     Plazo[]
+  documentos DocumentoProceso[]
 
   @@unique([proceso_id, id_actuacion_cpnu], map: "ux_actuacion_proceso_cpnu")
   @@map("actuacion")
@@ -273,19 +274,33 @@ model ComentarioProceso {
 
 
 /// Documento adjunto al expediente digital de un proceso.
+///
+/// Puede tener dos orígenes (columna `origen`):
+/// - "manual": subido por el abogado (multipart en /api/procesos/[id]/documentos)
+/// - "cpnu":   descargado automáticamente de la Rama Judicial para una actuación
+///
+/// Para los de origen CPNU se guarda `actuacion_id` (a qué actuación pertenece)
+/// y `id_documento_cpnu` (idRegDocumento) para deduplicar entre revisiones.
 model DocumentoProceso {
-  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  proceso_id    String   @db.Uuid
-  usuario_id    String   @db.Uuid
-  nombre        String   @db.VarChar(255)
-  nombre_disco  String   @db.VarChar(255)
-  tipo_mime     String   @db.VarChar(100)
-  tamano_bytes  Int
-  creado_en     DateTime @default(now()) @db.Timestamptz()
+  id                String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  proceso_id        String   @db.Uuid
+  usuario_id        String   @db.Uuid
+  actuacion_id      String?  @db.Uuid
+  origen            String   @default("manual") @db.VarChar(16)
+  id_documento_cpnu String?  @db.VarChar(64)
+  nombre            String   @db.VarChar(255)
+  nombre_disco      String   @db.VarChar(255)
+  tipo_mime         String   @db.VarChar(100)
+  tamano_bytes      Int
+  creado_en         DateTime @default(now()) @db.Timestamptz()
 
-  proceso Proceso @relation(fields: [proceso_id], references: [id], onDelete: Cascade)
-  usuario Usuario @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+  proceso   Proceso    @relation(fields: [proceso_id], references: [id], onDelete: Cascade)
+  usuario   Usuario    @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+  actuacion Actuacion? @relation(fields: [actuacion_id], references: [id], onDelete: SetNull)
 
+  // Evita descargar dos veces el mismo documento CPNU en un proceso.
+  // (id_documento_cpnu es null para subidas manuales; Postgres permite múltiples nulls.)
+  @@unique([proceso_id, id_documento_cpnu], map: "ux_documento_proceso_cpnu")
   @@index([proceso_id, creado_en], map: "ix_documento_proceso_fecha")
   @@map("documento_proceso")
 }

@@ -1234,3 +1234,215 @@ describe("cpnu-client — paginación secuencial acotada (R4.6)", () => {
     });
   });
 });
+
+
+// =============================================================================
+// PRUEBAS DE NORMALIZACIÓN DE CAMPOS REALES DE LA CPNU
+// La API real usa conDocumentos/fechaInicial/fechaFinal; el contrato interno
+// usa existeDocs/fechaInicia/fechaFinaliza. El cliente debe normalizar.
+// =============================================================================
+
+describe("cpnu-client — normalización de campos reales (obtenerActuaciones)", () => {
+  it("mapea conDocumentos → existeDocs y fechaInicial/fechaFinal → fechaInicia/fechaFinaliza", async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        actuaciones: [
+          {
+            idRegActuacion: 868337562,
+            llaveProceso: "11001310303220170012300",
+            consActuacion: 26,
+            fechaActuacion: "2018-01-29T00:00:00",
+            actuacion: "Archivo Definitivo",
+            anotacion: "PAQUETE 10 DE 2018",
+            fechaInicial: "2018-02-01T00:00:00",
+            fechaFinal: "2018-02-10T00:00:00",
+            fechaRegistro: "2018-01-29T00:00:00",
+            codRegla: "00",
+            conDocumentos: true,
+            cant: 26,
+          },
+        ],
+        paginacion: { cantidadRegistros: 1, registrosPagina: 20, cantidadPaginas: 1, pagina: 1 },
+      }),
+    });
+
+    const cliente = crearClienteCPNU();
+    const result = await cliente.obtenerActuaciones(62627832);
+
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      const a = result.value[0]!;
+      expect(a.existeDocs).toBe(true);
+      expect(a.fechaInicia).toBe("2018-02-01T00:00:00");
+      expect(a.fechaFinaliza).toBe("2018-02-10T00:00:00");
+      expect(a.idRegActuacion).toBe(868337562);
+    }
+  });
+});
+
+// =============================================================================
+// PRUEBAS PARA obtenerDocumentosActuacion
+// =============================================================================
+
+describe("cpnu-client — obtenerDocumentosActuacion", () => {
+  function documentosMock() {
+    return [
+      {
+        idRegDocumento: 21525913,
+        idConexion: 175,
+        consActuacion: 8,
+        guidDocumento_SXXIW: null,
+        nombre: "5_OFICIOREMISION20230227",
+        descripcion: "5_OFICIOREMISIONOTROTRIBUNAL",
+        tipo: "pdf",
+        fechaCarga: "2023-02-27T00:00:00",
+      },
+    ];
+  }
+
+  it("consulta la URL correcta del endpoint de documentos", async () => {
+    mockFetch.mockResolvedValueOnce({ ok: true, json: async () => documentosMock() });
+
+    const cliente = crearClienteCPNU();
+    await cliente.obtenerDocumentosActuacion(1006146733);
+
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+    const url = mockFetch.mock.calls[0]![0];
+    expect(url).toBe(
+      "https://consultaprocesos.ramajudicial.gov.co:448/api/v2/Proceso/DocumentosActuacion/1006146733",
+    );
+  });
+
+  it("normaliza los documentos de la respuesta", async () => {
+    mockFetch.mockResolvedValueOnce({ ok: true, json: async () => documentosMock() });
+
+    const cliente = crearClienteCPNU();
+    const result = await cliente.obtenerDocumentosActuacion(1006146733);
+
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.value).toHaveLength(1);
+      const d = result.value[0]!;
+      expect(d.idRegDocumento).toBe(21525913);
+      expect(d.tipo).toBe("pdf");
+      expect(d.nombre).toBe("5_OFICIOREMISION20230227");
+      expect(d.consActuacion).toBe(8);
+    }
+  });
+
+  it("devuelve array vacío cuando la actuación no tiene documentos", async () => {
+    mockFetch.mockResolvedValueOnce({ ok: true, json: async () => [] });
+
+    const cliente = crearClienteCPNU();
+    const result = await cliente.obtenerDocumentosActuacion(1);
+
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.value).toEqual([]);
+    }
+  });
+
+  it("reintenta y devuelve fallo ante error HTTP persistente", async () => {
+    mockFetch
+      .mockResolvedValueOnce({ ok: false, status: 500, statusText: "Error" })
+      .mockResolvedValueOnce({ ok: false, status: 500, statusText: "Error" })
+      .mockResolvedValueOnce({ ok: false, status: 500, statusText: "Error" });
+
+    const cliente = crearClienteCPNU();
+    const result = await cliente.obtenerDocumentosActuacion(1);
+
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.error.tipo).toBe("fuente_no_disponible");
+    }
+    expect(mockFetch).toHaveBeenCalledTimes(3);
+  });
+});
+
+// =============================================================================
+// PRUEBAS PARA descargarDocumento (binario)
+// =============================================================================
+
+describe("cpnu-client — descargarDocumento", () => {
+  function respuestaBinaria(
+    bytes: Buffer,
+    headers: Record<string, string>,
+  ) {
+    return {
+      ok: true,
+      arrayBuffer: async () => bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength),
+      headers: {
+        get: (k: string) => headers[k.toLowerCase()] ?? null,
+      },
+    };
+  }
+
+  it("consulta la URL de descarga correcta", async () => {
+    mockFetch.mockResolvedValueOnce(
+      respuestaBinaria(Buffer.from("%PDF-1.4"), {
+        "content-type": "application/pdf",
+      }),
+    );
+
+    const cliente = crearClienteCPNU();
+    await cliente.descargarDocumento(21525913);
+
+    const url = mockFetch.mock.calls[0]![0];
+    expect(url).toBe(
+      "https://consultaprocesos.ramajudicial.gov.co:448/api/v2/Descarga/Documento/21525913",
+    );
+  });
+
+  it("devuelve el binario con tipo MIME y nombre del Content-Disposition", async () => {
+    const contenido = Buffer.from("%PDF-1.4 contenido");
+    mockFetch.mockResolvedValueOnce(
+      respuestaBinaria(contenido, {
+        "content-type": "application/pdf",
+        "content-disposition":
+          "attachment; filename=oficio.pdf; filename*=UTF-8''oficio.pdf",
+      }),
+    );
+
+    const cliente = crearClienteCPNU();
+    const result = await cliente.descargarDocumento(21525913);
+
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.value.tipoMime).toBe("application/pdf");
+      expect(result.value.nombreArchivo).toBe("oficio.pdf");
+      expect(result.value.tamanoBytes).toBe(contenido.length);
+      expect(result.value.contenido.length).toBe(contenido.length);
+    }
+  });
+
+  it("usa nombre genérico si no hay Content-Disposition", async () => {
+    mockFetch.mockResolvedValueOnce(
+      respuestaBinaria(Buffer.from("datos"), { "content-type": "application/pdf" }),
+    );
+
+    const cliente = crearClienteCPNU();
+    const result = await cliente.descargarDocumento(1);
+
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.value.nombreArchivo).toBe("documento");
+    }
+  });
+
+  it("reintenta y devuelve fallo ante error HTTP persistente", async () => {
+    mockFetch
+      .mockResolvedValueOnce({ ok: false, status: 503, statusText: "No disponible" })
+      .mockResolvedValueOnce({ ok: false, status: 503, statusText: "No disponible" })
+      .mockResolvedValueOnce({ ok: false, status: 503, statusText: "No disponible" });
+
+    const cliente = crearClienteCPNU();
+    const result = await cliente.descargarDocumento(1);
+
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.error.tipo).toBe("fuente_no_disponible");
+    }
+    expect(mockFetch).toHaveBeenCalledTimes(3);
+  });
+});

@@ -129,6 +129,45 @@ export interface ActuacionCPNU {
   existeDocs: boolean;
 }
 
+/**
+ * Documento adjunto a una actuación (metadato) obtenido de la CPNU.
+ *
+ * Confirmado en vivo contra
+ * `GET /Proceso/DocumentosActuacion/{idRegActuacion}` (ver scripts/probe-documentos.ts).
+ * Forma real de cada elemento:
+ *   { idRegDocumento, idConexion, consActuacion, guidDocumento_SXXIW,
+ *     nombre, descripcion, tipo, fechaCarga }
+ */
+export interface DocumentoActuacionCPNU {
+  /** ID único del documento en la CPNU (usado para la descarga) */
+  idRegDocumento: number;
+  /** Consecutivo de la actuación a la que pertenece */
+  consActuacion: number | null;
+  /** Nombre base del archivo (sin extensión en algunos casos) */
+  nombre: string;
+  /** Descripción del documento */
+  descripcion: string | null;
+  /** Extensión/tipo del documento (ej. "pdf", "docx") */
+  tipo: string | null;
+  /** Fecha de carga del documento */
+  fechaCarga: string | null;
+}
+
+/**
+ * Binario descargado de un documento de la CPNU
+ * (`GET /Descarga/Documento/{idRegDocumento}`).
+ */
+export interface DocumentoDescargadoCPNU {
+  /** Contenido binario del archivo */
+  contenido: Buffer;
+  /** Tipo MIME reportado por la fuente (Content-Type) */
+  tipoMime: string;
+  /** Nombre de archivo sugerido (Content-Disposition o derivado) */
+  nombreArchivo: string;
+  /** Tamaño en bytes */
+  tamanoBytes: number;
+}
+
 /** Fallo en comunicación con la CPNU */
 export interface FalloCPNU {
   tipo: "radicado_invalido" | "no_encontrado" | "fuente_no_disponible" | "timeout" | "error";
@@ -161,11 +200,28 @@ export interface ClienteCPNU {
 
   /**
    * Obtiene el histórico completo de actuaciones de un proceso por su idProceso.
-   * Endpoint pendiente de confirmación live — encapsulado para ajuste sin cambio de lógica.
+   * Endpoint confirmado en vivo: `GET /Proceso/Actuaciones/{idProceso}`.
    */
   obtenerActuaciones(
     idProceso: number | string
   ): Promise<Result<ActuacionCPNU[], FalloCPNU>>;
+
+  /**
+   * Lista los documentos adjuntos a una actuación por su idRegActuacion.
+   * Endpoint confirmado en vivo: `GET /Proceso/DocumentosActuacion/{idRegActuacion}`.
+   * Devuelve un array vacío si la actuación no tiene documentos.
+   */
+  obtenerDocumentosActuacion(
+    idRegActuacion: number | string
+  ): Promise<Result<DocumentoActuacionCPNU[], FalloCPNU>>;
+
+  /**
+   * Descarga el binario de un documento por su idRegDocumento.
+   * Endpoint confirmado en vivo: `GET /Descarga/Documento/{idRegDocumento}`.
+   */
+  descargarDocumento(
+    idRegDocumento: number | string
+  ): Promise<Result<DocumentoDescargadoCPNU, FalloCPNU>>;
 }
 
 // =============================================================================
@@ -218,6 +274,97 @@ class RateLimiter {
 }
 
 // =============================================================================
+// NORMALIZACIÓN DE RESPUESTAS
+// =============================================================================
+
+/**
+ * Normaliza una actuación cruda de la CPNU al contrato ActuacionCPNU.
+ *
+ * La API real usa `conDocumentos`, `fechaInicial` y `fechaFinal`, mientras que
+ * el contrato interno usa `existeDocs`, `fechaInicia` y `fechaFinaliza`. Este
+ * normalizador lee AMBOS nombres para ser resiliente a la fuente y a los mocks
+ * de prueba (que usan el contrato interno).
+ */
+function normalizarActuacion(raw: Record<string, unknown>): ActuacionCPNU {
+  const leerFecha = (...claves: string[]): string | null => {
+    for (const clave of claves) {
+      const valor = raw[clave];
+      if (typeof valor === "string" && valor.length > 0) return valor;
+    }
+    return null;
+  };
+
+  return {
+    idRegActuacion: Number(raw.idRegActuacion),
+    llaveProceso: (raw.llaveProceso as string) ?? "",
+    consActuacion: Number(raw.consActuacion),
+    fechaActuacion: (raw.fechaActuacion as string) ?? "",
+    actuacion: (raw.actuacion as string) ?? "",
+    anotacion: (raw.anotacion as string) ?? "",
+    fechaInicia: leerFecha("fechaInicia", "fechaInicial"),
+    fechaFinaliza: leerFecha("fechaFinaliza", "fechaFinal"),
+    fechaRegistro: (raw.fechaRegistro as string) ?? "",
+    existeDocs: Boolean(raw.existeDocs ?? raw.conDocumentos ?? false),
+  };
+}
+
+/**
+ * Normaliza un documento crudo de la CPNU al contrato DocumentoActuacionCPNU.
+ */
+function normalizarDocumento(raw: Record<string, unknown>): DocumentoActuacionCPNU {
+  return {
+    idRegDocumento: Number(raw.idRegDocumento ?? raw.id ?? raw.idDocumento),
+    consActuacion:
+      raw.consActuacion !== undefined && raw.consActuacion !== null
+        ? Number(raw.consActuacion)
+        : null,
+    nombre: (raw.nombre as string) ?? "documento",
+    descripcion: (raw.descripcion as string) ?? null,
+    tipo: (raw.tipo as string) ?? null,
+    fechaCarga: (raw.fechaCarga as string) ?? null,
+  };
+}
+
+/** Mapea una extensión de archivo a su tipo MIME. */
+export function extensionATipoMime(extension: string | null | undefined): string {
+  const ext = (extension ?? "").toLowerCase().replace(/^\./, "");
+  const mapa: Record<string, string> = {
+    pdf: "application/pdf",
+    doc: "application/msword",
+    docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    xls: "application/vnd.ms-excel",
+    xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    png: "image/png",
+    webp: "image/webp",
+    gif: "image/gif",
+    tif: "image/tiff",
+    tiff: "image/tiff",
+    txt: "text/plain",
+    zip: "application/zip",
+  };
+  return mapa[ext] ?? "application/octet-stream";
+}
+
+/** Extrae el nombre de archivo de una cabecera Content-Disposition. */
+function nombreDesdeContentDisposition(header: string | null): string | null {
+  if (!header) return null;
+  // filename*=UTF-8''valor (prioritario, permite unicode)
+  const utf8 = /filename\*=(?:UTF-8'')?([^;]+)/i.exec(header);
+  if (utf8?.[1]) {
+    try {
+      return decodeURIComponent(utf8[1].trim().replace(/^"|"$/g, ""));
+    } catch {
+      return utf8[1].trim().replace(/^"|"$/g, "");
+    }
+  }
+  const simple = /filename=("?)([^";]+)\1/i.exec(header);
+  if (simple?.[2]) return simple[2].trim();
+  return null;
+}
+
+// =============================================================================
 // IMPLEMENTACIÓN DEL CLIENTE
 // =============================================================================
 
@@ -260,6 +407,73 @@ export function crearClienteCPNU(): ClienteCPNU {
 
       if (intentosRestantes > 1) {
         return fetchConReintentos(url, intentosRestantes - 1);
+      }
+
+      const tipo: FalloCPNU["tipo"] = mensaje.includes("timeout")
+        ? "timeout"
+        : "fuente_no_disponible";
+
+      return {
+        ok: false,
+        error: { tipo, detalle: mensaje },
+      };
+    }
+  }
+
+  /**
+   * Ejecuta una descarga binaria con rate limiting, timeout y reintentos.
+   * A diferencia de fetchConReintentos, no parsea JSON: devuelve el binario
+   * junto con las cabeceras relevantes (tipo MIME y nombre de archivo).
+   */
+  async function fetchBinarioConReintentos(
+    url: string,
+    intentosRestantes = MAX_REINTENTOS
+  ): Promise<Result<DocumentoDescargadoCPNU, FalloCPNU>> {
+    await rateLimiter.esperar();
+
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: DEFAULT_HEADERS,
+        signal: AbortSignal.timeout(TIMEOUT_MS),
+      });
+
+      if (!response.ok) {
+        if (intentosRestantes > 1) {
+          return fetchBinarioConReintentos(url, intentosRestantes - 1);
+        }
+        return {
+          ok: false,
+          error: {
+            tipo: "fuente_no_disponible",
+            detalle: `HTTP ${response.status}: ${response.statusText}`,
+          },
+        };
+      }
+
+      const arrayBuffer = await response.arrayBuffer();
+      const contenido = Buffer.from(arrayBuffer);
+      const tipoMime =
+        response.headers.get("content-type")?.split(";")[0]?.trim() ||
+        "application/octet-stream";
+      const nombreArchivo =
+        nombreDesdeContentDisposition(response.headers.get("content-disposition")) ??
+        "documento";
+
+      return {
+        ok: true,
+        value: {
+          contenido,
+          tipoMime,
+          nombreArchivo,
+          tamanoBytes: contenido.length,
+        },
+      };
+    } catch (error) {
+      const mensaje = error instanceof Error ? error.message : String(error);
+
+      if (intentosRestantes > 1) {
+        return fetchBinarioConReintentos(url, intentosRestantes - 1);
       }
 
       const tipo: FalloCPNU["tipo"] = mensaje.includes("timeout")
@@ -378,20 +592,73 @@ export function crearClienteCPNU(): ClienteCPNU {
       const data = resultado.value;
 
       // La respuesta puede ser un array directo o un objeto con propiedad actuaciones
-      let actuaciones: ActuacionCPNU[];
+      let crudas: Record<string, unknown>[];
       if (Array.isArray(data)) {
-        actuaciones = data as ActuacionCPNU[];
+        crudas = data as Record<string, unknown>[];
       } else if (
         typeof data === "object" &&
         data !== null &&
-        "actuaciones" in data
+        "actuaciones" in data &&
+        Array.isArray((data as Record<string, unknown>).actuaciones)
       ) {
-        actuaciones = (data as Record<string, unknown>).actuaciones as ActuacionCPNU[];
+        crudas = (data as Record<string, unknown>).actuaciones as Record<string, unknown>[];
       } else {
-        actuaciones = [];
+        crudas = [];
       }
 
+      // Normaliza cada actuación al contrato interno (mapea conDocumentos → existeDocs, etc.)
+      const actuaciones = crudas.map(normalizarActuacion);
+
       return { ok: true, value: actuaciones };
+    },
+
+    async obtenerDocumentosActuacion(
+      idRegActuacion: number | string
+    ): Promise<Result<DocumentoActuacionCPNU[], FalloCPNU>> {
+      // Endpoint confirmado en vivo: GET {BASE_URL}/Proceso/DocumentosActuacion/{idRegActuacion}
+      const url = `${BASE_URL}/Proceso/DocumentosActuacion/${idRegActuacion}`;
+
+      const resultado = await fetchConReintentos(url);
+
+      if (!resultado.ok) {
+        return resultado;
+      }
+
+      const data = resultado.value;
+
+      // La respuesta es un array directo (vacío si no hay documentos)
+      let crudos: Record<string, unknown>[];
+      if (Array.isArray(data)) {
+        crudos = data as Record<string, unknown>[];
+      } else if (
+        typeof data === "object" &&
+        data !== null &&
+        "documentos" in data &&
+        Array.isArray((data as Record<string, unknown>).documentos)
+      ) {
+        crudos = (data as Record<string, unknown>).documentos as Record<string, unknown>[];
+      } else {
+        crudos = [];
+      }
+
+      return { ok: true, value: crudos.map(normalizarDocumento) };
+    },
+
+    async descargarDocumento(
+      idRegDocumento: number | string
+    ): Promise<Result<DocumentoDescargadoCPNU, FalloCPNU>> {
+      // Endpoint confirmado en vivo: GET {BASE_URL}/Descarga/Documento/{idRegDocumento}
+      const url = `${BASE_URL}/Descarga/Documento/${idRegDocumento}`;
+
+      const resultado = await fetchBinarioConReintentos(url);
+
+      if (!resultado.ok) {
+        return resultado;
+      }
+
+      // Si la fuente no envió Content-Disposition, el nombre queda como "documento";
+      // el llamador puede completarlo con el metadato de la actuación.
+      return resultado;
     },
   };
 }

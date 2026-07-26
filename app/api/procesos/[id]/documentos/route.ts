@@ -72,6 +72,7 @@ export async function GET(
         nombre: true,
         tipo_mime: true,
         tamano_bytes: true,
+        origen: true,
         creado_en: true,
       },
     });
@@ -169,6 +170,7 @@ export async function POST(
       data: {
         proceso_id: id,
         usuario_id: usuarioId,
+        origen: "manual",
         nombre: file.name,
         nombre_disco: nombreDisco,
         tipo_mime: file.type,
@@ -179,6 +181,7 @@ export async function POST(
         nombre: true,
         tipo_mime: true,
         tamano_bytes: true,
+        origen: true,
         creado_en: true,
       },
     });

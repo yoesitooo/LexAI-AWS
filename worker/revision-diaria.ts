@@ -19,6 +19,7 @@ import { prisma } from "../lib/db";
 import { clienteCPNU } from "../lib/cpnu-client";
 import type { ActuacionCPNU } from "../lib/cpnu-client";
 import { diffActuaciones, almacenarActuacionesNuevas } from "../lib/diffing-actuaciones";
+import { sincronizarDocumentosProceso } from "../lib/descarga-documentos";
 import { analizarActuacionConReintentos } from "../lib/analizador-ia";
 import { calcularFechaLimite } from "../lib/calculadora-plazos";
 import {
@@ -53,6 +54,8 @@ export interface OpcionesRevision {
   calcularFechaLimiteFn?: typeof calcularFechaLimite;
   /** Función de planificación de notificaciones (inyectable para testing/mocking) */
   planificarFn?: typeof planificarNotificaciones;
+  /** Función de sincronización de documentos CPNU (inyectable para testing/mocking) */
+  sincronizarDocumentosFn?: typeof sincronizarDocumentosProceso;
   /** Fecha actual en Colombia (inyectable para testing) */
   ahora?: FechaCO;
 }
@@ -115,6 +118,7 @@ export async function ejecutarRevisionDiaria(
   const analizar = opciones.analizarFn ?? analizarActuacionConReintentos;
   const calcularFecha = opciones.calcularFechaLimiteFn ?? calcularFechaLimite;
   const planificar = opciones.planificarFn ?? planificarNotificaciones;
+  const sincronizarDocumentos = opciones.sincronizarDocumentosFn ?? sincronizarDocumentosProceso;
   const ahora = opciones.ahora ?? hoyCO();
 
   // Obtener todos los procesos con seguimiento activo
@@ -141,6 +145,7 @@ export async function ejecutarRevisionDiaria(
       analizar,
       calcularFecha,
       planificar,
+      sincronizarDocumentos,
       ahora,
     });
     resultados.push(resultado);
@@ -175,6 +180,7 @@ interface DependenciasRevision {
   analizar: typeof analizarActuacionConReintentos;
   calcularFecha: typeof calcularFechaLimite;
   planificar: typeof planificarNotificaciones;
+  sincronizarDocumentos: typeof sincronizarDocumentosProceso;
   ahora: FechaCO;
 }
 
@@ -254,6 +260,22 @@ async function revisarProceso(
         deps,
       );
       plazosCreados += plazosDeEsta;
+    }
+
+    // 6b. Sincronizar documentos de las actuaciones con adjuntos (best-effort).
+    // Idempotente: solo descarga los que aún no estén en el expediente.
+    try {
+      await deps.sincronizarDocumentos(proceso.id, {
+        db,
+        cpnu,
+        logger,
+      });
+    } catch (error) {
+      const mensaje = error instanceof Error ? error.message : String(error);
+      logger.warn(
+        `Error sincronizando documentos del proceso ${proceso.radicado}: ${mensaje}`,
+      );
+      // No bloquea la revisión del proceso.
     }
 
     // 7. Actualizar ultima_revision_en = now()
