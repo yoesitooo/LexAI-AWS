@@ -1,0 +1,126 @@
+/* ==========================================================================
+   Bandeja de notificaciones — Estilos
+   Solo tokens del sistema de diseño (neumorfismo, sin literales de color).
+   ========================================================================== */
+
+.pagina {
+  min-height: 100%;
+  padding: var(--espacio-4) var(--espacio-2);
+  background-color: var(--fondo);
+}
+
+.contenedor {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.titulo {
+  font-size: var(--fuente-titulo-tam);
+  font-weight: var(--fuente-titulo-peso);
+  line-height: var(--fuente-titulo-altura);
+  color: var(--texto-primario);
+  margin-bottom: var(--espacio-1);
+}
+
+.subtitulo {
+  font-size: var(--fuente-cuerpo-tam);
+  color: var(--texto-secundario);
+  margin-bottom: var(--espacio-4);
+}
+
+/* ─── Estados (carga / vacío / error) ─────────────────────────────────────── */
+
+.estado {
+  font-size: var(--fuente-cuerpo-tam);
+  color: var(--texto-secundario);
+  padding: var(--espacio-4) var(--espacio-2);
+  text-align: center;
+}
+
+.estadoError {
+  font-size: var(--fuente-cuerpo-tam);
+  color: var(--acento-critico);
+  padding: var(--espacio-2);
+  border: 1px solid var(--acento-critico);
+  border-radius: var(--radio);
+  background-color: var(--superficie);
+  text-align: center;
+}
+
+/* ─── Lista de notificaciones ─────────────────────────────────────────────── */
+
+.lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+}
+
+.item {
+  display: block;
+}
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-1);
+}
+
+/* No leída: se resalta con el borde de acento a la izquierda */
+.tarjetaNoLeida {
+  border-left: 4px solid var(--acento-critico);
+}
+
+.encabezadoItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espacio-1);
+}
+
+.tituloItem {
+  font-size: var(--fuente-subtitulo-tam);
+  font-weight: var(--fuente-subtitulo-peso);
+  line-height: var(--fuente-subtitulo-altura);
+  color: var(--texto-primario);
+  margin: 0;
+}
+
+.badgeNueva {
+  flex-shrink: 0;
+  font-size: var(--fuente-leyenda-tam);
+  font-weight: var(--fuente-subtitulo-peso);
+  line-height: var(--fuente-leyenda-altura);
+  color: var(--acento-critico);
+  border: 1px solid var(--acento-critico);
+  border-radius: var(--radio-full);
+  padding: 2px var(--espacio-1);
+  white-space: nowrap;
+}
+
+.mensaje {
+  font-size: var(--fuente-cuerpo-tam);
+  line-height: var(--fuente-cuerpo-altura);
+  color: var(--texto-secundario);
+  margin: 0;
+}
+
+.fecha {
+  font-size: var(--fuente-leyenda-tam);
+  line-height: var(--fuente-leyenda-altura);
+  color: var(--texto-secundario);
+}
+
+/* ─── Reflow a 320px sin scroll horizontal (R18.7) ────────────────────────── */
+
+@media (max-width: 480px) {
+  .pagina {
+    padding: var(--espacio-3) var(--espacio-1);
+  }
+
+  .titulo {
+    font-size: var(--fuente-subtitulo-tam);
+  }
+}

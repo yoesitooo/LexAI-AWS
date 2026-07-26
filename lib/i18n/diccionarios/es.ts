@@ -9,6 +9,20 @@ export const es = {
   "app.nombre": "LexAI",
   "app.subtitulo": "Trazabilidad procesal inteligente",
 
+  // --- Landing (página pública de bienvenida) ---
+  "landing.titular": "Trazabilidad procesal inteligente para abogados en Colombia",
+  "landing.descripcion":
+    "Registre sus procesos por radicado y mantenga el control de actuaciones y plazos en un solo tablero. LexAI revisa sus procesos automáticamente y le avisa antes de cada vencimiento.",
+  "landing.cta_login": "Iniciar sesión",
+  "landing.beneficio_1": "Seguimiento automático de actuaciones",
+  "landing.beneficio_2": "Alertas de plazos antes del vencimiento",
+  "landing.beneficio_3": "Tablero visual de todos sus procesos",
+
+  // --- Navegación (sidebar) ---
+  "nav.mis_procesos": "Mis procesos",
+  "nav.notificaciones": "Notificaciones",
+  "nav.configuracion": "Configuración",
+
   // --- Autenticación ---
   "auth.login.titulo": "Iniciar sesión",
   "auth.login.correo": "Correo electrónico",
@@ -40,6 +54,7 @@ export const es = {
 
   // --- Kanban ---
   "kanban.titulo": "Mis procesos",
+  "kanban.nuevo_proceso": "Nuevo proceso",
   "kanban.columna.nuevo": "Nuevo",
   "kanban.columna.en_seguimiento": "En seguimiento",
   "kanban.columna.requiere_accion": "Requiere acción",
@@ -71,7 +86,10 @@ export const es = {
 
   // --- Notificaciones ---
   "notificacion.titulo": "Notificaciones",
+  "notificacion.subtitulo": "Alertas de sus procesos y plazos.",
   "notificacion.vacia": "No tiene notificaciones pendientes.",
+  "notificacion.nueva": "Nueva",
+  "notificacion.error_carga": "No se pudieron cargar las notificaciones. Intente de nuevo.",
   "notificacion.plazo_proximo": "El plazo del proceso {radicado} vence el {fecha}.",
   "notificacion.plazo_vencido": "El plazo del proceso {radicado} ha vencido.",
 

@@ -58,7 +58,7 @@ export default function LoginPage() {
       }
 
       // Login successful → redirect to Kanban
-      router.push('/');
+      router.push('/tablero');
       router.refresh();
     } catch {
       setError(t('auth.login.error_generico'));

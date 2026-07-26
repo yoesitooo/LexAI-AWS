@@ -6,7 +6,16 @@
 
 .contenedor {
   padding: var(--espacio-3);
-  min-height: 100vh;
+  min-height: 100%;
+}
+
+.encabezadoPagina {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espacio-2);
+  flex-wrap: wrap;
+  margin-bottom: var(--espacio-3);
 }
 
 .titulo {
@@ -14,7 +23,11 @@
   font-weight: var(--fuente-titulo-peso);
   line-height: var(--fuente-titulo-altura);
   color: var(--texto-primario);
-  margin-bottom: var(--espacio-3);
+  margin: 0;
+}
+
+.vacioAccion {
+  margin-top: var(--espacio-2);
 }
 
 /* --- Tablero: scroll horizontal en mobile, grid en desktop --- */
@@ -40,6 +53,8 @@
 .columnaEncabezado {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  min-width: 0;
   gap: var(--espacio-1);
   padding: var(--espacio-1) var(--espacio-2);
   font-size: var(--fuente-subtitulo-tam);
@@ -192,8 +207,8 @@
 }
 
 .columnaDropTarget {
-  background-color: color-mix(in srgb, var(--acento-primario) 8%, transparent);
-  border: 2px dashed var(--acento-primario);
+  background-color: color-mix(in srgb, var(--acento-critico) 8%, transparent);
+  border: 2px dashed var(--acento-critico);
   border-radius: var(--radio);
   transition: background-color var(--transicion-rapida), border-color var(--transicion-rapida);
 }
@@ -219,6 +234,20 @@
 
 /* --- Responsive: reflow a 320px sin scroll horizontal fuera del tablero (R18.7) --- */
 
+/* Encabezado: apilar título y acción en pantallas estrechas */
+@media (max-width: 600px) {
+  .encabezadoPagina {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--espacio-1);
+  }
+
+  /* El botón "Nuevo proceso" ocupa todo el ancho para un buen objetivo táctil */
+  .encabezadoPagina > button {
+    width: 100%;
+  }
+}
+
 @media (max-width: 480px) {
   .contenedor {
     padding: var(--espacio-2) var(--espacio-1);
@@ -235,14 +264,14 @@
 }
 
 @media (min-width: 1024px) {
-  .tablero {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    overflow-x: visible;
-  }
-
+  /*
+   * En escritorio las columnas crecen para llenar el ancho disponible, pero
+   * nunca se encogen por debajo del ancho de su badge de estado (evita que el
+   * contador "(0)" se salga de la caja). Si no caben todas, el tablero permite
+   * scroll horizontal en lugar de desbordar el contenido.
+   */
   .columna {
-    flex: 1;
-    min-width: 0;
+    flex: 1 0 230px;
+    min-width: 230px;
   }
 }

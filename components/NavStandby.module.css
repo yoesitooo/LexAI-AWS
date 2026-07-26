@@ -11,8 +11,9 @@
 
 .item {
   display: flex;
-  align-items: center;
-  gap: var(--espacio-1);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
   padding: var(--espacio-1) var(--espacio-2);
   border-radius: var(--radio);
   background-color: var(--superficie);

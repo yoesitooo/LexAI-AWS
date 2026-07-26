@@ -153,7 +153,7 @@ export function ModalRegistro({ abierto, onCerrar, onRegistroExitoso }: ModalReg
           </Boton>
           <Boton
             type="submit"
-            variante="primario"
+            variante="acento"
             cargando={cargando}
           >
             {t('proceso.registrar.boton')}

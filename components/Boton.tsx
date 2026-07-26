@@ -1,7 +1,7 @@
 import { type ButtonHTMLAttributes, type ReactNode } from 'react';
 import styles from './Boton.module.css';
 
-export type VarianteBoton = 'primario' | 'secundario';
+export type VarianteBoton = 'primario' | 'secundario' | 'acento';
 
 export interface BotonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Variante visual del botón */

@@ -1,0 +1,51 @@
+/* ==========================================================================
+   NavPrincipal — Navegación de módulos activos del sidebar.
+   Solo tokens del sistema de diseño.
+   ========================================================================== */
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-1);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-1);
+  padding: var(--espacio-1) var(--espacio-2);
+  border-radius: var(--radio);
+  background-color: var(--superficie);
+  border: 1px solid var(--borde);
+  box-shadow: var(--sombra-neumorfica);
+  min-height: var(--tactil-minimo, 44px);
+  text-decoration: none;
+  color: var(--texto-primario);
+  transition: box-shadow var(--transicion-rapida), transform var(--transicion-rapida);
+}
+
+.item:hover {
+  transform: translateY(-1px);
+}
+
+.item:active {
+  box-shadow: var(--sombra-neumorfica-inset);
+  transform: translateY(0);
+}
+
+.itemActivo {
+  box-shadow: var(--sombra-neumorfica-inset);
+  border-color: var(--foco);
+}
+
+.itemTexto {
+  font-size: var(--fuente-cuerpo-tam);
+  font-weight: var(--fuente-cuerpo-peso);
+  line-height: var(--fuente-cuerpo-altura);
+  color: var(--texto-primario);
+  flex: 1;
+}
+
+.itemActivo .itemTexto {
+  font-weight: var(--fuente-subtitulo-peso);
+}

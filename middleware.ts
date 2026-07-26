@@ -12,7 +12,15 @@
  * Rutas públicas: /login, /api/auth/*
  */
 
-export { auth as middleware } from "@/lib/auth";
+import NextAuth from "next-auth";
+import { authConfig } from "@/lib/auth.config";
+
+const { auth } = NextAuth(authConfig);
+
+// Next.js 16 detecta la exportación por defecto como la función de middleware.
+// (El patrón de destructuring `export const { auth: middleware }` no es
+// reconocido por el analizador estático del build de producción.)
+export default auth;
 
 /**
  * Configuración de rutas que activan el middleware.

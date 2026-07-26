@@ -11,3 +11,5 @@ export { Modal, type ModalProps } from './Modal';
 export { ModalDetalle, type ModalDetalleProps } from './ModalDetalle';
 export { ModalRegistro, type ModalRegistroProps } from './ModalRegistro';
 export { NavStandby, type NavStandbyProps } from './NavStandby';
+export { NavPrincipal, type NavPrincipalProps } from './NavPrincipal';
+export { Sidebar } from './Sidebar';

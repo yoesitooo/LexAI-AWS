@@ -1,16 +1,15 @@
 /**
  * Layout para rutas protegidas (requieren autenticación).
  *
- * Incluye barra lateral de navegación con:
- * - Título de la app
- * - Placeholders de módulos en standby (R13.1, R13.2, R13.3, R13.4)
+ * Compone la barra lateral responsiva (Sidebar) y el contenido principal.
+ * - Escritorio: barra lateral fija de 280px + contenido.
+ * - Móvil: barra superior con menú hamburguesa que abre un drawer.
  *
- * En una implementación completa, este layout verificaría la sesión
- * y redirigiría a /login si no hay sesión activa (R2.3).
+ * La verificación de sesión y redirección a /login la maneja el middleware
+ * (middleware.ts + lib/auth.config.ts) para todas las rutas de este grupo.
  */
 
-import { NavStandby } from "@/components";
-import { t } from "@/lib/i18n";
+import { Sidebar } from "@/components";
 import styles from "./layout.module.css";
 
 export default function ProtectedLayout({
@@ -20,10 +19,7 @@ export default function ProtectedLayout({
 }) {
   return (
     <div className={styles.layout}>
-      <aside className={styles.sidebar} aria-label="Navegación principal">
-        <span className={styles.sidebarTitulo}>{t("app.nombre")}</span>
-        <NavStandby />
-      </aside>
+      <Sidebar />
       <main className={styles.main}>{children}</main>
     </div>
   );

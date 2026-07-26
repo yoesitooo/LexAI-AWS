@@ -1,0 +1,167 @@
+/* ==========================================================================
+   Sidebar — Navegación lateral responsiva
+   Solo tokens del sistema de diseño.
+   ========================================================================== */
+
+/* ─── Barra lateral (base = escritorio) ───────────────────────────────────── */
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-3);
+  width: 280px;
+  flex-shrink: 0;
+  padding: var(--espacio-3) var(--espacio-2);
+  border-right: 1px solid var(--borde);
+  background-color: var(--superficie);
+  /* Fija en escritorio: acompaña el scroll del contenido principal */
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espacio-1);
+  padding: 0 var(--espacio-1);
+}
+
+.seccion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-1);
+}
+
+.seccionTitulo {
+  font-size: var(--fuente-leyenda-tam);
+  font-weight: var(--fuente-subtitulo-peso);
+  line-height: var(--fuente-leyenda-altura);
+  color: var(--texto-secundario);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0 var(--espacio-1);
+}
+
+.pie {
+  margin-top: auto;
+}
+
+.logout {
+  width: 100%;
+}
+
+/* ─── Botón de cerrar (solo visible dentro del drawer móvil) ──────────────── */
+
+.cerrar {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--tactil-minimo);
+  height: var(--tactil-minimo);
+  min-width: var(--tactil-minimo);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-sm);
+  background-color: var(--superficie);
+  color: var(--texto-primario);
+  font-size: var(--fuente-cuerpo-tam);
+  cursor: pointer;
+}
+
+/* ─── Barra superior + hamburguesa (solo móvil) ───────────────────────────── */
+
+.topbar {
+  display: none;
+  align-items: center;
+  gap: var(--espacio-2);
+  padding: var(--espacio-1) var(--espacio-2);
+  min-height: 56px;
+  border-bottom: 1px solid var(--borde);
+  background-color: var(--superficie);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.hamburguesa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tactil-minimo);
+  height: var(--tactil-minimo);
+  min-width: var(--tactil-minimo);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-sm);
+  background-color: var(--superficie);
+  color: var(--texto-primario);
+  cursor: pointer;
+}
+
+.hamburguesaIcono {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+/* ─── Overlay del drawer (solo móvil) ─────────────────────────────────────── */
+
+.overlay {
+  display: none;
+}
+
+/* ─── Móvil: la barra lateral pasa a ser un drawer deslizable ─────────────── */
+
+@media (max-width: 767px) {
+  .topbar {
+    display: flex;
+  }
+
+  .cerrar {
+    display: inline-flex;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    width: min(85vw, 320px);
+    height: 100vh;
+    height: 100dvh;
+    border-right: 1px solid var(--borde);
+    transform: translateX(-100%);
+    transition: transform var(--transicion-base);
+    box-shadow: var(--sombra-clara);
+  }
+
+  .sidebarAbierto {
+    transform: translateX(0);
+  }
+
+  .overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background-color: var(--overlay-fondo);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transicion-base);
+  }
+
+  .overlayVisible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+/* Respetar preferencia de movimiento reducido para el deslizamiento */
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .overlay {
+    transition: none;
+  }
+}

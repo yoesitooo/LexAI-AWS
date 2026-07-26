@@ -1,11 +1,12 @@
 "use client";
 
 /**
- * Tablero Kanban — Pantalla principal tras login.
+ * Tablero Kanban — Pantalla principal tras login (/tablero).
  *
  * Muestra los procesos del usuario en cinco columnas:
  * Nuevo, En seguimiento, Requiere acción, Vencido, Archivado.
  *
+ * - Botón "Nuevo proceso" que abre el modal de registro (R5).
  * - Cada proceso en una sola columna (R12.2).
  * - Tarjeta con radicado, demandante, demandado, última actuación,
  *   juzgado y departamento/ciudad (R12.3).
@@ -13,15 +14,15 @@
  * - Estados distinguidos por texto e ícono además de color (R18.6).
  * - Drag-and-drop accesible con ARIA live y alternativa por teclado (R18.3, R18.5).
  *
- * Requisitos: R12.1, R12.2, R12.3, R12.6, R18.3, R18.5, R18.6
+ * Requisitos: R5, R12.1, R12.2, R12.3, R12.6, R18.3, R18.5, R18.6
  */
 
 import { useEffect, useState, useRef, useCallback } from "react";
-import { Tarjeta, BadgeEstado } from "@/components";
+import { Tarjeta, BadgeEstado, Boton, ModalRegistro } from "@/components";
 import type { EstadoProceso } from "@/components";
 import { t } from "@/lib/i18n";
 import { parseSujetosProcesales } from "@/lib/parse-sujetos";
-import styles from "./kanban.module.css";
+import styles from "../kanban.module.css";
 
 // ─── Tipos ──────────────────────────────────────────────────────────────────
 
@@ -240,6 +241,9 @@ export default function KanbanPage() {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Modal de registro de proceso
+  const [modalAbierto, setModalAbierto] = useState(false);
+
   // DnD state
   const [draggingProceso, setDraggingProceso] = useState<ProcesoKanban | null>(null);
   const [dropTargetColumna, setDropTargetColumna] = useState<string | null>(null);
@@ -260,32 +264,31 @@ export default function KanbanPage() {
     });
   }, []);
 
-  useEffect(() => {
-    async function cargarProcesos() {
-      try {
-        const res = await fetch("/api/procesos");
+  const cargarProcesos = useCallback(async () => {
+    try {
+      const res = await fetch("/api/procesos");
 
-        if (!res.ok) {
-          if (res.status === 401) {
-            window.location.href = "/login";
-            return;
-          }
-          throw new Error(`Error ${res.status}`);
+      if (!res.ok) {
+        if (res.status === 401) {
+          window.location.href = "/login";
+          return;
         }
-
-        const data = await res.json();
-        setKanban(data.kanban);
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : t("error.generico"),
-        );
-      } finally {
-        setCargando(false);
+        throw new Error(`Error ${res.status}`);
       }
-    }
 
-    cargarProcesos();
+      const data = await res.json();
+      setKanban(data.kanban);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("error.generico"));
+    } finally {
+      setCargando(false);
+    }
   }, []);
+
+  useEffect(() => {
+    cargarProcesos();
+  }, [cargarProcesos]);
 
   // ─── PATCH helper ───────────────────────────────────────────────────────
 
@@ -498,6 +501,29 @@ export default function KanbanPage() {
     [kbdActiveProceso, kbdTargetColumna, announce, moverProceso],
   );
 
+  // ─── Encabezado con acción de registro ─────────────────────────────────
+
+  const encabezado = (
+    <div className={styles.encabezadoPagina}>
+      <h1 className={styles.titulo}>{t("kanban.titulo")}</h1>
+      <Boton
+        variante="acento"
+        onClick={() => setModalAbierto(true)}
+        icono={<span aria-hidden="true">+</span>}
+      >
+        {t("kanban.nuevo_proceso")}
+      </Boton>
+    </div>
+  );
+
+  const modalRegistro = (
+    <ModalRegistro
+      abierto={modalAbierto}
+      onCerrar={() => setModalAbierto(false)}
+      onRegistroExitoso={cargarProcesos}
+    />
+  );
+
   // --- Estado: Cargando ---
   if (cargando) {
     return (
@@ -513,9 +539,11 @@ export default function KanbanPage() {
   if (error) {
     return (
       <main className={styles.contenedor}>
+        {encabezado}
         <div className={styles.error} role="alert">
           <p>{error}</p>
         </div>
+        {modalRegistro}
       </main>
     );
   }
@@ -524,9 +552,11 @@ export default function KanbanPage() {
   if (!kanban) {
     return (
       <main className={styles.contenedor}>
+        {encabezado}
         <div className={styles.error} role="alert">
           <p>{t("error.generico")}</p>
         </div>
+        {modalRegistro}
       </main>
     );
   }
@@ -541,7 +571,7 @@ export default function KanbanPage() {
   if (totalProcesos === 0) {
     return (
       <main className={styles.contenedor}>
-        <h1 className={styles.titulo}>{t("kanban.titulo")}</h1>
+        {encabezado}
         <div className={styles.tablero} role="region" aria-label="Tablero Kanban">
           {COLUMNAS.map(({ key, estado }) => (
             <ColumnaKanban
@@ -562,11 +592,18 @@ export default function KanbanPage() {
           ))}
         </div>
         <div className={styles.vacio}>
-          <div className={styles.vacioIcono} aria-hidden="true">
-            📋
-          </div>
           <p className={styles.vacioMensaje}>{t("kanban.vacio")}</p>
+          <div className={styles.vacioAccion}>
+            <Boton
+              variante="acento"
+              onClick={() => setModalAbierto(true)}
+              icono={<span aria-hidden="true">+</span>}
+            >
+              {t("kanban.nuevo_proceso")}
+            </Boton>
+          </div>
         </div>
+        {modalRegistro}
       </main>
     );
   }
@@ -574,7 +611,7 @@ export default function KanbanPage() {
   // --- Estado: Con procesos ---
   return (
     <main className={styles.contenedor}>
-      <h1 className={styles.titulo}>{t("kanban.titulo")}</h1>
+      {encabezado}
 
       {/* ARIA live region for DnD announcements */}
       <div
@@ -614,6 +651,7 @@ export default function KanbanPage() {
           />
         ))}
       </div>
+      {modalRegistro}
     </main>
   );
 }

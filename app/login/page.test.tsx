@@ -52,7 +52,7 @@ describe('LoginPage', () => {
     fireEvent.click(screen.getByRole('button', { name: /ingresar/i }));
 
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith('/');
+      expect(mockPush).toHaveBeenCalledWith('/tablero');
     });
 
     expect(mockSignIn).toHaveBeenCalledWith('credentials', {

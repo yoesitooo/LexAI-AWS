@@ -1,28 +1,12 @@
 /* ==========================================================================
-   Protected Layout — Sidebar + Main content
-   Solo tokens del sistema de diseño.
+   Protected Layout — Sidebar + contenido principal
+   La barra lateral y sus variantes responsivas viven en Sidebar.module.css.
    ========================================================================== */
 
 .layout {
   display: flex;
   min-height: 100vh;
-}
-
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: var(--espacio-3);
-  width: 280px;
-  padding: var(--espacio-3) var(--espacio-2);
-  border-right: 1px solid var(--borde);
-  background-color: var(--superficie);
-}
-
-.sidebarTitulo {
-  font-size: var(--fuente-subtitulo-tam);
-  font-weight: var(--fuente-subtitulo-peso);
-  line-height: var(--fuente-subtitulo-altura);
-  color: var(--texto-primario);
+  min-height: 100dvh;
 }
 
 .main {
@@ -30,25 +14,10 @@
   min-width: 0;
 }
 
-/* --- Responsive: sidebar collapses on small screens --- */
+/* ─── Móvil: apilar barra superior + contenido ────────────────────────────── */
 
 @media (max-width: 767px) {
   .layout {
     flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid var(--borde);
-    padding: var(--espacio-2);
-  }
-}
-
-/* ─── Reflow a 320px: evitar overflow horizontal (R18.7) ─────────────────── */
-
-@media (max-width: 480px) {
-  .sidebar {
-    padding: var(--espacio-1);
   }
 }

@@ -40,6 +40,24 @@
   box-shadow: var(--sombra-neumorfica-inset);
 }
 
+/* --- Variante acento --- */
+/* Estilo neumórfico (superficie clara + sombra suave, como las columnas del
+   Kanban) tintado con el acento rojo de la plataforma. Acción principal. */
+.acento {
+  background-color: var(--superficie);
+  color: var(--acento-critico);
+  border-color: var(--acento-critico);
+  box-shadow: var(--sombra-neumorfica);
+}
+
+.acento:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--acento-critico) 8%, var(--superficie));
+}
+
+.acento:active:not(:disabled) {
+  box-shadow: var(--sombra-neumorfica-inset);
+}
+
 /* --- Variante secundaria --- */
 .secundario {
   background-color: var(--superficie);

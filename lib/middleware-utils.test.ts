@@ -32,8 +32,12 @@ describe("middleware-utils — isPublicPath", () => {
     expect(isPublicPath("/api/auth/register")).toBe(true);
   });
 
-  it("la raíz / NO es pública (es el Kanban protegido)", () => {
-    expect(isPublicPath("/")).toBe(false);
+  it("la raíz / SÍ es pública (landing de bienvenida)", () => {
+    expect(isPublicPath("/")).toBe(true);
+  });
+
+  it("/tablero NO es pública (es el Kanban protegido)", () => {
+    expect(isPublicPath("/tablero")).toBe(false);
   });
 
   it("/configuracion NO es pública", () => {
@@ -131,11 +135,16 @@ describe("middleware-utils — lógica de autorización integrada", () => {
       expect(result.allowed).toBe(true);
     });
 
-    it("redirige a /login desde / (Kanban)", () => {
+    it("permite acceso a / (landing pública)", () => {
       const result = simulateAuthorized("/", false);
+      expect(result.allowed).toBe(true);
+    });
+
+    it("redirige a /login desde /tablero (Kanban)", () => {
+      const result = simulateAuthorized("/tablero", false);
       expect(result.allowed).toBe(false);
       expect(result.redirectUrl).toContain("/login");
-      expect(result.redirectUrl).toContain("callbackUrl=%2F");
+      expect(result.redirectUrl).toContain("callbackUrl=%2Ftablero");
     });
 
     it("redirige a /login desde /configuracion", () => {
@@ -164,8 +173,8 @@ describe("middleware-utils — lógica de autorización integrada", () => {
   });
 
   describe("con sesión activa", () => {
-    it("permite acceso a / (Kanban)", () => {
-      const result = simulateAuthorized("/", true);
+    it("permite acceso a /tablero (Kanban)", () => {
+      const result = simulateAuthorized("/tablero", true);
       expect(result.allowed).toBe(true);
       expect(result.redirectUrl).toBeUndefined();
     });
@@ -214,7 +223,11 @@ describe("middleware-utils — PUBLIC_PATHS export", () => {
     expect(PUBLIC_PATHS).toContain("/api/auth");
   });
 
-  it("tiene exactamente 2 rutas públicas base", () => {
-    expect(PUBLIC_PATHS).toHaveLength(2);
+  it("incluye / (landing) como ruta pública", () => {
+    expect(PUBLIC_PATHS).toContain("/");
+  });
+
+  it("tiene exactamente 3 rutas públicas base", () => {
+    expect(PUBLIC_PATHS).toHaveLength(3);
   });
 });

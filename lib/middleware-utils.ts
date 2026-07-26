@@ -6,8 +6,12 @@
 
 /**
  * Rutas que NO requieren autenticación (públicas).
+ *
+ * - "/"        → landing pública de bienvenida (solo coincide de forma exacta).
+ * - "/login"   → pantalla de inicio de sesión y sus subrutas.
+ * - "/api/auth"→ endpoints de NextAuth y sus subrutas.
  */
-export const PUBLIC_PATHS = ["/login", "/api/auth"];
+export const PUBLIC_PATHS = ["/", "/login", "/api/auth"];
 
 /**
  * Determina si una ruta es pública (no requiere autenticación).

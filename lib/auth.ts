@@ -11,9 +11,10 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
-import { isPublicPath } from "@/lib/middleware-utils";
+import { authConfig } from "@/lib/auth.config";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  ...authConfig,
   providers: [
     Credentials({
       name: "credentials",
@@ -85,43 +86,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
-  session: {
-    strategy: "jwt",
-    // Expiración por inactividad: 30 minutos (R2.6)
-    maxAge: 30 * 60,
-  },
-  pages: {
-    signIn: "/login",
-  },
-  callbacks: {
-    async authorized({ request, auth: session }) {
-      const { pathname } = request.nextUrl;
-
-      // Rutas públicas: no requieren autenticación
-      if (isPublicPath(pathname)) {
-        return true;
-      }
-
-      // Rutas protegidas: requieren sesión válida
-      if (!session) {
-        const loginUrl = new URL("/login", request.nextUrl.origin);
-        loginUrl.searchParams.set("callbackUrl", request.nextUrl.pathname);
-        return Response.redirect(loginUrl);
-      }
-
-      return true;
-    },
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (token.id) {
-        session.user.id = token.id as string;
-      }
-      return session;
-    },
-  },
 });
