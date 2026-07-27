@@ -98,6 +98,7 @@ const PROCESO_COMPLETO = {
       es_nueva: false,
       analisis_completado: true,
       creado_en: new Date("2024-01-15"),
+      documentos: [{ id: "doc-1", nombre: "auto-admisorio.pdf" }],
     },
   ],
   plazos: [
@@ -199,6 +200,10 @@ describe("GET /api/procesos/[id]", () => {
     // Plazos activos (pendientes)
     expect(data.proceso.plazos).toHaveLength(1);
     expect(data.proceso.plazos[0].estado).toBe("pendiente");
+    // Documentos de cada actuación (para el hipervínculo de descarga)
+    expect(data.proceso.actuaciones[1].documentos).toEqual([
+      { id: "doc-1", nombre: "auto-admisorio.pdf" },
+    ]);
   });
 
   it("llama a marcarPlazosVencidos antes de consultar (R12.5)", async () => {

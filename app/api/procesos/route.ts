@@ -14,6 +14,12 @@ import { validarRadicado } from "@/lib/validador-radicado";
 import { clienteCPNU } from "@/lib/cpnu-client";
 import type { ActuacionCPNU } from "@/lib/cpnu-client";
 import { marcarPlazosVencidos } from "@/lib/transicion-vencido";
+import { sincronizarDocumentosProceso } from "@/lib/descarga-documentos";
+
+// El registro puede tardar: además de consultar la CPNU, descarga los
+// documentos de las actuaciones históricas (rate limited hacia la Rama Judicial).
+export const runtime = "nodejs";
+export const maxDuration = 300;
 
 // ─── GET: Listar procesos agrupados por columna_kanban ──────────────────────
 
@@ -237,7 +243,23 @@ export async function POST(request: NextRequest) {
       return nuevoProceso;
     });
 
-    // 8. Respuesta exitosa (R5.4)
+    // 8. Descargar los documentos de las actuaciones históricas (best-effort).
+    // Un fallo aquí no debe impedir que el proceso quede registrado.
+    let documentosDescargados = 0;
+    try {
+      const resumenDocs = await sincronizarDocumentosProceso(procesoCreado.id, {
+        logger: {
+          info: (m, d) => console.log(`[Registro] ${m}`, d ?? ""),
+          warn: (m, d) => console.warn(`[Registro] ${m}`, d ?? ""),
+          error: (m, d) => console.error(`[Registro] ${m}`, d ?? ""),
+        },
+      });
+      documentosDescargados = resumenDocs.descargados;
+    } catch (error) {
+      console.error("[POST /api/procesos] Error sincronizando documentos:", error);
+    }
+
+    // 9. Respuesta exitosa (R5.4)
     return NextResponse.json(
       {
         mensaje: "Proceso registrado exitosamente.",
@@ -251,6 +273,7 @@ export async function POST(request: NextRequest) {
           seguimiento_activo: procesoCreado.seguimiento_activo,
           creado_en: procesoCreado.creado_en,
           actuaciones_importadas: actuacionesCPNU.length,
+          documentos_descargados: documentosDescargados,
         },
       },
       { status: 201 },

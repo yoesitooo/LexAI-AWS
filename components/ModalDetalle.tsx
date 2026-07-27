@@ -12,6 +12,11 @@ import styles from './ModalDetalle.module.css';
 
 // ─── Tipos de respuesta de la API ───────────────────────────────────────────
 
+interface DocumentoActuacion {
+  id: string;
+  nombre: string;
+}
+
 interface Actuacion {
   id: string;
   id_actuacion_cpnu: string;
@@ -26,6 +31,7 @@ interface Actuacion {
   es_nueva: boolean;
   analisis_completado: boolean;
   creado_en: string;
+  documentos?: DocumentoActuacion[];
 }
 
 interface Plazo {
@@ -164,7 +170,6 @@ export function ModalDetalle({ abierto, onCerrar, procesoId }: ModalDetalleProps
   const [subiendo, setSubiendo] = useState(false);
   const [subirError, setSubirError] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
-  const [sincronizando, setSincronizando] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -328,41 +333,6 @@ export function ModalDetalle({ abierto, onCerrar, procesoId }: ModalDetalleProps
       mostrarToast(t('detalle.expediente.error_eliminar'), 'error');
     }
   }, [procesoId, mostrarToast]);
-
-  // ─── Sync documents from CPNU (Rama Judicial) ──────────────────────────
-
-  const sincronizarDocumentos = useCallback(async () => {
-    if (!procesoId) return;
-
-    setSincronizando(true);
-    setDocumentosError(null);
-
-    try {
-      const res = await fetch(`/api/procesos/${procesoId}/documentos/sincronizar`, {
-        method: 'POST',
-      });
-
-      if (!res.ok) {
-        mostrarToast(t('detalle.expediente.sincronizar_error'), 'error');
-        return;
-      }
-
-      const data = await res.json();
-      const descargados: number = data?.resumen?.descargados ?? 0;
-
-      if (descargados > 0) {
-        mostrarToast(t('detalle.expediente.sincronizar_exito', { n: descargados }), 'exito');
-        // Recargar la lista para mostrar los nuevos documentos
-        await fetchDocumentos(procesoId);
-      } else {
-        mostrarToast(t('detalle.expediente.sincronizar_sin_nuevos'), 'info');
-      }
-    } catch {
-      mostrarToast(t('detalle.expediente.sincronizar_error'), 'error');
-    } finally {
-      setSincronizando(false);
-    }
-  }, [procesoId, mostrarToast, fetchDocumentos]);
 
   // ─── Effects ───────────────────────────────────────────────────────────
 
@@ -528,10 +498,25 @@ export function ModalDetalle({ abierto, onCerrar, procesoId }: ModalDetalleProps
                           })}
                         </span>
                       )}
-                      {act.existe_docs && (
+                      {act.existe_docs && (act.documentos?.length ?? 0) === 0 && (
                         <span>{t('detalle.actuacion_documentos')}</span>
                       )}
                     </div>
+                    {(act.documentos?.length ?? 0) > 0 && (
+                      <div className={styles.actuacionDocumentos}>
+                        {act.documentos!.map((doc) => (
+                          <a
+                            key={doc.id}
+                            href={`/api/procesos/${procesoId}/documentos/${doc.id}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.actuacionDocumentoLink}
+                          >
+                            {doc.nombre}
+                          </a>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </Tarjeta>
               </li>
@@ -610,20 +595,6 @@ export function ModalDetalle({ abierto, onCerrar, procesoId }: ModalDetalleProps
 
     return (
       <section aria-label={t('detalle.tab.expediente')}>
-        {/* Traer documentos de la Rama Judicial (CPNU) */}
-        <div className={styles.sincronizarBarra}>
-          <button
-            type="button"
-            className={styles.sincronizarBoton}
-            onClick={sincronizarDocumentos}
-            disabled={sincronizando}
-          >
-            {sincronizando
-              ? t('detalle.expediente.sincronizando')
-              : t('detalle.expediente.sincronizar')}
-          </button>
-        </div>
-
         {/* Drop zone */}
         <div
           className={`${styles.dropZone} ${dragOver ? styles.dropZoneDragOver : ''}`}

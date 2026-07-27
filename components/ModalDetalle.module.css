@@ -201,6 +201,24 @@
   margin: 0;
 }
 
+.actuacionDocumentos {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: var(--espacio-1);
+}
+
+.actuacionDocumentoLink {
+  font-size: var(--fuente-leyenda-tam);
+  color: var(--acento-primario, #1976d2);
+  text-decoration: underline;
+  word-break: break-word;
+}
+
+.actuacionDocumentoLink:hover {
+  color: var(--acento-primario-hover, #1565c0);
+}
+
 /* ─── Lista de plazos ──────────────────────────────────────────────────────── */
 
 .listaPlazos {
@@ -240,36 +258,6 @@
   padding: var(--espacio-4, 2rem) var(--espacio-2);
   color: var(--texto-secundario, #555);
   font-style: italic;
-}
-
-/* ─── Expediente digital — Sincronización con la Rama Judicial ────────────── */
-
-.sincronizarBarra {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: var(--espacio-2);
-}
-
-.sincronizarBoton {
-  padding: var(--espacio-1) var(--espacio-3);
-  background-color: var(--acento-primario, #1976d2);
-  color: var(--gris-50, #fff);
-  border: none;
-  border-radius: var(--radio);
-  font-size: var(--fuente-cuerpo-tam, 0.9rem);
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.15s;
-  min-height: 36px;
-}
-
-.sincronizarBoton:hover {
-  background-color: var(--acento-primario-hover, #1565c0);
-}
-
-.sincronizarBoton:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
 }
 
 /* ─── Expediente digital — Drop zone ──────────────────────────────────────── */

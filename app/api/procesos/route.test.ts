@@ -34,15 +34,22 @@ vi.mock("@/lib/cpnu-client", () => ({
   },
 }));
 
+// Mock de la sincronización de documentos (se invoca tras crear el proceso)
+vi.mock("@/lib/descarga-documentos", () => ({
+  sincronizarDocumentosProceso: vi.fn(),
+}));
+
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { clienteCPNU } from "@/lib/cpnu-client";
+import { sincronizarDocumentosProceso } from "@/lib/descarga-documentos";
 
 const mockAuth = vi.mocked(auth);
 const mockFindUnique = vi.mocked(prisma.proceso.findUnique);
 const mockTransaction = vi.mocked(prisma.$transaction);
 const mockConsultarPorRadicado = vi.mocked(clienteCPNU.consultarPorRadicado);
 const mockObtenerActuaciones = vi.mocked(clienteCPNU.obtenerActuaciones);
+const mockSincronizarDocumentos = vi.mocked(sincronizarDocumentosProceso);
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -106,6 +113,12 @@ function crearPostRequest(body: unknown): NextRequest {
 describe("POST /api/procesos", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockSincronizarDocumentos.mockResolvedValue({
+      procesoId: "new-process-uuid",
+      descargados: 0,
+      yaExistian: 0,
+      fallidos: 0,
+    });
   });
 
   // ─── Autenticación ──────────────────────────────────────────────────────────
@@ -303,6 +316,74 @@ describe("POST /api/procesos", () => {
     // Verificar que se consultó la CPNU con el radicado correcto
     expect(mockConsultarPorRadicado).toHaveBeenCalledWith(RADICADO_VALIDO);
     expect(mockObtenerActuaciones).toHaveBeenCalledWith(PROCESO_CPNU.idProceso);
+
+    // Se descargan también los documentos de las actuaciones históricas
+    expect(mockSincronizarDocumentos).toHaveBeenCalledWith(
+      procesoCreado.id,
+      expect.anything(),
+    );
+  });
+
+  it("incluye documentos_descargados en la respuesta y no falla el registro si la sincronización de documentos falla", async () => {
+    mockAuth.mockResolvedValue(SESSION_VALIDA as never);
+    mockFindUnique.mockResolvedValue(null as never);
+    mockConsultarPorRadicado.mockResolvedValue({
+      ok: true,
+      value: {
+        procesos: [PROCESO_CPNU],
+        paginacion: { pagina: 1, cantidadPaginas: 1, cantidadRegistros: 1 },
+      },
+    });
+    mockObtenerActuaciones.mockResolvedValue({
+      ok: true,
+      value: ACTUACIONES_CPNU,
+    });
+
+    const procesoCreado = {
+      id: "new-process-uuid",
+      usuario_id: USUARIO_ID,
+      radicado: RADICADO_VALIDO,
+      llave_proceso: PROCESO_CPNU.llaveProceso,
+      despacho: PROCESO_CPNU.despacho,
+      departamento: PROCESO_CPNU.departamento,
+      sujetos_procesales: PROCESO_CPNU.sujetosProcesales,
+      columna_kanban: "nuevo",
+      seguimiento_activo: true,
+      creado_en: new Date(),
+    };
+
+    mockTransaction.mockImplementation(async (callback: (tx: unknown) => Promise<unknown>) => {
+      const tx = {
+        proceso: { create: vi.fn().mockResolvedValue(procesoCreado) },
+        actuacion: { createMany: vi.fn().mockResolvedValue({ count: ACTUACIONES_CPNU.length }) },
+      };
+      return callback(tx);
+    });
+
+    // Caso éxito: se descargaron 2 documentos
+    mockSincronizarDocumentos.mockResolvedValueOnce({
+      procesoId: procesoCreado.id,
+      descargados: 2,
+      yaExistian: 0,
+      fallidos: 0,
+    });
+
+    const req1 = crearPostRequest({ radicado: RADICADO_VALIDO });
+    const res1 = await POST(req1);
+    const data1 = await res1.json();
+
+    expect(res1.status).toBe(201);
+    expect(data1.proceso.documentos_descargados).toBe(2);
+
+    // Caso fallo: la sincronización lanza, el registro igual responde 201
+    mockSincronizarDocumentos.mockRejectedValueOnce(new Error("CPNU no disponible"));
+
+    const req2 = crearPostRequest({ radicado: RADICADO_VALIDO });
+    const res2 = await POST(req2);
+    const data2 = await res2.json();
+
+    expect(res2.status).toBe(201);
+    expect(data2.proceso.documentos_descargados).toBe(0);
   });
 
   it("crea proceso sin actuaciones si obtenerActuaciones falla (resiliencia)", async () => {

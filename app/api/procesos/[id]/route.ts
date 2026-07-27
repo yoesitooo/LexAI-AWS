@@ -71,6 +71,10 @@ export async function GET(
             es_nueva: true,
             analisis_completado: true,
             creado_en: true,
+            documentos: {
+              select: { id: true, nombre: true },
+              orderBy: { creado_en: "asc" },
+            },
           },
         },
         plazos: {

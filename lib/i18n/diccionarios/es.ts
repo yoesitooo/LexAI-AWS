@@ -129,11 +129,6 @@ export const es = {
   "detalle.expediente.descargar": "Descargar",
   "detalle.expediente.eliminar": "Eliminar",
   "detalle.expediente.confirmar_eliminar": "¿Eliminar este documento?",
-  "detalle.expediente.sincronizar": "Traer documentos de la Rama Judicial",
-  "detalle.expediente.sincronizando": "Descargando documentos de la Rama Judicial...",
-  "detalle.expediente.sincronizar_error": "No se pudieron traer los documentos de la Rama Judicial.",
-  "detalle.expediente.sincronizar_sin_nuevos": "No hay documentos nuevos para descargar.",
-  "detalle.expediente.sincronizar_exito": "Se descargaron {n} documento(s) de la Rama Judicial.",
   "detalle.expediente.origen_cpnu": "Rama Judicial",
   "detalle.expediente.origen_manual": "Subido por usted",
 

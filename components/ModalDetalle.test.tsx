@@ -129,6 +129,62 @@ describe('ModalDetalle', () => {
     expect(screen.getByText('10 días hábiles')).toBeDefined();
   });
 
+  it('muestra el nombre del documento como hipervínculo de descarga en el historial de actuaciones', async () => {
+    const procesoConDocumentos = {
+      ...procesoMock,
+      actuaciones: [
+        {
+          ...procesoMock.actuaciones[0],
+          existe_docs: true,
+          documentos: [{ id: 'doc-1', nombre: 'auto-admisorio.pdf' }],
+        },
+        procesoMock.actuaciones[1],
+      ],
+    };
+
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ proceso: procesoConDocumentos }),
+    });
+
+    renderConProvider(<ModalDetalle abierto={true} onCerrar={vi.fn()} procesoId="123" />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('tablist')).toBeDefined();
+    });
+
+    fireEvent.click(screen.getByRole('tab', { name: 'Actuaciones' }));
+
+    const enlace = screen.getByRole('link', { name: 'auto-admisorio.pdf' });
+    expect(enlace.getAttribute('href')).toBe('/api/procesos/123/documentos/doc-1');
+  });
+
+  it('no muestra el botón de traer documentos de la Rama Judicial en Expediente digital (es manual)', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ proceso: procesoMock }),
+    });
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ documentos: [] }),
+    });
+
+    renderConProvider(<ModalDetalle abierto={true} onCerrar={vi.fn()} procesoId="123" />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('tablist')).toBeDefined();
+    });
+
+    fireEvent.click(screen.getByRole('tab', { name: 'Expediente digital' }));
+
+    await waitFor(() => {
+      expect(screen.getByText('No hay documentos en el expediente.')).toBeDefined();
+    });
+
+    expect(screen.queryByText('Traer documentos de la Rama Judicial')).toBeNull();
+    expect(screen.queryByRole('button', { name: /Rama Judicial/i })).toBeNull();
+  });
+
   it('muestra error cuando la API falla', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: false,
