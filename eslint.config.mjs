@@ -9,10 +9,19 @@ const configs = [
   ...(Array.isArray(nextTypescript) ? nextTypescript : [nextTypescript]),
   prettier,
   {
+    // No reportar directivas eslint-disable "sin uso": varios archivos traen
+    // disables para reglas que la config flat de Next no habilita (p. ej. no-console).
+    linterOptions: {
+      reportUnusedDisableDirectives: "off",
+    },
     rules: {
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/explicit-function-return-type": "off",
+      // Regla nueva de react-hooks (React Compiler) introducida por Next 16.
+      // El código actual usa patrones legítimos de "reset on route/prop change"
+      // que esta regla marca de forma agresiva; no usamos React Compiler.
+      "react-hooks/set-state-in-effect": "off",
     },
   },
   {

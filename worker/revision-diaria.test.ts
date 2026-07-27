@@ -137,8 +137,8 @@ describe("ejecutarRevisionDiaria", () => {
 
   it("cuando CPNU falla → conserva histórico, registra error, continúa con los demás", async () => {
     const procesos = [
-      { id: "p1", radicado: "12345678901234567890123", llave_proceso: "llave-1", usuario_id: "u1" },
-      { id: "p2", radicado: "12345678901234567890124", llave_proceso: "llave-2", usuario_id: "u1" },
+      { id: "p1", radicado: "12345678901234567890123", llave_proceso: "llave-1", id_proceso_cpnu: "cpnu-1", usuario_id: "u1" },
+      { id: "p2", radicado: "12345678901234567890124", llave_proceso: "llave-2", id_proceso_cpnu: "cpnu-2", usuario_id: "u1" },
     ];
 
     const prismaMock = {
@@ -189,7 +189,7 @@ describe("ejecutarRevisionDiaria", () => {
 
   it("cuando análisis IA falla → actuación queda sin analizar, no bloquea siguientes", async () => {
     const procesos = [
-      { id: "p1", radicado: "12345678901234567890123", llave_proceso: "llave-1", usuario_id: "u1" },
+      { id: "p1", radicado: "12345678901234567890123", llave_proceso: "llave-1", id_proceso_cpnu: "cpnu-1", usuario_id: "u1" },
     ];
 
     const actuacionNueva = crearActuacionCPNU(999);
@@ -254,7 +254,7 @@ describe("ejecutarRevisionDiaria", () => {
 
   it("flujo completo: CPNU → Diff → IA (plazo) → Calculadora → Planificador", async () => {
     const procesos = [
-      { id: "p1", radicado: "12345678901234567890123", llave_proceso: "llave-1", usuario_id: "u1" },
+      { id: "p1", radicado: "12345678901234567890123", llave_proceso: "llave-1", id_proceso_cpnu: "cpnu-1", usuario_id: "u1" },
     ];
 
     const actuacionNueva = crearActuacionCPNU(100, "Auto de traslado por 5 días");
@@ -367,7 +367,7 @@ describe("ejecutarRevisionDiaria", () => {
 
   it("actualiza ultima_revision_en incluso cuando no hay actuaciones nuevas", async () => {
     const procesos = [
-      { id: "p1", radicado: "12345678901234567890123", llave_proceso: "llave-1", usuario_id: "u1" },
+      { id: "p1", radicado: "12345678901234567890123", llave_proceso: "llave-1", id_proceso_cpnu: "cpnu-1", usuario_id: "u1" },
     ];
 
     const prismaMock = {
@@ -412,8 +412,8 @@ describe("ejecutarRevisionDiaria", () => {
 
   it("resiliencia: error inesperado en un proceso no detiene los demás", async () => {
     const procesos = [
-      { id: "p1", radicado: "12345678901234567890123", llave_proceso: "llave-1", usuario_id: "u1" },
-      { id: "p2", radicado: "12345678901234567890124", llave_proceso: "llave-2", usuario_id: "u1" },
+      { id: "p1", radicado: "12345678901234567890123", llave_proceso: "llave-1", id_proceso_cpnu: "cpnu-1", usuario_id: "u1" },
+      { id: "p2", radicado: "12345678901234567890124", llave_proceso: "llave-2", id_proceso_cpnu: "cpnu-2", usuario_id: "u1" },
     ];
 
     const prismaMock = {
@@ -457,7 +457,7 @@ describe("ejecutarRevisionDiaria", () => {
 
   it("análisis IA sin_plazo → marca actuación analizada sin crear plazo", async () => {
     const procesos = [
-      { id: "p1", radicado: "12345678901234567890123", llave_proceso: "llave-1", usuario_id: "u1" },
+      { id: "p1", radicado: "12345678901234567890123", llave_proceso: "llave-1", id_proceso_cpnu: "cpnu-1", usuario_id: "u1" },
     ];
 
     const actuacionNueva = crearActuacionCPNU(200, "Sentencia — sin recurso");
@@ -515,7 +515,7 @@ describe("ejecutarRevisionDiaria", () => {
 
   it("análisis IA indeterminado → crea plazo sin fecha límite y sin notificaciones", async () => {
     const procesos = [
-      { id: "p1", radicado: "12345678901234567890123", llave_proceso: "llave-1", usuario_id: "u1" },
+      { id: "p1", radicado: "12345678901234567890123", llave_proceso: "llave-1", id_proceso_cpnu: "cpnu-1", usuario_id: "u1" },
     ];
 
     const actuacionNueva = crearActuacionCPNU(300, "Auto con plazo indefinido");
@@ -569,6 +569,92 @@ describe("ejecutarRevisionDiaria", () => {
         fecha_limite: null,
         dias: null,
       }),
+    });
+  });
+
+  it("proceso legado sin id_proceso_cpnu: lo resuelve vía consultarPorRadicado y lo persiste", async () => {
+    const procesos = [
+      { id: "p1", radicado: "12345678901234567890123", llave_proceso: "llave-1", id_proceso_cpnu: null, usuario_id: "u1" },
+    ];
+
+    const prismaMock = {
+      proceso: {
+        findMany: vi.fn().mockResolvedValue(procesos),
+        update: vi.fn().mockResolvedValue({}),
+      },
+      actuacion: { findMany: vi.fn().mockResolvedValue([]), findFirst: vi.fn(), update: vi.fn() },
+      plazo: { create: vi.fn() },
+    } as unknown as OpcionesRevision["prismaClient"];
+
+    const cpnuMock = {
+      consultarPorRadicado: vi.fn().mockResolvedValue({
+        ok: true,
+        value: {
+          procesos: [{ idProceso: 555, llaveProceso: "llave-1" }],
+          paginacion: { pagina: 1, cantidadPaginas: 1, cantidadRegistros: 1 },
+        },
+      }),
+      obtenerActuaciones: vi.fn().mockResolvedValue({ ok: true, value: [] }),
+    } as unknown as OpcionesRevision["cpnuClient"];
+
+    const resultado = await ejecutarRevisionDiaria({
+      logger,
+      prismaClient: prismaMock,
+      cpnuClient: cpnuMock,
+      ahora: AHORA,
+    });
+
+    expect(resultado.procesosRevisados).toBe(1);
+    // Se resolvió por radicado y se consultó obtenerActuaciones con el idProceso resuelto
+    expect(cpnuMock!.consultarPorRadicado).toHaveBeenCalledWith("12345678901234567890123");
+    expect(cpnuMock!.obtenerActuaciones).toHaveBeenCalledWith("555");
+    // Se persistió para futuras revisiones
+    expect(prismaMock!.proceso.update).toHaveBeenCalledWith({
+      where: { id: "p1" },
+      data: { id_proceso_cpnu: "555" },
+    });
+  });
+
+  it("proceso sin id_proceso_cpnu y radicado no encontrado en CPNU: se omite sin romper el batch", async () => {
+    const procesos = [
+      { id: "p1", radicado: "12345678901234567890123", llave_proceso: "llave-1", id_proceso_cpnu: null, usuario_id: "u1" },
+      { id: "p2", radicado: "12345678901234567890124", llave_proceso: "llave-2", id_proceso_cpnu: "cpnu-2", usuario_id: "u1" },
+    ];
+
+    const prismaMock = {
+      proceso: {
+        findMany: vi.fn().mockResolvedValue(procesos),
+        update: vi.fn().mockResolvedValue({}),
+      },
+      actuacion: { findMany: vi.fn().mockResolvedValue([]), findFirst: vi.fn(), update: vi.fn() },
+      plazo: { create: vi.fn() },
+    } as unknown as OpcionesRevision["prismaClient"];
+
+    const cpnuMock = {
+      consultarPorRadicado: vi.fn().mockResolvedValue({
+        ok: false,
+        error: { tipo: "no_encontrado" as const, detalle: "sin resultados" },
+      }),
+      obtenerActuaciones: vi.fn().mockResolvedValue({ ok: true, value: [] }),
+    } as unknown as OpcionesRevision["cpnuClient"];
+
+    const resultado = await ejecutarRevisionDiaria({
+      logger,
+      prismaClient: prismaMock,
+      cpnuClient: cpnuMock,
+      ahora: AHORA,
+    });
+
+    expect(resultado.resultados[0]!.exito).toBe(false);
+    expect(resultado.resultados[0]!.error).toContain("No se pudo resolver id_proceso_cpnu");
+    // No se intentó consultar actuaciones sin un idProceso válido
+    expect(cpnuMock!.obtenerActuaciones).not.toHaveBeenCalledWith(expect.stringContaining("p1"));
+    // El segundo proceso, con id_proceso_cpnu ya presente, se revisó normalmente
+    expect(resultado.resultados[1]!.exito).toBe(true);
+    // ultima_revision_en se actualiza igual para el proceso omitido
+    expect(prismaMock!.proceso.update).toHaveBeenCalledWith({
+      where: { id: "p1" },
+      data: { ultima_revision_en: expect.any(Date) },
     });
   });
 });

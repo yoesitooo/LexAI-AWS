@@ -99,12 +99,14 @@ const loggerDefault: Logger = {
  *
  * Para cada proceso activo:
  * 1. Obtener IDs de actuaciones almacenadas
- * 2. Consultar CPNU (obtenerActuaciones) — timeout 30s, 3 reintentos built-in
- * 3. Si CPNU falla → log error, conservar histórico, continuar
- * 4. Diff actuaciones → almacenar nuevas con es_nueva=true
- * 5. Para cada nueva actuación: IA → si plazo, calcular fecha → planificar notificaciones
- * 6. Si IA falla → actuación queda con analisis_completado=false, no bloquea
- * 7. Actualizar proceso.ultima_revision_en = now()
+ * 2. Resolver id_proceso_cpnu (auto-reparación por radicado si falta)
+ * 3. Consultar CPNU (obtenerActuaciones) — timeout 30s, 3 reintentos built-in
+ * 4. Si CPNU falla → log error, conservar histórico, continuar
+ * 5. Diff actuaciones → almacenar nuevas con es_nueva=true
+ * 6. Para cada nueva actuación: IA → si plazo, calcular fecha → planificar notificaciones
+ *    Si IA falla → actuación queda con analisis_completado=false, no bloquea
+ * 7. Sincronizar documentos (best-effort)
+ * 8. Actualizar proceso.ultima_revision_en = now()
  *
  * @param opciones - Dependencias inyectables (para testing)
  * @returns Resumen de la revisión
@@ -128,6 +130,7 @@ export async function ejecutarRevisionDiaria(
       id: true,
       radicado: true,
       llave_proceso: true,
+      id_proceso_cpnu: true,
       usuario_id: true,
     },
   });
@@ -188,6 +191,7 @@ interface ProcesoParaRevision {
   id: string;
   radicado: string;
   llave_proceso: string | null;
+  id_proceso_cpnu: string | null;
   usuario_id: string;
 }
 
@@ -210,13 +214,49 @@ async function revisarProceso(
       select: { id_actuacion_cpnu: true },
     });
 
-    // 2. Consultar CPNU — obtener actuaciones frescas
-    // El cliente ya tiene timeout 30s y 3 reintentos built-in
-    const resultadoCPNU = await cpnu.obtenerActuaciones(
-      proceso.llave_proceso ?? proceso.id,
-    );
+    // 2. Resolver el idProceso de la CPNU que identifica a esta instancia.
+    // `llave_proceso` NO sirve para esto: la CPNU la repite igual para varias
+    // instancias de un mismo radicado (ver fixture consulta-radicado-multiples.json),
+    // mientras que `idProceso` es único por instancia. Los procesos creados antes
+    // de que este campo existiera lo resuelven aquí y quedan reparados para
+    // las próximas revisiones.
+    let idProcesoCPNU = proceso.id_proceso_cpnu;
 
-    // 3. Si CPNU falla → conservar histórico, registrar error, continuar
+    if (!idProcesoCPNU) {
+      const resultadoResolucion = await cpnu.consultarPorRadicado(proceso.radicado);
+      const procesoResuelto = resultadoResolucion.ok
+        ? resultadoResolucion.value.procesos[0]
+        : undefined;
+
+      if (procesoResuelto) {
+        idProcesoCPNU = String(procesoResuelto.idProceso);
+        await db.proceso.update({
+          where: { id: proceso.id },
+          data: { id_proceso_cpnu: idProcesoCPNU },
+        });
+      }
+    }
+
+    if (!idProcesoCPNU) {
+      logger.error(
+        `No se pudo resolver id_proceso_cpnu para proceso ${proceso.radicado}; se omite esta revisión.`,
+      );
+      await actualizarUltimaRevision(db, proceso.id);
+      return {
+        procesoId: proceso.id,
+        radicado: proceso.radicado,
+        exito: false,
+        actuacionesNuevas: 0,
+        plazosCreados: 0,
+        error: "No se pudo resolver id_proceso_cpnu (radicado no encontrado en la CPNU).",
+      };
+    }
+
+    // 3. Consultar CPNU — obtener actuaciones frescas
+    // El cliente ya tiene timeout 30s y 3 reintentos built-in
+    const resultadoCPNU = await cpnu.obtenerActuaciones(idProcesoCPNU);
+
+    // 4. Si CPNU falla → conservar histórico, registrar error, continuar
     if (!resultadoCPNU.ok) {
       logger.error(
         `CPNU falló para proceso ${proceso.radicado}: ${resultadoCPNU.error.tipo} — ${resultadoCPNU.error.detalle}`,
@@ -235,7 +275,7 @@ async function revisarProceso(
 
     const actuacionesFrescas = resultadoCPNU.value;
 
-    // 4. Diff actuaciones → determinar cuáles son nuevas
+    // 5. Diff actuaciones → determinar cuáles son nuevas
     const actuacionesNuevas = diffActuaciones(
       proceso.id,
       actuacionesFrescas,
@@ -251,7 +291,7 @@ async function revisarProceso(
       );
     }
 
-    // 5. Para cada actuación nueva: IA → Calculadora → Planificador
+    // 6. Para cada actuación nueva: IA → Calculadora → Planificador
     let plazosCreados = 0;
     for (const actuacionNueva of actuacionesNuevas) {
       const plazosDeEsta = await procesarActuacionNueva(
@@ -262,7 +302,7 @@ async function revisarProceso(
       plazosCreados += plazosDeEsta;
     }
 
-    // 6b. Sincronizar documentos de las actuaciones con adjuntos (best-effort).
+    // 7. Sincronizar documentos de las actuaciones con adjuntos (best-effort).
     // Idempotente: solo descarga los que aún no estén en el expediente.
     try {
       await deps.sincronizarDocumentos(proceso.id, {
@@ -278,7 +318,7 @@ async function revisarProceso(
       // No bloquea la revisión del proceso.
     }
 
-    // 7. Actualizar ultima_revision_en = now()
+    // 8. Actualizar ultima_revision_en = now()
     await actualizarUltimaRevision(db, proceso.id);
 
     return {

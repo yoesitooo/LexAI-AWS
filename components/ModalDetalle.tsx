@@ -74,6 +74,19 @@ interface Documento {
   creado_en: string;
 }
 
+// ─── Constantes de subida (módulo, para no recrearlas en cada render) ────────
+
+const ALLOWED_TYPES = new Set([
+  'application/pdf',
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+]);
+
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
 // ─── Tabs config ─────────────────────────────────────────────────────────────
 
 type TabId = 'general' | 'actuaciones' | 'plazos' | 'expediente' | 'comentarios';
@@ -252,17 +265,6 @@ export function ModalDetalle({ abierto, onCerrar, procesoId }: ModalDetalleProps
   }, []);
 
   // ─── Upload file ───────────────────────────────────────────────────────
-
-  const ALLOWED_TYPES = new Set([
-    'application/pdf',
-    'image/jpeg',
-    'image/png',
-    'image/webp',
-    'application/msword',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  ]);
-
-  const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
   const subirArchivo = useCallback(async (file: File) => {
     if (!procesoId) return;

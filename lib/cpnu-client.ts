@@ -531,11 +531,24 @@ export function crearClienteCPNU(): ClienteCPNU {
 
         // Determinar paginación
         if (paginaActual === 1) {
-          // Calcular total de páginas a partir de cantFilas del primer registro
-          const primerProceso = procesos[0];
-          if (procesos.length > 0 && primerProceso && primerProceso.cantFilas) {
-            const registrosPorPagina = procesos.length || 10;
-            totalPaginas = Math.ceil(primerProceso.cantFilas / registrosPorPagina);
+          // Preferir el objeto `paginacion` real de la API (confirmado en vivo:
+          // { cantidadRegistros, registrosPagina, cantidadPaginas, pagina }).
+          // `cantFilas` por elemento de `procesos[]` no es confiable: la API
+          // en producción lo devuelve siempre en -1, así que solo se usa como
+          // respaldo cuando no viene el objeto de paginación.
+          const paginacionCPNU = data.paginacion as
+            | { cantidadPaginas?: unknown }
+            | undefined;
+          const cantidadPaginasReal = Number(paginacionCPNU?.cantidadPaginas);
+
+          if (Number.isFinite(cantidadPaginasReal) && cantidadPaginasReal > 0) {
+            totalPaginas = cantidadPaginasReal;
+          } else {
+            const primerProceso = procesos[0];
+            if (procesos.length > 0 && primerProceso && primerProceso.cantFilas > 0) {
+              const registrosPorPagina = procesos.length || 10;
+              totalPaginas = Math.ceil(primerProceso.cantFilas / registrosPorPagina);
+            }
           }
         }
 

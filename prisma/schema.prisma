@@ -128,6 +128,7 @@ model Proceso {
   usuario_id         String        @db.Uuid
   radicado           String        @db.Char(23)
   llave_proceso      String?
+  id_proceso_cpnu    String?
   despacho           String?
   departamento       String?
   ciudad             String?

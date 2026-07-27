@@ -202,6 +202,7 @@ export async function POST(request: NextRequest) {
           usuario_id: usuarioId,
           radicado,
           llave_proceso: procesoCPNU.llaveProceso ?? null,
+          id_proceso_cpnu: String(procesoCPNU.idProceso),
           despacho: procesoCPNU.despacho ?? null,
           departamento: procesoCPNU.departamento ?? null,
           sujetos_procesales: procesoCPNU.sujetosProcesales ?? "{}",

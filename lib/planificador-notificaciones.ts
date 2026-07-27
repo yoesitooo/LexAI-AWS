@@ -223,7 +223,7 @@ export async function planificarNotificaciones(
 
   // Persistir notificaciones en transacción atómica
   try {
-    await prismaClient.$transaction(async (tx: any) => {
+    await prismaClient.$transaction(async (tx) => {
       // Crear todas las notificaciones dentro de la transacción
       for (const notif of planificacion.notificaciones) {
         await tx.notificacion.create({
