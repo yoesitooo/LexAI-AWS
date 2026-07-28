@@ -223,7 +223,10 @@ export async function planificarNotificaciones(
 
   // Persistir notificaciones en transacción atómica
   try {
-    await prismaClient.$transaction(async (tx) => {
+    // `prismaClient` es `any` (inyectable en tests), así que el cliente de
+    // transacción no se puede inferir: hay que anotarlo explícitamente.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await prismaClient.$transaction(async (tx: any) => {
       // Crear todas las notificaciones dentro de la transacción
       for (const notif of planificacion.notificaciones) {
         await tx.notificacion.create({

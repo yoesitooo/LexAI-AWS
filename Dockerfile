@@ -7,7 +7,7 @@
 # ---------------------------------------------------------------------------
 # Stage 1: Instalar dependencias
 # ---------------------------------------------------------------------------
-FROM node:20-alpine AS deps
+FROM node:24-alpine AS deps
 
 WORKDIR /app
 
@@ -30,7 +30,7 @@ RUN npx prisma generate
 # ---------------------------------------------------------------------------
 # Stage 2: Build de la aplicación
 # ---------------------------------------------------------------------------
-FROM node:20-alpine AS builder
+FROM node:24-alpine AS builder
 
 WORKDIR /app
 
@@ -46,7 +46,7 @@ RUN npm run build
 # ---------------------------------------------------------------------------
 # Stage 3: Imagen de producción (Next.js standalone)
 # ---------------------------------------------------------------------------
-FROM node:20-alpine AS runner
+FROM node:24-alpine AS runner
 
 WORKDIR /app
 
