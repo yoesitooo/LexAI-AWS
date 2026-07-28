@@ -75,6 +75,11 @@ COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
 COPY --from=builder --chown=nextjs:nodejs /app/tsconfig.json ./tsconfig.json
 
+# prisma.config.ts provee datasource.url (el bloque `datasource` del schema no
+# la declara). Sin este archivo, `prisma migrate deploy` dentro del contenedor
+# no sabe a qué base conectarse.
+COPY --from=builder --chown=nextjs:nodejs /app/prisma.config.ts ./prisma.config.ts
+
 USER nextjs
 
 EXPOSE 3000
