@@ -2,7 +2,34 @@
 
 Plataforma SaaS de trazabilidad procesal para abogados independientes en Colombia. LexAI consulta automáticamente el estado de los procesos judiciales de un abogado en la **Consulta de Procesos Nacional Unificada (CPNU)** de la Rama Judicial, detecta actuaciones nuevas, usa IA para analizarlas y calcular plazos, y notifica al abogado (in-app, email, WhatsApp) antes de que se venzan los términos. Todo se presenta en un tablero Kanban accesible.
 
-> Contexto completo del producto: [PRD-LexAI.md](./PRD-LexAI.md). Specs de desarrollo (requirements/design/tasks): [.kiro/specs/lexai-mvp/](./.kiro/specs/lexai-mvp/).
+> Contexto completo del producto: [PRD-LexAI.md](./PRD-LexAI.md). Specs de desarrollo (requirements/design/tasks): [.kiro/specs/lexai-mvp/](./.kiro/specs/lexai-mvp/). Arquitectura detallada: [docs/arquitectura.md](./docs/arquitectura.md). Referencia de todos los módulos/clases del código: [docs/modulos.md](./docs/modulos.md).
+
+## Arquitectura
+
+LexAI son **dos procesos Node.js independientes que comparten la misma capa de dominio (`lib/`) y la misma base de datos PostgreSQL**:
+
+- **`web`** — aplicación Next.js 16 (App Router): UI del abogado (tablero Kanban, detalle de proceso, notificaciones, configuración) + rutas API (`app/api/**`).
+- **`worker`** — proceso independiente con `node-cron`: revisión diaria de procesos contra la CPNU (06:00 CO) y despacho de notificaciones programadas (07:00 CO), en días hábiles.
+
+No hay cola de mensajes ni microservicios adicionales: la integración entre `web` y `worker` es la base de datos y los módulos compartidos de `lib/`.
+
+```mermaid
+flowchart LR
+    Browser["Navegador"] -->|HTTPS| Caddy["Caddy (HTTPS + reverse proxy)"]
+    Caddy --> Web["web · Next.js"]
+    Web <--> DB[("PostgreSQL")]
+    Worker["worker · node-cron"] <--> DB
+    Web -->|consulta bajo demanda| CPNU["CPNU (Rama Judicial)"]
+    Worker -->|revisión diaria 06:00| CPNU
+    Worker -->|análisis de actuaciones| LLM["Proveedor LLM"]
+    Worker -->|despacho 07:00| Resend["Resend (email)"]
+```
+
+Pipeline de negocio (por proceso judicial en seguimiento, cada día hábil): **CPNU → diffing de actuaciones → análisis con IA → cálculo de plazos → planificación de notificaciones → despacho multicanal**, con aislamiento de fallos en cada paso (un proceso o canal fallido nunca detiene a los demás) y transición automática de plazos vencidos "al leer" para que el tablero Kanban siempre refleje el estado real.
+
+Principios clave del código: `Result<T,E>` en vez de excepciones para errores externos, proveedor de IA intercambiable sin cambios de código, todo el manejo de fechas anclado a `America/Bogotá`, y guardas explícitas que rechazan funcionalidad de Fase 2 (multi-tenant, roles, tutelas) fuera de alcance del MVP.
+
+Ver el detalle completo (diagramas de capas y de secuencia, despliegue, decisiones de diseño) en [docs/arquitectura.md](./docs/arquitectura.md), y la documentación de cada módulo/clase del proyecto en [docs/modulos.md](./docs/modulos.md).
 
 ## Stack técnico
 
@@ -134,12 +161,23 @@ npm test
 
 ## Despliegue con Docker
 
-El proyecto incluye un stack completo (`web` + `worker` + `db` + `caddy` con HTTPS automático) pensado para un servidor tipo EC2 t3.small:
+El proyecto incluye un stack completo pensado para un servidor tipo EC2 t3.small, orquestado por `docker-compose.yml` con 4 servicios:
+
+| Servicio | Imagen/build | Rol |
+|---|---|---|
+| `db` | `postgres:16` | Base de datos, con volumen persistente `pgdata` y healthcheck (`pg_isready`); `web` y `worker` esperan a que esté `healthy`. |
+| `web` | `Dockerfile` (target `runner`) | Next.js compilado en modo `standalone`, corre `node server.js` en el puerto `3000`. |
+| `worker` | misma imagen que `web` | Mismo build, pero sobreescribe el `command` a `npx tsx worker/index.ts` para correr la revisión diaria y el despacho de notificaciones. |
+| `caddy` | `caddy:2-alpine` | Reverse proxy con HTTPS automático (Let's Encrypt) hacia `web:3000`, cabeceras de seguridad (`HSTS`, `X-Frame-Options`, etc.) y logs de acceso. |
+
+`web` y `worker` comparten la misma imagen Docker (`Dockerfile`, multi-stage: `deps` → `builder` → `runner`), porque ambos procesos importan la misma capa `lib/`. El Prisma Client se genera en la etapa `builder` (su salida va a `lib/generated/`, que está en `.gitignore`), y la imagen final corre como usuario no-root (`nextjs`) con el directorio `uploads/` (expediente digital) ya creado y con los permisos correctos.
 
 ```bash
 # Asegúrate de tener un .env configurado en la raíz del proyecto
 docker compose up -d --build
 ```
+
+Variables adicionales relevantes solo para despliegue (además de las de la sección de variables de entorno): `POSTGRES_USER`/`POSTGRES_PASSWORD`/`POSTGRES_DB` (usadas tanto por `db` como para componer `DATABASE_URL` de `web`/`worker`) y `DOMAIN` (dominio para el que Caddy emite el certificado TLS; por defecto `localhost`).
 
 Para desplegar actualizaciones en un servidor ya configurado (pull + rebuild + migraciones), usa el script incluido:
 
@@ -147,6 +185,8 @@ Para desplegar actualizaciones en un servidor ya configurado (pull + rebuild + m
 chmod +x deploy.sh
 ./deploy.sh
 ```
+
+`deploy.sh` hace `git pull` → `docker compose up -d --build` → `docker compose exec web npx prisma migrate deploy` (tolerante a que el servicio aún esté iniciando). Ver el diagrama de despliegue completo en [docs/arquitectura.md](./docs/arquitectura.md#despliegue).
 
 ## Estructura del proyecto
 
@@ -158,10 +198,12 @@ worker/           # Proceso independiente (node-cron): revisión diaria y despac
 prisma/           # Esquema de base de datos y migraciones
 test/             # Pruebas de integración, accesibilidad y property-based testing
 scripts/          # Scripts auxiliares (p. ej. probe-cpnu.ts para probar el endpoint de la CPNU)
-docs/             # Documentación adicional (extensibilidad a fase 2)
+docs/             # Documentación adicional: arquitectura.md, modulos.md, extensibilidad a fase 2
 .kiro/specs/      # Specs de desarrollo (requirements, design, tasks)
 ```
 
-## Licencia
+Documentación adicional:
 
-Proyecto privado (`UNLICENSED`).
+- [docs/arquitectura.md](./docs/arquitectura.md) — procesos, capas, diagramas de flujo de datos y despliegue, principios de diseño.
+- [docs/modulos.md](./docs/modulos.md) — referencia completa de cada módulo/clase del código (`lib/`, `worker/`, `app/`, `components/`, modelo de datos).
+- [docs/extensibilidad-fase2.md](./docs/extensibilidad-fase2.md) — plan de extensión aditiva a Fase 2 (multi-tenant, roles, tutelas, redacción con IA).
