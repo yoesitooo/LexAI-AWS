@@ -24,9 +24,6 @@ RUN \
   else npm install; \
   fi
 
-# Generar Prisma Client
-RUN npx prisma generate
-
 # ---------------------------------------------------------------------------
 # Stage 2: Build de la aplicación
 # ---------------------------------------------------------------------------
@@ -36,6 +33,12 @@ WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+# El Prisma Client se genera AQUÍ, no en la etapa `deps`: su salida va a
+# `lib/generated/` (ver el `output` del generador), que está en .gitignore y
+# por tanto no llega con `COPY . .`. Generarlo en `deps` no sirve porque de
+# esa etapa solo se arrastra `node_modules`.
+RUN npx prisma generate
 
 # Variables de build (no son secretos, solo para el build de Next.js)
 ENV NEXT_TELEMETRY_DISABLED=1
