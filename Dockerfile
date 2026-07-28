@@ -83,6 +83,11 @@ COPY --from=builder --chown=nextjs:nodejs /app/tsconfig.json ./tsconfig.json
 # no sabe a qué base conectarse.
 COPY --from=builder --chown=nextjs:nodejs /app/prisma.config.ts ./prisma.config.ts
 
+# El expediente digital escribe en uploads/{procesoId}/. `WORKDIR` crea /app
+# como root, así que el usuario `nextjs` no podría crear ese directorio en
+# caliente: hay que dejarlo creado y con el dueño correcto.
+RUN mkdir -p /app/uploads && chown -R nextjs:nodejs /app/uploads
+
 USER nextjs
 
 EXPOSE 3000
