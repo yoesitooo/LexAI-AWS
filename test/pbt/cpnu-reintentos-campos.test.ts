@@ -274,13 +274,13 @@ describe("PBT — Extracción de campos de la respuesta CPNU (Property 9)", () =
             llaveProceso: fc.string({ minLength: 1, maxLength: 50 }),
             fechaProceso: fc.option(
               fc
-                .date({ min: new Date("1900-01-01"), max: new Date("2100-12-31") })
+                .date({ min: new Date("1900-01-01"), max: new Date("2100-12-31"), noInvalidDate: true })
                 .map((d) => d.toISOString()),
               { nil: null }
             ),
             fechaUltimaActuacion: fc.option(
               fc
-                .date({ min: new Date("1900-01-01"), max: new Date("2100-12-31") })
+                .date({ min: new Date("1900-01-01"), max: new Date("2100-12-31"), noInvalidDate: true })
                 .map((d) => d.toISOString()),
               { nil: null }
             ),
@@ -363,13 +363,13 @@ describe("PBT — Extracción de campos de la respuesta CPNU (Property 9)", () =
               llaveProceso: fc.string({ minLength: 1, maxLength: 50 }),
               fechaProceso: fc.option(
                 fc
-                  .date({ min: new Date("1900-01-01"), max: new Date("2100-12-31") })
+                  .date({ min: new Date("1900-01-01"), max: new Date("2100-12-31"), noInvalidDate: true })
                   .map((d) => d.toISOString()),
                 { nil: null }
               ),
               fechaUltimaActuacion: fc.option(
                 fc
-                  .date({ min: new Date("1900-01-01"), max: new Date("2100-12-31") })
+                  .date({ min: new Date("1900-01-01"), max: new Date("2100-12-31"), noInvalidDate: true })
                   .map((d) => d.toISOString()),
                 { nil: null }
               ),
