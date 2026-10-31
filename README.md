@@ -3,6 +3,7 @@
 ![Next.js](https://img.shields.io/badge/Next.js_16-000?logo=nextdotjs&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Prisma-4169E1?logo=postgresql&logoColor=white)
+![CI](https://github.com/yoesitooo/LexAI-AWS/actions/workflows/ci.yml/badge.svg)
 ![Tests](https://img.shields.io/badge/tests-792_passing-2ea44f?logo=vitest&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker_Compose-web·worker·db·caddy-2496ED?logo=docker&logoColor=white)
 
