@@ -4,7 +4,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Prisma-4169E1?logo=postgresql&logoColor=white)
 ![CI](https://github.com/yoesitooo/LexAI-AWS/actions/workflows/ci.yml/badge.svg)
-![Tests](https://img.shields.io/badge/tests-792_passing-2ea44f?logo=vitest&logoColor=white)
+![Tests](https://img.shields.io/badge/tests-804_passing-2ea44f?logo=vitest&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker_Compose-web·worker·db·caddy-2496ED?logo=docker&logoColor=white)
 
 > **🇬🇧 In English — at a glance**
@@ -16,7 +16,7 @@
 > | Two-process architecture (Next.js web + `node-cron` worker) sharing one domain layer and DB | [`worker/`](./worker) · [`lib/`](./lib) · [docs/arquitectura.md](./docs/arquitectura.md) |
 > | External-API integration with fault isolation and `Result<T,E>` error handling | [`lib/`](./lib) |
 > | Swappable LLM provider behind one interface | [`lib/llm/providers/`](./lib/llm/providers) |
-> | **792 automated tests in 72 files** — unit, integration, accessibility and **property-based tests** (fast-check) | [`test/`](./test) · `npm test` |
+> | **804 automated tests in 72 files** — unit, integration, accessibility and **property-based tests** (fast-check) | [`test/`](./test) · `npm test` |
 > | Containerised deployment: multi-stage Dockerfile, non-root image, Caddy with automatic HTTPS, deploy script for a single EC2 instance | [`Dockerfile`](./Dockerfile) · [`docker-compose.yml`](./docker-compose.yml) · [`deploy.sh`](./deploy.sh) |
 >
 > Quick start: `cp .env.example .env && npm install && npm test` — the test suite runs without a real database.
