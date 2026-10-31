@@ -10,17 +10,18 @@
  */
 
 import { Sidebar } from "@/components";
+import { DemoBanner } from "@/components/DemoBanner";
+import { esModoDemo } from "@/lib/demo";
 import styles from "./layout.module.css";
 
-export default function ProtectedLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ProtectedLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className={styles.layout}>
       <Sidebar />
-      <main className={styles.main}>{children}</main>
+      <main className={styles.main}>
+        {esModoDemo() && <DemoBanner />}
+        {children}
+      </main>
     </div>
   );
 }

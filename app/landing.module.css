@@ -88,10 +88,37 @@
   margin-top: var(--espacio-1);
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-2);
   justify-content: center;
 }
 
+.ctaSecundario {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  min-width: 200px;
+  padding: 0 var(--espacio-4);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  background-color: transparent;
+  color: var(--texto-primario);
+  font-family: var(--fuente-familia);
+  font-size: var(--fuente-cuerpo-tam);
+  font-weight: var(--fuente-subtitulo-peso);
+  text-decoration: none;
+}
+
+.notaDemo {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--texto-secundario);
+  text-align: center;
+}
+
 .ctaLogin {
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -135,7 +162,9 @@
     font-size: var(--fuente-subtitulo-tam);
   }
 
-  .ctaLogin {
+  .ctaLogin,
+  .ctaSecundario,
+  .acciones form {
     width: 100%;
   }
 }

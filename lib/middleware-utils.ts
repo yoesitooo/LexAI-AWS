@@ -10,8 +10,9 @@
  * - "/"        → landing pública de bienvenida (solo coincide de forma exacta).
  * - "/login"   → pantalla de inicio de sesión y sus subrutas.
  * - "/api/auth"→ endpoints de NextAuth y sus subrutas.
+ * - "/api/cron"→ tareas programadas; cada ruta valida su propio CRON_SECRET.
  */
-export const PUBLIC_PATHS = ["/", "/login", "/api/auth"];
+export const PUBLIC_PATHS = ["/", "/login", "/api/auth", "/api/cron"];
 
 /**
  * Determina si una ruta es pública (no requiere autenticación).

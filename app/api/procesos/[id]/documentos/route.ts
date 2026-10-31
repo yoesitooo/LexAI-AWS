@@ -8,6 +8,7 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
+import { esModoDemo } from "@/lib/demo";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { writeFile, mkdir } from "fs/promises";
@@ -45,6 +46,14 @@ export async function GET(
       return NextResponse.json(
         { error: "No autenticado." },
         { status: 401 },
+      );
+    }
+
+    // En el demo público no se guardan archivos en el servidor
+    if (esModoDemo()) {
+      return NextResponse.json(
+        { error: "La carga de documentos está deshabilitada en el modo demo." },
+        { status: 403 },
       );
     }
 

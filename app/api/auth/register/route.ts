@@ -19,6 +19,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
+import { esModoDemo } from "@/lib/demo";
 
 // ─── Validación ─────────────────────────────────────────────────────────────
 
@@ -111,6 +112,14 @@ function validarDatosRegistro(body: unknown): {
 // ─── Handler ────────────────────────────────────────────────────────────────
 
 export async function POST(request: NextRequest) {
+  // En el demo público el acceso es solo con "Probar demo" (cuentas temporales)
+  if (esModoDemo()) {
+    return NextResponse.json(
+      { error: "El registro está deshabilitado en el modo demo." },
+      { status: 403 },
+    );
+  }
+
   try {
     const body = await request.json().catch(() => null);
 

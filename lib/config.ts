@@ -77,7 +77,8 @@ function getNodeEnv(): "development" | "production" | "test" {
 export const env: EnvConfig = {
   DATABASE_URL: getEnvVar("DATABASE_URL"),
   LLM_PROVIDER: getLLMProvider(),
-  LLM_API_KEY: getEnvVar("LLM_API_KEY"),
+  // En modo demo la IA usa un proveedor mock, así que la API key no es obligatoria.
+  LLM_API_KEY: getEnvVar("LLM_API_KEY", process.env.DEMO_MODE !== "true"),
   TWILIO_ACCOUNT_SID: getEnvVar("TWILIO_ACCOUNT_SID", false),
   TWILIO_AUTH_TOKEN: getEnvVar("TWILIO_AUTH_TOKEN", false),
   TWILIO_WHATSAPP_FROM: getEnvVar("TWILIO_WHATSAPP_FROM", false),
