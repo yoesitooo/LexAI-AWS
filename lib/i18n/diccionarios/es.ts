@@ -17,6 +17,13 @@ export const es = {
   "landing.beneficio_1": "Seguimiento automático de actuaciones",
   "landing.beneficio_2": "Alertas de plazos antes del vencimiento",
   "landing.beneficio_3": "Tablero visual de todos sus procesos",
+  "landing.cta_demo": "Probar demo (sin registro)",
+  "landing.demo_nota": "Cuenta temporal con datos ficticios. Se borra en 24 horas.",
+  "landing.demo_error_limite": "El demo está muy concurrido. Intente de nuevo en unos minutos.",
+  "landing.demo_error_interno": "No se pudo preparar el demo. Intente de nuevo.",
+
+  // --- Modo demo ---
+  "demo.banner": "Modo demo: todos los datos son ficticios y esta cuenta se borra en {horas} horas.",
 
   // --- Navegación (sidebar) ---
   "nav.mis_procesos": "Mis procesos",

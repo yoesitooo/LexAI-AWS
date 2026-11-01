@@ -430,3 +430,19 @@ describe("POST /api/auth/register", () => {
     });
   });
 });
+
+describe("POST /api/auth/register — modo demo", () => {
+  it("responde 403 y no toca la base de datos cuando DEMO_MODE=true", async () => {
+    vi.clearAllMocks();
+    vi.stubEnv("DEMO_MODE", "true");
+    try {
+      const res = await POST(
+        crearRequest({ nombre: "Ana", email: "ana@ejemplo.com", password: "password123" }),
+      );
+      expect(res.status).toBe(403);
+      expect(prisma.usuario.findUnique).not.toHaveBeenCalled();
+    } finally {
+      vi.unstubAllEnvs();
+    }
+  });
+});

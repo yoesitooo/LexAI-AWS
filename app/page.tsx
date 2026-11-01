@@ -12,22 +12,26 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
+import { esModoDemo } from "@/lib/demo";
+import { iniciarDemo } from "./demo/actions";
 import { Logo } from "@/components/Logo";
 import { t } from "@/lib/i18n";
 import styles from "./landing.module.css";
 
-export default async function LandingPage() {
+export default async function LandingPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ demo?: string }>;
+}) {
   const session = await auth();
+  const modoDemo = esModoDemo();
+  const { demo: errorDemo } = await searchParams;
 
   if (session) {
     redirect("/tablero");
   }
 
-  const beneficios = [
-    t("landing.beneficio_1"),
-    t("landing.beneficio_2"),
-    t("landing.beneficio_3"),
-  ];
+  const beneficios = [t("landing.beneficio_1"), t("landing.beneficio_2"), t("landing.beneficio_3")];
 
   return (
     <main className={styles.pagina}>
@@ -52,10 +56,27 @@ export default async function LandingPage() {
         </ul>
 
         <div className={styles.acciones}>
-          <Link href="/login" className={styles.ctaLogin}>
+          {modoDemo && (
+            <form action={iniciarDemo}>
+              <button type="submit" className={styles.ctaLogin}>
+                {t("landing.cta_demo")}
+              </button>
+            </form>
+          )}
+          <Link href="/login" className={modoDemo ? styles.ctaSecundario : styles.ctaLogin}>
             {t("landing.cta_login")}
           </Link>
         </div>
+
+        {modoDemo && (
+          <p className={styles.notaDemo} role={errorDemo ? "alert" : undefined}>
+            {errorDemo === "limite"
+              ? t("landing.demo_error_limite")
+              : errorDemo
+                ? t("landing.demo_error_interno")
+                : t("landing.demo_nota")}
+          </p>
+        )}
       </div>
     </main>
   );

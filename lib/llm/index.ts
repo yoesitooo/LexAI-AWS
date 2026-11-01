@@ -24,6 +24,7 @@ import type { AdaptadorLLM, ErrorLLM } from "./types";
 import { crearProveedorGemini } from "./providers/gemini";
 import { crearProveedorOpenAI } from "./providers/openai";
 import { crearProveedorAnthropic } from "./providers/anthropic";
+import { crearProveedorMock } from "./providers/mock";
 
 // Re-exportar tipos públicos
 export type { AdaptadorLLM, OpcionesLLM, ErrorLLM, TipoErrorLLM } from "./types";
@@ -86,6 +87,12 @@ export function obtenerAdaptadorLLM(): AdaptadorLLM {
   // las variables de entorno antes de la primera llamada
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { env } = require("@/lib/config") as typeof import("@/lib/config");
+
+  if (process.env.DEMO_MODE === "true") {
+    // Modo demo público: respuestas simuladas, sin costo ni llamadas externas
+    _instancia = crearProveedorMock();
+    return _instancia;
+  }
 
   if (!env.LLM_API_KEY) {
     // En desarrollo/test sin API key, devolver un adaptador que avisa

@@ -36,6 +36,14 @@ describe("middleware-utils — isPublicPath", () => {
     expect(isPublicPath("/")).toBe(true);
   });
 
+  it("/api/cron/limpiar-demos es pública (la ruta valida su propio CRON_SECRET)", () => {
+    expect(isPublicPath("/api/cron/limpiar-demos")).toBe(true);
+  });
+
+  it("/api/cronjobs NO es pública (solo el prefijo exacto /api/cron)", () => {
+    expect(isPublicPath("/api/cronjobs")).toBe(false);
+  });
+
   it("/tablero NO es pública (es el Kanban protegido)", () => {
     expect(isPublicPath("/tablero")).toBe(false);
   });
@@ -228,6 +236,6 @@ describe("middleware-utils — PUBLIC_PATHS export", () => {
   });
 
   it("tiene exactamente 3 rutas públicas base", () => {
-    expect(PUBLIC_PATHS).toHaveLength(3);
+    expect(PUBLIC_PATHS).toHaveLength(4);
   });
 });

@@ -15,6 +15,7 @@
     "test:coverage": "vitest --run --coverage",
     "worker": "tsx worker/index.ts",
     "typecheck": "tsc --noEmit",
+    "typecheck:app": "tsc --noEmit -p tsconfig.app.json",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:push": "prisma db push",
