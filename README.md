@@ -182,6 +182,19 @@ El proyecto usa Vitest con variables de entorno mockeadas (ver `test/setup.ts`),
 npm test
 ```
 
+## Demo público (Vercel + Supabase)
+
+Con `DEMO_MODE=true` la landing muestra **"Probar demo (sin registro)"**: cada visitante recibe una cuenta temporal aislada con un abogado ficticio, 6 procesos, plazos (vencido, por vencer y al día) y notificaciones. Los datos son inventados y las cuentas se borran a las 24 h con un Vercel Cron (`/api/cron/limpiar-demos`). En modo demo el registro y la carga de archivos están deshabilitados y la IA usa el proveedor mock.
+
+| Variable | Valor |
+|---|---|
+| `DEMO_MODE` | `true` |
+| `DATABASE_URL` | URL del *Session pooler* de Supabase (puerto 5432) |
+| `NEXTAUTH_SECRET` | texto aleatorio de 32+ caracteres |
+| `CRON_SECRET` | otro texto aleatorio (lo usa Vercel Cron) |
+
+Build command en Vercel: `prisma generate && prisma migrate deploy && next build`.
+
 ## Despliegue con Docker
 
 El proyecto incluye un stack completo pensado para un servidor tipo EC2 t3.small, orquestado por `docker-compose.yml` con 4 servicios:
