@@ -4,8 +4,12 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Prisma-4169E1?logo=postgresql&logoColor=white)
 ![CI](https://github.com/yoesitooo/LexAI-AWS/actions/workflows/ci.yml/badge.svg)
-![Tests](https://img.shields.io/badge/tests-804_passing-2ea44f?logo=vitest&logoColor=white)
+![Tests](https://img.shields.io/badge/tests-846_passing-2ea44f?logo=vitest&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker_Compose-web·worker·db·caddy-2496ED?logo=docker&logoColor=white)
+
+> **▶ Live demo: [lexai-horumlabs.vercel.app](https://lexai-horumlabs.vercel.app)** — click *“Probar demo (sin registro)”*: you get a private sandbox account with fictional data that is deleted after 24 h. Then press **“Simular revisión diaria”** to watch the whole pipeline run.
+
+![LexAI demo: a simulated daily check finds a new court action, the AI detects a 5-business-day term and LexAI computes the deadline](docs/img/demo.gif)
 
 > **🇬🇧 In English — at a glance**
 >
@@ -16,10 +20,28 @@
 > | Two-process architecture (Next.js web + `node-cron` worker) sharing one domain layer and DB | [`worker/`](./worker) · [`lib/`](./lib) · [docs/arquitectura.md](./docs/arquitectura.md) |
 > | External-API integration with fault isolation and `Result<T,E>` error handling | [`lib/`](./lib) |
 > | Swappable LLM provider behind one interface | [`lib/llm/providers/`](./lib/llm/providers) |
-> | **804 automated tests in 72 files** — unit, integration, accessibility and **property-based tests** (fast-check) | [`test/`](./test) · `npm test` |
+> | **846 automated tests in 76 files** — unit, integration, accessibility and **property-based tests** (fast-check) | [`test/`](./test) · `npm test` |
 > | Containerised deployment: multi-stage Dockerfile, non-root image, Caddy with automatic HTTPS, deploy script for a single EC2 instance | [`Dockerfile`](./Dockerfile) · [`docker-compose.yml`](./docker-compose.yml) · [`deploy.sh`](./deploy.sh) |
 >
 > Quick start: `cp .env.example .env && npm install && npm test` — the test suite runs without a real database.
+>
+> Started at a hackathon (specs written with Kiro) and built by [Jhoe Miranda](https://github.com/yoesitooo) and [Alexander Morales](https://github.com/DrkGodEater9).
+
+
+### How the daily check works
+
+The same code path runs in the worker and in the demo's *Simular revisión diaria* button:
+
+```mermaid
+flowchart LR
+  A["node-cron worker<br/>every business day"] --> B["CPNU API<br/>court actions"]
+  B --> C{"Diff vs.<br/>stored actions"}
+  C -- new action --> D["LLM analysis<br/>is there a term? how many days?"]
+  D -- term found --> E["Deadline calculator<br/>Colombian business days + holidays"]
+  E --> F["Notification planner<br/>email + in-app before it expires"]
+  C -- nothing new --> G["Update last check"]
+  D -- no term --> G
+```
 
 ---
 
@@ -184,7 +206,15 @@ npm test
 
 ## Demo público (Vercel + Supabase)
 
-Con `DEMO_MODE=true` la landing muestra **"Probar demo (sin registro)"**: cada visitante recibe una cuenta temporal aislada con un abogado ficticio, 6 procesos, plazos (vencido, por vencer y al día) y notificaciones. Los datos son inventados y las cuentas se borran a las 24 h con un Vercel Cron (`/api/cron/limpiar-demos`). En modo demo el registro y la carga de archivos están deshabilitados y la IA usa el proveedor mock.
+**En vivo:** https://lexai-horumlabs.vercel.app
+
+| Tablero | Simulación de la revisión diaria | Notificaciones |
+|---|---|---|
+| ![Tablero Kanban del demo](docs/img/demo-tablero.png) | ![Resultado de la simulación paso a paso](docs/img/demo-simulacion.png) | ![Bandeja de notificaciones](docs/img/demo-notificaciones.png) |
+
+**Simular revisión diaria.** En el demo no se puede esperar al worker, así que el botón ejecuta `ejecutarRevisionDiaria` (el mismo código del worker) sobre un proceso de la cuenta: una CPNU simulada entrega una actuación ficticia nueva, el diff la detecta, un analizador simulado extrae el término del texto (ver [`lib/llm/providers/demo.ts`](./lib/llm/providers/demo.ts)), la calculadora real obtiene la fecha límite en días hábiles con festivos y el planificador programa los avisos. Detalles en [`lib/demo-simulacion.ts`](./lib/demo-simulacion.ts). Máximo 12 simulaciones por cuenta.
+
+Con `DEMO_MODE=true` la landing muestra **"Probar demo (sin registro)"**: cada visitante recibe una cuenta temporal aislada con un abogado ficticio, 6 procesos, plazos (vencido, por vencer y al día) y notificaciones. Los datos son inventados y las cuentas se borran a las 24 h con un Vercel Cron (`/api/cron/limpiar-demos`). En modo demo el registro y la carga de archivos están deshabilitados y la IA usa un proveedor simulado (sin llamadas externas ni costo).
 
 | Variable | Valor |
 |---|---|

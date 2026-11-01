@@ -6,9 +6,10 @@
  */
 
 import { redirect } from "next/navigation";
-import { signIn } from "@/lib/auth";
+import { auth, signIn } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { crearCuentaDemo, esModoDemo } from "@/lib/demo";
+import { crearCuentaDemo, esEmailDemo, esModoDemo } from "@/lib/demo";
+import { type ResultadoSimulacion, simularRevisionDemo } from "@/lib/demo-simulacion";
 
 export async function iniciarDemo(): Promise<void> {
   if (!esModoDemo()) {
@@ -26,4 +27,22 @@ export async function iniciarDemo(): Promise<void> {
     password: resultado.value.password,
     redirectTo: "/tablero",
   });
+}
+
+export type RespuestaSimulacion =
+  | { ok: true; resultado: ResultadoSimulacion }
+  | { ok: false; mensaje: string };
+
+/**
+ * Server action "Simular revisión diaria" — solo para cuentas demo.
+ * Ejecuta el pipeline del worker sobre una actuación ficticia (ver lib/demo-simulacion.ts).
+ */
+export async function simularRevision(): Promise<RespuestaSimulacion> {
+  const session = await auth();
+  if (!esModoDemo() || !session?.user?.id || !esEmailDemo(session.user.email)) {
+    return { ok: false, mensaje: "La simulación solo está disponible en las cuentas demo." };
+  }
+
+  const r = await simularRevisionDemo(prisma, session.user.id);
+  return r.ok ? { ok: true, resultado: r.value } : { ok: false, mensaje: r.error.mensaje };
 }

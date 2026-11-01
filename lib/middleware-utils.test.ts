@@ -40,6 +40,10 @@ describe("middleware-utils — isPublicPath", () => {
     expect(isPublicPath("/api/cron/limpiar-demos")).toBe(true);
   });
 
+  it("/opengraph-image es pública (vista previa al compartir el enlace)", () => {
+    expect(isPublicPath("/opengraph-image")).toBe(true);
+  });
+
   it("/api/cronjobs NO es pública (solo el prefijo exacto /api/cron)", () => {
     expect(isPublicPath("/api/cronjobs")).toBe(false);
   });
@@ -235,7 +239,7 @@ describe("middleware-utils — PUBLIC_PATHS export", () => {
     expect(PUBLIC_PATHS).toContain("/");
   });
 
-  it("tiene exactamente 3 rutas públicas base", () => {
-    expect(PUBLIC_PATHS).toHaveLength(4);
+  it("tiene exactamente 5 rutas públicas", () => {
+    expect(PUBLIC_PATHS).toHaveLength(5);
   });
 });
