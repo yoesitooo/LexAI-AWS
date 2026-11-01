@@ -7,6 +7,8 @@
 ![Tests](https://img.shields.io/badge/tests-804_passing-2ea44f?logo=vitest&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker_Compose-web·worker·db·caddy-2496ED?logo=docker&logoColor=white)
 
+> **▶ Live demo: [lexai-horumlabs.vercel.app](https://lexai-horumlabs.vercel.app)** — click *“Probar demo (sin registro)”*: you get a private sandbox account with fictional data that is deleted after 24 h.
+
 > **🇬🇧 In English — at a glance**
 >
 > LexAI is a legal-tech SaaS for independent lawyers in Colombia. A background **worker** checks the national court system (CPNU, Rama Judicial) every business day, **diffs new court actions**, analyses them with an **LLM** (provider-agnostic: Gemini / OpenAI / Anthropic), **computes legal deadlines in Colombian business days** (holidays included) and **notifies** the lawyer by email and in-app before deadlines expire. Everything is shown on an accessible Kanban board.
@@ -20,6 +22,8 @@
 > | Containerised deployment: multi-stage Dockerfile, non-root image, Caddy with automatic HTTPS, deploy script for a single EC2 instance | [`Dockerfile`](./Dockerfile) · [`docker-compose.yml`](./docker-compose.yml) · [`deploy.sh`](./deploy.sh) |
 >
 > Quick start: `cp .env.example .env && npm install && npm test` — the test suite runs without a real database.
+>
+> Started at a hackathon (specs written with Kiro) and built by [Jhoe Miranda](https://github.com/yoesitooo) and [Alexander Morales](https://github.com/DrkGodEater9).
 
 ---
 
@@ -183,6 +187,8 @@ npm test
 ```
 
 ## Demo público (Vercel + Supabase)
+
+**En vivo:** https://lexai-horumlabs.vercel.app
 
 Con `DEMO_MODE=true` la landing muestra **"Probar demo (sin registro)"**: cada visitante recibe una cuenta temporal aislada con un abogado ficticio, 6 procesos, plazos (vencido, por vencer y al día) y notificaciones. Los datos son inventados y las cuentas se borran a las 24 h con un Vercel Cron (`/api/cron/limpiar-demos`). En modo demo el registro y la carga de archivos están deshabilitados y la IA usa el proveedor mock.
 
