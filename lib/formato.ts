@@ -84,9 +84,7 @@ export function fechaCODesdeComponentes(
 ): FechaCO {
   // Construimos un Date que represente ese instante en Colombia (UTC-5)
   // Colombia es UTC-5 fijo → restamos el offset para obtener UTC
-  const utcDate = new Date(
-    Date.UTC(anio, mes - 1, dia, hora + 5, minuto, segundo),
-  );
+  const utcDate = new Date(Date.UTC(anio, mes - 1, dia, hora + 5, minuto, segundo));
   return crearFechaCO(utcDate);
 }
 
@@ -188,9 +186,40 @@ export function formatoFecha(fecha: FechaCO): string {
 
 /**
  * Formatea un Date directamente como DD/MM/AAAA en hora Colombia.
+ *
+ * Úsese para INSTANTES (timestamps: creado_en, fecha de envío, etc.).
+ * Para columnas de solo fecha (`@db.Date`) use `formatoFechaSoloDia`.
  */
 export function formatoFechaDate(date: Date): string {
   return formatoFecha(crearFechaCO(date));
+}
+
+/**
+ * Convierte una columna de solo fecha (`@db.Date`, llega como medianoche UTC)
+ * en la FechaCO de ese mismo día de calendario en Colombia.
+ *
+ * No use `crearFechaCO(columnaDate)`: interpretaría 2026-10-29T00:00Z como
+ * 28/10 a las 19:00 en Colombia y correría los cálculos un día hacia atrás.
+ */
+export function fechaCODesdeColumnaDate(fecha: Date | string): FechaCO {
+  const date = typeof fecha === "string" ? new Date(fecha) : fecha;
+  return fechaCODesdeComponentes(date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate());
+}
+
+/**
+ * Formatea una fecha de calendario sin hora (columnas `@db.Date`: fecha_limite,
+ * fecha_actuacion, etc.) como DD/MM/AAAA.
+ *
+ * PostgreSQL devuelve esas columnas como medianoche UTC (`2026-11-04T00:00:00Z`).
+ * Convertirlas a hora Colombia (UTC-5) las corre al día anterior (03/11 a las 19:00),
+ * así que aquí se leen los componentes en UTC, que son la fecha guardada.
+ */
+export function formatoFechaSoloDia(fecha: Date | string): string {
+  const date = typeof fecha === "string" ? new Date(fecha) : fecha;
+  const dd = String(date.getUTCDate()).padStart(2, "0");
+  const mm = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const aaaa = String(date.getUTCFullYear()).padStart(4, "0");
+  return `${dd}/${mm}/${aaaa}`;
 }
 
 // ---------------------------------------------------------------------------

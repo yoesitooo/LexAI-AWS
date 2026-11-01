@@ -27,7 +27,7 @@ import {
   REGLA_NOTIFICACION_DEFAULT,
 } from "../lib/planificador-notificaciones";
 import type { PlazoParaPlanificacion } from "../lib/planificador-notificaciones";
-import { hoyCO, crearFechaCO } from "../lib/formato";
+import { hoyCO, fechaCODesdeColumnaDate } from "../lib/formato";
 import type { FechaCO } from "../lib/formato";
 
 // =============================================================================
@@ -294,11 +294,7 @@ async function revisarProceso(
     // 6. Para cada actuación nueva: IA → Calculadora → Planificador
     let plazosCreados = 0;
     for (const actuacionNueva of actuacionesNuevas) {
-      const plazosDeEsta = await procesarActuacionNueva(
-        actuacionNueva,
-        proceso,
-        deps,
-      );
+      const plazosDeEsta = await procesarActuacionNueva(actuacionNueva, proceso, deps);
       plazosCreados += plazosDeEsta;
     }
 
@@ -312,9 +308,7 @@ async function revisarProceso(
       });
     } catch (error) {
       const mensaje = error instanceof Error ? error.message : String(error);
-      logger.warn(
-        `Error sincronizando documentos del proceso ${proceso.radicado}: ${mensaje}`,
-      );
+      logger.warn(`Error sincronizando documentos del proceso ${proceso.radicado}: ${mensaje}`);
       // No bloquea la revisión del proceso.
     }
 
@@ -382,9 +376,7 @@ async function procesarActuacionNueva(
     if (!resultadoIA.ok) {
       // Esto no debería ocurrir (analizarActuacionConReintentos siempre devuelve ok)
       // pero lo manejamos por seguridad
-      logger.error(
-        `Error inesperado del analizador IA para actuación ${actuacion.idRegActuacion}`,
-      );
+      logger.error(`Error inesperado del analizador IA para actuación ${actuacion.idRegActuacion}`);
       return 0;
     }
 
@@ -399,9 +391,7 @@ async function procesarActuacionNueva(
     });
 
     if (!actuacionDB) {
-      logger.warn(
-        `Actuación ${actuacion.idRegActuacion} no encontrada en DB tras almacenamiento.`,
-      );
+      logger.warn(`Actuación ${actuacion.idRegActuacion} no encontrada en DB tras almacenamiento.`);
       return 0;
     }
 
@@ -446,7 +436,8 @@ async function procesarActuacionNueva(
     }
 
     // analisis.tipo === "plazo" → calcular fecha límite
-    const fechaInicio = crearFechaCO(actuacionDB.fecha_actuacion);
+    // fecha_actuacion es @db.Date (medianoche UTC): se toma como día de calendario
+    const fechaInicio = fechaCODesdeColumnaDate(actuacionDB.fecha_actuacion);
     const resultadoCalculo = calcularFecha(fechaInicio, analisis.dias, analisis.esHabil);
 
     if (!resultadoCalculo.ok) {
@@ -535,10 +526,7 @@ async function procesarActuacionNueva(
 /**
  * Actualiza la fecha de última revisión del proceso a now().
  */
-async function actualizarUltimaRevision(
-  db: typeof prisma,
-  procesoId: string,
-): Promise<void> {
+async function actualizarUltimaRevision(db: typeof prisma, procesoId: string): Promise<void> {
   await db.proceso.update({
     where: { id: procesoId },
     data: { ultima_revision_en: new Date() },
