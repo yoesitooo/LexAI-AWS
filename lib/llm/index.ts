@@ -24,7 +24,7 @@ import type { AdaptadorLLM, ErrorLLM } from "./types";
 import { crearProveedorGemini } from "./providers/gemini";
 import { crearProveedorOpenAI } from "./providers/openai";
 import { crearProveedorAnthropic } from "./providers/anthropic";
-import { crearProveedorMock } from "./providers/mock";
+import { crearProveedorDemo } from "./providers/demo";
 
 // Re-exportar tipos públicos
 export type { AdaptadorLLM, OpcionesLLM, ErrorLLM, TipoErrorLLM } from "./types";
@@ -89,8 +89,8 @@ export function obtenerAdaptadorLLM(): AdaptadorLLM {
   const { env } = require("@/lib/config") as typeof import("@/lib/config");
 
   if (process.env.DEMO_MODE === "true") {
-    // Modo demo público: respuestas simuladas, sin costo ni llamadas externas
-    _instancia = crearProveedorMock();
+    // Modo demo público: análisis simulado a partir del texto, sin costo ni llamadas externas
+    _instancia = crearProveedorDemo();
     return _instancia;
   }
 

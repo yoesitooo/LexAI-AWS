@@ -30,6 +30,7 @@ import {
 import type { EstadoProceso } from "@/components";
 import { t } from "@/lib/i18n";
 import { parseSujetosProcesales } from "@/lib/parse-sujetos";
+import { EVENTO_DATOS_ACTUALIZADOS } from "@/lib/eventos";
 import styles from "../kanban.module.css";
 
 // ─── Tipos ──────────────────────────────────────────────────────────────────
@@ -386,6 +387,13 @@ export default function KanbanPage() {
 
   useEffect(() => {
     cargarProcesos();
+  }, [cargarProcesos]);
+
+  // Modo demo: recargar cuando la simulación de revisión diaria agrega datos.
+  useEffect(() => {
+    const recargar = () => void cargarProcesos();
+    window.addEventListener(EVENTO_DATOS_ACTUALIZADOS, recargar);
+    return () => window.removeEventListener(EVENTO_DATOS_ACTUALIZADOS, recargar);
   }, [cargarProcesos]);
 
   const confirmarEliminar = useCallback(async () => {

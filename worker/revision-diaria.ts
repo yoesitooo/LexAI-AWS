@@ -58,6 +58,8 @@ export interface OpcionesRevision {
   sincronizarDocumentosFn?: typeof sincronizarDocumentosProceso;
   /** Fecha actual en Colombia (inyectable para testing) */
   ahora?: FechaCO;
+  /** Limita la revisión a estos procesos (p. ej. la simulación del demo). Por defecto: todos los activos. */
+  procesoIds?: string[];
 }
 
 /** Resultado de la revisión de un proceso individual */
@@ -125,7 +127,10 @@ export async function ejecutarRevisionDiaria(
 
   // Obtener todos los procesos con seguimiento activo
   const procesosActivos = await db.proceso.findMany({
-    where: { seguimiento_activo: true },
+    where: {
+      seguimiento_activo: true,
+      ...(opciones.procesoIds ? { id: { in: opciones.procesoIds } } : {}),
+    },
     select: {
       id: true,
       radicado: true,

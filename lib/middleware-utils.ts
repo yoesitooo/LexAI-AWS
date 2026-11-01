@@ -11,8 +11,9 @@
  * - "/login"   → pantalla de inicio de sesión y sus subrutas.
  * - "/api/auth"→ endpoints de NextAuth y sus subrutas.
  * - "/api/cron"→ tareas programadas; cada ruta valida su propio CRON_SECRET.
+ * - "/opengraph-image" → imagen de vista previa al compartir el enlace (sin datos de usuario).
  */
-export const PUBLIC_PATHS = ["/", "/login", "/api/auth", "/api/cron"];
+export const PUBLIC_PATHS = ["/", "/login", "/api/auth", "/api/cron", "/opengraph-image"];
 
 /**
  * Determina si una ruta es pública (no requiere autenticación).
