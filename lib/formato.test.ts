@@ -6,6 +6,7 @@
  */
 
 import { describe, it, expect } from "vitest";
+import fc from "fast-check";
 import {
   LOCALE_CO,
   ZONA_HORARIA_CO,
@@ -14,6 +15,8 @@ import {
   hoyCO,
   formatoFecha,
   formatoFechaDate,
+  formatoFechaSoloDia,
+  fechaCODesdeColumnaDate,
   formatoHora,
   formatoHoraDate,
   formatoNumero,
@@ -353,5 +356,59 @@ describe("compararFechasCO", () => {
     const a = fechaCODesdeComponentes(2025, 12, 31);
     const b = fechaCODesdeComponentes(2025, 12, 30);
     expect(compararFechasCO(a, b)).toBeGreaterThan(0);
+  });
+});
+
+describe("formatoFechaSoloDia — columnas de solo fecha (@db.Date)", () => {
+  it("regresión: 2026-11-04 guardado en Postgres se muestra 04/11/2026, no 03/11", () => {
+    // Así llega una columna DATE desde PostgreSQL: medianoche UTC
+    const desdeDB = new Date("2026-11-04T00:00:00.000Z");
+    expect(formatoFechaSoloDia(desdeDB)).toBe("04/11/2026");
+    expect(formatoFechaSoloDia("2026-11-04T00:00:00.000Z")).toBe("04/11/2026");
+    // formatoFechaDate (para instantes) la correría al día anterior en UTC-5
+    expect(formatoFechaDate(desdeDB)).toBe("03/11/2026");
+  });
+
+  it("devuelve siempre la misma fecha de calendario que se guardó", () => {
+    fc.assert(
+      fc.property(
+        fc.date({
+          min: new Date("1950-01-01T00:00:00Z"),
+          max: new Date("2100-12-31T00:00:00Z"),
+          noInvalidDate: true,
+        }),
+        (d) => {
+          const iso = d.toISOString().slice(0, 10); // AAAA-MM-DD
+          const [a, m, dd] = iso.split("-");
+          expect(formatoFechaSoloDia(new Date(`${iso}T00:00:00.000Z`))).toBe(`${dd}/${m}/${a}`);
+        },
+      ),
+    );
+  });
+});
+
+describe("fechaCODesdeColumnaDate", () => {
+  it("regresión: una actuación del 29/10 guardada en Postgres sigue siendo del 29/10", () => {
+    const f = fechaCODesdeColumnaDate(new Date("2026-10-29T00:00:00.000Z"));
+    expect([f.anio, f.mes, f.dia]).toEqual([2026, 10, 29]);
+    // crearFechaCO la correría al 28/10 (19:00 en Colombia)
+    expect(crearFechaCO(new Date("2026-10-29T00:00:00.000Z")).dia).toBe(28);
+  });
+
+  it("conserva el día de calendario para cualquier fecha", () => {
+    fc.assert(
+      fc.property(
+        fc.date({
+          min: new Date("1950-01-01T00:00:00Z"),
+          max: new Date("2100-12-31T00:00:00Z"),
+          noInvalidDate: true,
+        }),
+        (d) => {
+          const iso = d.toISOString().slice(0, 10);
+          const f = fechaCODesdeColumnaDate(new Date(`${iso}T00:00:00.000Z`));
+          expect(fechaCOaISO(f)).toBe(iso);
+        },
+      ),
+    );
   });
 });

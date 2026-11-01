@@ -5,7 +5,7 @@ import { Modal } from './Modal';
 import { Tarjeta } from './Tarjeta';
 import { useToast } from './Toast';
 import { t } from '@/lib/i18n';
-import { formatoFechaDate, formatoHoraDate } from '@/lib/formato';
+import { formatoFechaDate, formatoFechaSoloDia, formatoHoraDate } from '@/lib/formato';
 import { formatoTamano } from '@/lib/formato-archivo';
 import { parseSujetosProcesales, esProcesoPrivado } from '@/lib/parse-sujetos';
 import styles from './ModalDetalle.module.css';
@@ -466,7 +466,7 @@ export function ModalDetalle({ abierto, onCerrar, procesoId }: ModalDetalleProps
                     <div className={styles.actuacionEncabezado}>
                       <p className={styles.actuacionFecha}>
                         {act.fecha_actuacion
-                          ? formatoFechaDate(new Date(act.fecha_actuacion))
+                          ? formatoFechaSoloDia(act.fecha_actuacion)
                           : '--'}
                       </p>
                       {act.es_nueva && (
@@ -486,15 +486,15 @@ export function ModalDetalle({ abierto, onCerrar, procesoId }: ModalDetalleProps
                       {act.fecha_registro && (
                         <span>
                           {t('detalle.actuacion_registrada', {
-                            fecha: formatoFechaDate(new Date(act.fecha_registro)),
+                            fecha: formatoFechaSoloDia(act.fecha_registro),
                           })}
                         </span>
                       )}
                       {act.fecha_inicia && act.fecha_finaliza && (
                         <span>
                           {t('detalle.actuacion_termino', {
-                            inicio: formatoFechaDate(new Date(act.fecha_inicia)),
-                            fin: formatoFechaDate(new Date(act.fecha_finaliza)),
+                            inicio: formatoFechaSoloDia(act.fecha_inicia),
+                            fin: formatoFechaSoloDia(act.fecha_finaliza),
                           })}
                         </span>
                       )}
@@ -549,7 +549,7 @@ export function ModalDetalle({ abierto, onCerrar, procesoId }: ModalDetalleProps
                     {plazo.fecha_limite && (
                       <span className={styles.plazoFecha}>
                         {t('plazo.fecha_limite', {
-                          fecha: formatoFechaDate(new Date(plazo.fecha_limite)),
+                          fecha: formatoFechaSoloDia(plazo.fecha_limite),
                         })}
                       </span>
                     )}
