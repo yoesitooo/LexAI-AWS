@@ -30,7 +30,8 @@ import {
 import type { EstadoProceso } from "@/components";
 import { t } from "@/lib/i18n";
 import { parseSujetosProcesales } from "@/lib/parse-sujetos";
-import { EVENTO_DATOS_ACTUALIZADOS } from "@/lib/eventos";
+import { BotonSimularRevision } from "@/components/BotonSimularRevision";
+import { useModoDemo } from "@/components/ModoDemo";
 import styles from "../kanban.module.css";
 
 // ─── Tipos ──────────────────────────────────────────────────────────────────
@@ -310,6 +311,7 @@ function ColumnaKanban({
 // ─── Página Principal Kanban ────────────────────────────────────────────────
 
 export default function KanbanPage() {
+  const modoDemo = useModoDemo();
   const { mostrarToast } = useToast();
   const [kanban, setKanban] = useState<KanbanData | null>(null);
   const [cargando, setCargando] = useState(true);
@@ -387,13 +389,6 @@ export default function KanbanPage() {
 
   useEffect(() => {
     cargarProcesos();
-  }, [cargarProcesos]);
-
-  // Modo demo: recargar cuando la simulación de revisión diaria agrega datos.
-  useEffect(() => {
-    const recargar = () => void cargarProcesos();
-    window.addEventListener(EVENTO_DATOS_ACTUALIZADOS, recargar);
-    return () => window.removeEventListener(EVENTO_DATOS_ACTUALIZADOS, recargar);
   }, [cargarProcesos]);
 
   const confirmarEliminar = useCallback(async () => {
@@ -641,13 +636,16 @@ export default function KanbanPage() {
   const encabezado = (
     <div className={styles.encabezadoPagina}>
       <h1 className={styles.titulo}>{t("kanban.titulo")}</h1>
-      <Boton
-        variante="acento"
-        onClick={() => setModalAbierto(true)}
-        icono={<span aria-hidden="true">+</span>}
-      >
-        {t("kanban.nuevo_proceso")}
-      </Boton>
+      <div className={styles.accionesEncabezado}>
+        {modoDemo && <BotonSimularRevision onSimulado={cargarProcesos} />}
+        <Boton
+          variante="acento"
+          onClick={() => setModalAbierto(true)}
+          icono={<span aria-hidden="true">+</span>}
+        >
+          {t("kanban.nuevo_proceso")}
+        </Boton>
+      </div>
     </div>
   );
 

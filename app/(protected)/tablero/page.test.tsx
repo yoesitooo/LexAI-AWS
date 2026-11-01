@@ -27,6 +27,9 @@ const mockFetch = vi.fn();
 global.fetch = mockFetch;
 
 // Mock del módulo i18n
+// La acción de servidor del demo arrastra next-auth; en estas pruebas no se usa.
+vi.mock("@/app/demo/actions", () => ({ simularRevision: vi.fn() }));
+
 vi.mock("@/lib/i18n", () => ({
   t: (key: string, params?: Record<string, string | number>) => {
     const dict: Record<string, string> = {
