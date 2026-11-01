@@ -1,0 +1,33 @@
+.pasos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--espacio-3);
+}
+
+.pasos li {
+  padding-left: var(--espacio-3);
+  border-left: 3px solid var(--borde);
+}
+
+.etiqueta {
+  display: block;
+  font-size: var(--fuente-leyenda-tam);
+  font-weight: 600;
+  color: var(--texto-secundario);
+  margin-bottom: 2px;
+}
+
+.cita {
+  display: block;
+  margin-top: var(--espacio-1);
+  font-style: italic;
+  color: var(--texto-secundario);
+}
+
+.nota {
+  margin-top: var(--espacio-4);
+  font-size: var(--fuente-leyenda-tam);
+  color: var(--texto-secundario);
+}

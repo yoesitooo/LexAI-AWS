@@ -18,6 +18,12 @@
   margin-bottom: var(--espacio-3);
 }
 
+.accionesEncabezado {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-2);
+}
+
 .titulo {
   font-size: var(--fuente-titulo-tam);
   font-weight: var(--fuente-titulo-peso);
@@ -370,9 +376,15 @@
     gap: var(--espacio-1);
   }
 
-  /* El botón "Nuevo proceso" ocupa todo el ancho para un buen objetivo táctil */
-  .encabezadoPagina > button {
+  /* Los botones del encabezado ocupan todo el ancho para un buen objetivo táctil */
+  .encabezadoPagina > button,
+  .accionesEncabezado > button {
     width: 100%;
+  }
+
+  .accionesEncabezado {
+    flex-direction: column;
+    gap: var(--espacio-1);
   }
 }
 
